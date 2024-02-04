@@ -358,7 +358,7 @@ class MemberController extends Controller
     $validator = \Validator::make(
       $request->all(),
       [
-        'regitration' => 'required',
+        'registration' => 'required',
         'password' => 'required',
       ],
       [
@@ -373,7 +373,7 @@ class MemberController extends Controller
       ]);
     } else {
       $status = 1;
-      $member = Member::where('regitration',$request->regitration)->first();
+      $member = Member::where('registration',$request->registration)->first();
       if ($member) {
         if (Hash::check($request->password,$member->password)) {
           if ($member->status == $status && $member->member_status==$status) {
@@ -421,7 +421,7 @@ class MemberController extends Controller
       } else {
         return response()->json([
           'status' => 300,
-          'message' => 'Invalid Phone Number',
+          'message' => 'Invalid Registration Number',
         ]);
       }
     }
