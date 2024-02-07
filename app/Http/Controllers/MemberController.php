@@ -327,10 +327,11 @@ class MemberController extends Controller
       $rend = rand();
       $new_password = $request->new_password;
       $confirm_password = $request->confirm_password;
+      $hash_password=Hash::make($new_password);
       if ($new_password == $confirm_password) {
         $code_exist = Member::where('email', $email)->where('member_status', 1)->where('forget_code', 'nullvalue')->count('email');
         if ($code_exist >= 1) {
-          DB::update("update members set password ='$new_password', forget_code ='$rend' where email = '$email'");
+          DB::update("update members set password ='$hash_password', forget_code ='$rend' where email = '$email'");
           return response()->json([
             'status' => 200,
             'message' => 'Password Change Successfull',
@@ -384,13 +385,15 @@ class MemberController extends Controller
               $hall = Hall::leftjoin('univers','univers.id','=','halls.university_id')
               ->where('role','admin')->where('hall_id',$member->hall_id)
               ->select('univers.university','halls.hall')->first();
+              $memberinfo = Member::where('registration',$request->registration)->select('name','email','hall_id','card','registration','profile_image')->first();
               //Cookie::queue('token_login',$token,60*24);
               //->cookie('TOKEN_LOGIN',$token,60*24*30)
               return response()->json([
                 'status' => 200,
                 'message' => 'success login',
                 'TOKEN_MEMBER' => $token,
-                'hall_info'=>$hall
+                'hall_info'=>$hall,
+                'member_info'=>$memberinfo
               ]);
 
             } else {
@@ -542,8 +545,8 @@ class MemberController extends Controller
       if ($data >= 1) {
         if ($npass == $cpass) {
           $student = Member::find($member_id);
-          //$student->password=Hash::make($npass);
-          $student->password = $npass;
+          $student->password=Hash::make($npass);
+          //$student->password = $npass;
           $student->update();
           return response()->json([
             'status' => 200,
