@@ -55,8 +55,8 @@ class MemberController extends Controller
     try {     
          $data = App::where('hall_id', $hall_id)->where('category','Session')->orderBy('serial','desc')->get();
          return response()->json([
-           'status' => 200,
-           'data' => $data,
+            'status' => 200,
+            'data' => $data,
          ]);
     } catch (Exception $e) {
       return response()->json([
@@ -92,7 +92,7 @@ class MemberController extends Controller
        // 'registration.unique' =>'Registration Or Seat No Must Be Unique'
        //  registartion number/Seat Number /Du registration = registration 
 
-     $hall_info = Hall::where('role','admin')->where('hall_id',$request->hall_id)->select('application_verify','email_send','web_link')->first();
+     $hall_info = Hall::where('role','admin')->where('hall_id',$request->hall_id)->select('application_verify','email_send','web_link','storage')->first();
      if($hall_info->application_verify=='Yes'){
           $application = App::where('hall_id', $request->hall_id)->where('category','Application')
             ->where('phone', $request->input('phone'))->count('id'); 
@@ -156,8 +156,11 @@ class MemberController extends Controller
       $model->phone = $request->input('phone');
       $model->email = $request->input('email');
       $model->registration = $registration;
-      $model->password=Hash::make($request->input('password'));
-     // $model->password = $request->input('password');
+       if($hall_info->storage=='Yes'){
+           $model->password=Hash::make($request->input('password'));
+       }else{
+          $model->password = $request->input('password');
+       }
       $model->email2 = md5($request->input('email'));
       $model->email_verify = 0;
       $model->verify_time = strtotime(date('Y-m-d H:i:s'));
@@ -541,8 +544,10 @@ class MemberController extends Controller
       $npass = $request->input('new_password');
       $cpass = $request->input('confirm_password');
 
-      $data = Member::where('password', $oldpassword)->where('id', $member_id)->count('id');
-      if ($data >= 1) {
+      $member = Member::where('id', $member_id)->first();
+     
+     
+      if (Hash::check($oldpassword,$member->password)) {
         if ($npass == $cpass) {
           $student = Member::find($member_id);
           $student->password=Hash::make($npass);
@@ -606,7 +611,7 @@ class MemberController extends Controller
            $meal_name=$request->input('meal_name');
            $member_id = $request->header('member_id');
            $hall_id = $request->header('hall_id');
-           $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','add_minute')->first();
+           $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','add_minute','mealon_without_payment')->first();
            $data = Invoice::where('member_id',$member_id)->where('hall_id',$hall_id)->where('invoice_year', $hallinfo->cur_year)
            ->where('invoice_month',$hallinfo->cur_month)->where('invoice_section',$hallinfo->cur_section)->first();
 
@@ -635,7 +640,14 @@ class MemberController extends Controller
                    'status' => 400,
                    'message' => "Time Over",
                 ]);
-            }else{
+            }else if($meal_no<=$hallinfo->mealon_without_payment){
+
+                DB::update("update invoices set  $meal_name = $status  where  id= $data->id");
+                     return response()->json([
+                        'status' => 200,
+                        'message' => "Meal Status updated"
+                      ]);
+             }else{
                 if($data->payment_status2==1){  //2nd Payment Status
                           
                     DB::update("update invoices set  $meal_name = $status  where  id= $data->id");

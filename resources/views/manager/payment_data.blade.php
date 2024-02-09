@@ -67,6 +67,8 @@
             <td><?php echo $row['withdraw_type']; ?> , <?php echo $row['withdraw_time']; ?></td>
 
         @endif
+
+       
 	
   </tr>
            

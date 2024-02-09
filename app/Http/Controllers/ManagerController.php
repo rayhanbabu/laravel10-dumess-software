@@ -396,7 +396,7 @@ class ManagerController extends Controller
 
     public function information_update_submit(Request $request)
     {
-        try {
+        //try {
             $start = strtotime($request->input('meal_start_date'));
             $end = strtotime($request->input('meal_end_date'));
             $days = ceil(abs($end - $start) / 86400);
@@ -411,9 +411,10 @@ class ManagerController extends Controller
                 $data->pre_section = $request->input('pre_section');
                 $data->pre_month = date('m', strtotime($request->input('pre_date')));
                 $data->pre_year = date('Y', strtotime($request->input('pre_date')));
-                $data->pre_section_last_day = $request->input('pre_section_last_day');
+                $data->pre_section_last_day = $request->input('last_day_daytype').$request->input('pre_section_last_day');
                 $data->meal_start_date = $request->input('meal_start_date');
                 $data->meal_end_date = $request->input('meal_end_date');
+                $data->mealon_without_payment = $request->input('mealon_without_payment');
                
                
 
@@ -515,9 +516,9 @@ class ManagerController extends Controller
             } else {
                 return redirect()->back()->with('danger', 'Meal Day More than 31');
             }
-        } catch (Exception $e) {
-            return  view('errors.error', ['error' => $e]);
-        }
+        // } catch (Exception $e) {
+        //     return  view('errors.error', ['error' => $e]);
+        // }
     }
 
 
@@ -553,7 +554,7 @@ class ManagerController extends Controller
                         $pre_invoice->pre_reserve_amount=$row['reserve_amount'];
                         $pre_invoice->pre_refund=$row['total_refund'];
                         $pre_invoice->pre_monthdue=$row['total_due'];
-                        $pre_invoice->pre_last_meal=$row['l13'];
+                        $pre_invoice->pre_last_meal=$row['pre_section_last_day'];
                         $pre_invoice->pre_meeting_present=$row['meeting_present'];
                         $pre_invoice->save();  
                      }
@@ -576,7 +577,7 @@ class ManagerController extends Controller
                             $pre_invoice->pre_reserve_amount=0;
                             $pre_invoice->pre_refund=0;
                             $pre_invoice->pre_monthdue=0;
-                            $pre_invoice->pre_last_meal=0;
+                            $pre_invoice->pre_last_meal=$row['pre_section_last_day'];
                             $pre_invoice->pre_meeting_present=$row['meeting_present'];
                             $pre_invoice->save();  
                          }
@@ -1128,6 +1129,79 @@ class ManagerController extends Controller
               return back()->with('success','Data Deleted');   
            }
          
+
+         public function mealon_update(Request $request){
+              $hall_id = $request->header('hall_id');
+              $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->first();
+
+              $update_time=strtotime($hallinfo->update_time);
+              $cur_time=strtotime(date('Y-m-d H:i:s'));
+              $mealon_without_payment=$hallinfo->mealon_without_payment;
+    
+         if($cur_time - $update_time<=900){	
+            for($x =1; $x<=$mealon_without_payment ; $x++) { 
+                if($hallinfo->breakfast_status==1){
+                    DB::update(
+                        "update invoices set  
+                         b$x=(CASE WHEN pre_last_meal>=1 THEN 1 ELSE 0 END)
+                         where invoice_month=$hallinfo->cur_month AND invoice_year=$hallinfo->cur_year
+                         AND invoice_section='$hallinfo->cur_section' AND hall_id='$hall_id'"
+                      );
+                    }     
+
+             if($hallinfo->lunch_status==1){
+              DB::update(
+                  "update invoices set  
+                   l$x=(CASE WHEN pre_last_meal>=1 THEN 1 ELSE 0 END)
+                   where invoice_month=$hallinfo->cur_month AND invoice_year=$hallinfo->cur_year
+                   AND invoice_section='$hallinfo->cur_section' AND hall_id='$hall_id'"
+                );
+              }
+
+              if($hallinfo->dinner_status==1){
+                DB::update(
+                    "update invoices set  
+                     d$x=(CASE WHEN pre_last_meal>=1 THEN 1 ELSE 0 END)
+                     where invoice_month=$hallinfo->cur_month AND invoice_year=$hallinfo->cur_year
+                     AND invoice_section='$hallinfo->cur_section' AND hall_id='$hall_id' "
+                  );
+                }
+  
+
+          }
+    
+            return back()->with('success','Update Information');
+    
+        }else{
+            return back()->with('fail','Time Over');
+        }
+      }
+
+
+
+      public function daywise_mealupdate(Request $request){
+        $day=$request->input('day');
+        $status=$request->input('status');
+        $meal_type=$request->input('meal_type');
+        $hall_id = $request->header('hall_id');
+        $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->first();
+
+        $s=$meal_type.$day;
+
+        DB::update(
+           "update invoices set $s=$status where  invoice_month=$hallinfo->cur_month AND invoice_year=$hallinfo->cur_year
+           AND invoice_section='$hallinfo->cur_section' AND hall_id='$hall_id' "
+          );  
+         return back()->with('success','Meal Status Updated');
+   }
+
+
+
+           
+           
+            
+    }
+       
         
       
       
@@ -1136,4 +1210,3 @@ class ManagerController extends Controller
      
 
 
-}

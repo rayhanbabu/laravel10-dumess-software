@@ -86,6 +86,7 @@
           <th width="5%">Delete</th>
         @endif
           <th width="35%">Email </th>
+          <th width="5%">Password</th>
           <th width="5%">Created at</th>
         </tr>
       </thead>

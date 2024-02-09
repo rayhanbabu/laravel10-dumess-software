@@ -4,7 +4,7 @@
 @section('content')
 
 <div class="row mt-3 mb-0 mx-2 ">
-    <div class="col-sm-3 my-2">
+    <div class="col-sm-2 my-2">
         <h5 class="mt-0">Meal Info : {{$data->cur_year}}-{{$data->cur_month}}-{{$data->cur_section}} </h5>
     </div>
 
@@ -26,11 +26,28 @@
         </div>
     </div>
 
-    <div class="col-sm-5 my-2">
+    <div class="col-sm-2 my-2">
         <div class="d-grid gap-3 d-flex justify-content-start">
             <button type="submit" name="search" class="btn btn-primary">Monthly Meal Sheet </button>
         </div>
     </div>
+
+
+    <div class="col-sm-2 my-2">
+        <div class="d-grid gap-3 d-flex justify-content-start">
+            <a   class="btn btn-info"  onclick="return confirm('Are you sure you want to Meal On Using Previous  month Last meal On?')" 
+					     href="{{url('/manager/mealon_update')}}"> Meal On using Last Meal On</a> 
+        </div>
+    </div>
+
+     <div class="col-sm-2 my-2">
+         <div class="d-grid gap-3 d-flex justify-content-start">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addEmployeeModalday">Day Wise Meal Update</button>
+         </div>
+     </div>
+
+
+
     </form>
 
 
@@ -94,11 +111,11 @@
 
 
     @if(Session::has('success'))
-    <div class="alert alert-success"> {{Session::get('success')}}</div>
+          <div class="alert alert-success"> {{Session::get('success')}}</div>
     @endif
 
     @if(Session::has('fail'))
-    <div class="alert alert-danger"> {{Session::get('fail')}}</div>
+         <div class="alert alert-danger"> {{Session::get('fail')}}</div>
     @endif
 
 </div>
@@ -129,9 +146,9 @@
                     <th width="8%" class="sorting" data-sorting_type="asc" data-column_name="card_id" style="cursor: pointer">
                         <span id="card_id_icon"><i class="fas fa-sort-amount-up-alt"></i></span> Card
                     </th>
-                    <th width="15%">Registration/ Seat No</th>
-                    <th width="15%">Pre section last meal</th>
-                    <th width="15%">Pre section Meeting Status </th>
+                    <th width="15%"> Registration/ Seat No</th>
+                    <th width="15%"> Pre section last meal</th>
+                    <th width="15%"> Pre section Meeting Status </th>
                     <th width="15%" colspan="3"><span class="dotvalue"> </span>Meal1 {{ $data->date1 }}</th>
                     <th width="15%" colspan="3"><span class="dotvalue"> </span>Meal2 {{ $data->date2 }} </th>
                     <th width="15%" colspan="3"><span class="dotvalue"> </span>Meal3 {{ $data->date3 }} </th>
@@ -1583,6 +1600,70 @@
     </div>
 </div>
 {{-- edit employee modal end --}}
+
+
+
+
+{{-- add new Student modal start --}}
+<div class="modal fade" id="addEmployeeModalday" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Column Wise Meal Update</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" action="{{url('/manager/daywise_mealupdate')}}"  class="myform"  enctype="multipart/form-data" >
+           {!! csrf_field() !!}
+
+        <div class="modal-body p-4 bg-light">
+          <ul class="alert alert-warning d-none" id="add_form_errlist"></ul>
+
+               <label><b> Meal No</b></label><br>
+               <input type="number" name="day" min="1"  max="31" class="form-control" required><br>
+
+               <label><b>Meal Type  </b></label><br>
+	             <select name ="meal_type" class="form-control" required>
+				           <option   value="">Select one</option>
+					       <option   value="b">Breakfast</option>	
+                           <option   value="l">Lunch</option>	
+                           <option   value="d">Dinner</option>							 
+			     </select>	<br>
+
+                    
+               <label><b>Meal Status  </b></label><br>
+	             <select name ="status" class="form-control" required>
+				           <option   value="">Select one</option>
+					       <option   value="1">On</option>	
+                           <option   value="0">Off</option>	
+                           <option   value="9">Inactive</option>							 
+			     </select>	<br>  
+
+
+     
+
+                <p class="text-danger err_product"></p>
+
+
+
+          <div class="loader">
+            <img src="{{ asset('images/abc.gif') }}" alt="" style="width: 50px;height:50px;">
+          </div><br>
+
+
+          <input type="submit" value="Submit" id="submit" class=" btn btn-success" />
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{-- add new employee modal end --}}
 
 
 

@@ -707,6 +707,7 @@ class InvoiceController extends Controller
            $payment_day = date('j');
            $today = $data->first_pay_mealon;
            $unpaid_day = $hallinfo->unpaid_day;
+           $current_time = date('Y-m-d H:i:s');
      
            $from_day = getDaysBetween2Dates(new DateTime($payment_date), new DateTime($data->meal_start_date), false) + 2;
            if ($from_day < 1) {
@@ -715,7 +716,7 @@ class InvoiceController extends Controller
                $fromday = $from_day;
            }
      
-          if($data->payment_status1 == 1 && (strtotime($paymenttime)-strtotime($data->payment_time1)) >= $unpaid_day*60*60*24) {
+          if($data->payment_status1 == 1 && (strtotime($current_time)-strtotime($data->payment_time1)) >= ($unpaid_day*60*60)) {
                return response()->json([
                    'status' => 300,
                    'message' => 'You can not Unpaid this Invoice because time over Or Seccond Payment has already been paid',
@@ -760,8 +761,6 @@ class InvoiceController extends Controller
              $invoice->save();
 
           DB::update("update invoices set 
-
-        
              payble_amount1=(CASE 
                WHEN first_pay_mealon<=0 THEN 0
                WHEN withdraw_status>=1 THEN  first_pay_mealamount+first_others_amount-inmeal_amount
@@ -815,6 +814,7 @@ class InvoiceController extends Controller
            $payment_day = date('j');
            $today = $hallinfo->section_day;
            $unpaid_day = $hallinfo->unpaid_day;
+           $current_time = date('Y-m-d H:i:s');
      
            $from_day = getDaysBetween2Dates(new DateTime($payment_date), new DateTime($data->meal_start_date), false) + 2;
            if ($from_day < 1) {
@@ -823,19 +823,19 @@ class InvoiceController extends Controller
                $fromday = $from_day;
            }
      
-          if($data->payment_status1 == 1 && (strtotime($paymenttime)-strtotime($data->payment_time1)) >= $unpaid_day*60*60*24) {
-               return response()->json([
-                   'status' => 300,
-                   'message' => 'You can not Unpaid this Invoice because time over',
-                 ]);
+         
+          if($data->payment_status2 == 1 && (strtotime($current_time)-strtotime($data->payment_time2)) >= ($unpaid_day*60*60)) {
+                return response()->json([
+                    'status' => 300,
+                    'message' => 'You can not Unpaid this Invoice because time over',
+                  ]);
            }else if($fromday>=$today){
                 return response()->json([
                     'status' => 400,
                     'message' => 'Second Payment Time Over',
                 ]);
            }else{ 
-
-             DB::update("update invoices set payment_status2 ='$status1' , payment_time2='$paymenttime',payment_type2='$paymenttype' 
+             DB::update("update invoices set payment_status2 ='$status1',payment_time2='$paymenttime',payment_type2='$paymenttype' 
                 ,payment_day2='$payment_day' where id ='$id'");
 
               $invoice = Invoice::find($id);

@@ -350,7 +350,7 @@
 
 
             <div class="col-lg-6 my-2">
-                  <label class="">Storage Access</label>
+                  <label class="">E-mail Hash Entry</label>
                   <select class="form-control mb-2" id="storage" name="storage" aria-label="Default select example" required>
                      <option value="No">No</option>
                      <option value="Yes">Yes</option>

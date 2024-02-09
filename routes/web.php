@@ -116,7 +116,7 @@ use App\Http\Controllers\BookingController;
         Route::get('/manager/sectioninfo', [InvoiceController::class,'section_view']);
         Route::get('/manager/section_fetch', [InvoiceController::class,'section_fetch']);
         Route::get('/manager/section/fetch_data', [InvoiceController::class,'section_fetch_data']);
-        Route::post('/manager/invoice_create', [InvoiceController::class,'invoice_create']);
+        //Route::post('/manager/invoice_create', [InvoiceController::class,'invoice_create']);
         Route::get('/manager/section_update', [InvoiceController::class,'section_update']);
         Route::get('/manager/section_view/{id}', [InvoiceController::class,'section_view_id']);
         Route::post('/manager/section_update_id', [InvoiceController::class,'section_update_id']);
@@ -176,6 +176,9 @@ use App\Http\Controllers\BookingController;
            Route::get('/manager/edit',[ManagerController::class,'edit']);
            Route::post('/manager/update',[ManagerController::class,'update']);
            Route::get('/manager/new_invoice_create',[ManagerController::class,'invoice_create']);
+           Route::get('/manager/mealon_update',[ManagerController::class,'mealon_update']);
+           Route::post('/manager/daywise_mealupdate',[ManagerController::class,'daywise_mealupdate']);
+
 
            //member and invoice delete
            Route::get('/manager/member_delete/{id}',[ManagerController::class,'member_delete']);

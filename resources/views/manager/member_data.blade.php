@@ -56,6 +56,8 @@
 
 
   <td>{{ $row->email}} </td>
+  
+  <td>{{ $row->password}}</td>
   <td>{{ $row->created_at}}</td>
 
   @endforeach

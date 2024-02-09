@@ -15,8 +15,8 @@
 <h5 class="alert alert-success">{{ session('status')}} </h5>
 @endif
 
-@if(session('danger'))
-<h5 class="alert alert-danger">{{ session('danger')}} </h5>
+@if(session('fail'))
+<h5 class="alert alert-danger">{{ session('fail')}} </h5>
 @endif
 
 
@@ -50,7 +50,7 @@
         <th width="10%">Friday 3 </th>
         <th width="10%">Friday 4 </th>
         <th width="10%">Friday 5 </th>
-        <th width="10%">Unpaid Day </th>
+        <th width="10%">Unpaid Day , mealon without payment </th> 
         <th width="10%">last meal off</th>
         <th width="10%">First meal off</th>
         <th width="10%">Meeting panelty</th>
@@ -89,7 +89,7 @@
           <td>{{ $row->friday4}}_Meal {{ $row->friday4t}}TK </td>
           <td>{{ $row->friday5}}_Meal {{ $row->friday5t}}TK </td>
 
-          <td> {{ $row->unpaid_day}} </td>
+          <td> {{ $row->unpaid_day}} , {{ $row->mealon_without_payment}} </td> 
           <td>{{ $row->last_meal_off}}</td>
           <td>{{ $row->first_meal_off}}</td>
           <td>{{ $row->meeting_amount}}</td>
@@ -204,7 +204,9 @@
             $('#pre_section').val(response.value.pre_section);
             $('#datetime').val(response.value.update_time);
             $('#section_day').val(response.value.section_day);
-            $('#pre_section_last_day').val(response.value.pre_section_last_day);
+            $('#pre_section_last_day').val(response.value.pre_section_last_day.substring(1,3));
+            $('#last_day_daytype').val(response.value.pre_section_last_day.substring(0,1));
+
             $('#meal_start_date').val(response.value.meal_start_date);
             $('#meal_end_date').val(response.value.meal_end_date);
 
@@ -291,6 +293,7 @@
             $('#pdf_order').val(response.value.pdf_order);
             $('#web_link').val(response.value.web_link);
             $('#email_send').val(response.value.email_send);
+            $('#mealon_without_payment').val(response.value.mealon_without_payment);
            
 
           }
@@ -351,19 +354,28 @@
                 </select>
             </div>
 
-              <div class="col-lg-3 my-2">
-                  <label> Section Total day</label>
+              <div class="col-lg-2 my-2">
+                  <label> Section  day</label>
                   <input type="number" name="section_day" id="section_day" class="form-control" readonly />
               </div>
 
-             <div class="col-lg-3 my-2">
+              <div class="col-sm-2 my-2">
+                  <label>last Day type</label>
+                  <select class="form-control" id="last_day_daytype" name="last_day_daytype" aria-label="Default select example" required>
+                        <option value="b">Breakfast</option>
+                        <option value="l">Lunch</option>
+                        <option value="d">Dinner</option>
+                  </select>
+            </div>
+
+             <div class="col-lg-2 my-2">
                  <label>Pre section last Day</label>
                  <input type="number" name="pre_section_last_day" id="pre_section_last_day" class="form-control" required />
             </div>
 
            
 
-             <div class="col-lg-4 my-2">
+             <div class="col-lg-3 my-2">
                  <label for="lname"> Breakfast Status  <span style="color:red;"> * </span></label>
                  <select class="form-control" name="breakfast_status" id="breakfast_status" aria-label="Default select example" required>
                     <option value="0">No</option>
@@ -372,7 +384,7 @@
              </div> 
              
              
-             <div class="col-lg-4 my-2">
+             <div class="col-lg-2 my-2">
                  <label for="lname"> Lunch Status  <span style="color:red;"> * </span></label>
                  <select class="form-control" name="lunch_status" id="lunch_status" aria-label="Default select example" required>
                     <option value="0">No</option>
@@ -380,13 +392,19 @@
                  </select>
              </div> 
              
-             <div class="col-lg-4 my-2">
+             <div class="col-lg-3 my-2">
                  <label for="lname"> Dinner Status  <span style="color:red;"> * </span></label>
                  <select class="form-control" name="dinner_status" id="dinner_status" aria-label="Default select example" required>
                     <option value="0">No</option>
                     <option value="1">Yes </option>
                  </select>
-             </div>    
+             </div> 
+             
+             
+             <div class="col-sm-4 my-2">
+              <label>Meal On Without Payment</label>
+              <input type="number" name="mealon_without_payment" id="mealon_without_payment" class="form-control" required />
+            </div>
 
 
 
@@ -586,7 +604,7 @@
 
 
             <div class="col-sm-3 my-2">
-               <label>Paid Status change Day </label>
+               <label>Paid Status change hour</label>
                <input type="number" name="unpaid_day" id="unpaid_day" class="form-control" required />
             </div>
 
