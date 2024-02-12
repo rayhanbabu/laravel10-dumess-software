@@ -4,6 +4,7 @@
     use App\Helpers\MaintainJWTToken;
     use App\Helpers\ManagerJWTToken;
     use Illuminate\Support\Facades\Cookie;
+    use App\Models\Invoice;
        function prx($arr){
            echo "<pre>";
            print_r($arr);
@@ -212,7 +213,53 @@
 
 
 
+          function member_meal_update($data){
+            $lunch_off=0;
+            $dinner_off=0;
+            $breakfast_off=0;
+            $lunch_on=0;
+            $dinner_on=0;
+            $breakfast_on=0;
 
+         for($y = 1; $y <= $data->section_day; $y++) {
+              $l_off=Invoice::where('id',$data->id)->where('l'.$y,0)->count(); 
+              $lunch_off+=$l_off;
+
+              $l_on=Invoice::where('id',$data->id)->where('l'.$y,1)->count(); 
+              $lunch_on+=$l_on;
+          }
+
+         for($y = 1; $y <= $data->section_day; $y++) {
+              $d=Invoice::where('id',$data->id)->where('d'.$y,0)->count(); 
+              $dinner_off+=$d;
+
+              $d_on=Invoice::where('id',$data->id)->where('d'.$y,1)->count(); 
+              $dinner_on+=$d_on;
+          }
+
+          for($y = 1; $y <= $data->section_day; $y++) {
+               $b=Invoice::where('id',$data->id)->where('b'.$y,0)->count(); 
+               $breakfast_off+=$b;
+
+               $b_on=Invoice::where('id',$data->id)->where('b'.$y,1)->count(); 
+               $breakfast_on+=$b_on;
+           }
+
+
+           $invoiceupdate = Invoice::find($data->id);
+           $invoiceupdate->lunch_offmeal = $lunch_off;
+           $invoiceupdate->lunch_onmeal = $lunch_on;
+           $invoiceupdate->lunch_inmeal = $data->section_day-($lunch_off+$lunch_on);
+           $invoiceupdate->dinner_offmeal = $dinner_off;
+           $invoiceupdate->dinner_onmeal = $dinner_on;
+           $invoiceupdate->dinner_inmeal = $data->section_day-($dinner_off+$dinner_on);
+           $invoiceupdate->breakfast_offmeal = $breakfast_off;
+           $invoiceupdate->breakfast_onmeal = $breakfast_on;
+           $invoiceupdate->breakfast_inmeal = $data->section_day-($breakfast_off+$breakfast_on);
+           $invoiceupdate->onmeal_amount = ($data->lunch_rate*$lunch_on+$data->breakfast_rate*$breakfast_on+$data->lunch_rate*$dinner_on);
+           $invoiceupdate->save();
+
+          }
 
           
 

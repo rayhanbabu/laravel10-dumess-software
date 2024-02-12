@@ -122,7 +122,7 @@ use App\Http\Controllers\BookingController;
         Route::post('/manager/section_update_id', [InvoiceController::class,'section_update_id']);
 
 
-        Route::middleware('BookingSeatToken')->group(function(){
+          Route::middleware('BookingSeatToken')->group(function(){
               //Building  create
               Route::get('/manager/building_view',[BuildingController::class,'building_view']);
               Route::get('/manager/building_fetch',[BuildingController::class,'fetch']);

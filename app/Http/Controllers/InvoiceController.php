@@ -208,11 +208,10 @@ class InvoiceController extends Controller
                     $invoiceupdate->save();
 
 
-                    $invoice = Invoice::find($id);
-                    if($invoice->payment_status1==1 || $invoice->payment_status2==1){
+            $invoice = Invoice::find($id);
+            if($invoice->payment_status1==1 || $invoice->payment_status2==1 || $invoice->onmeal_amount>1){
 
-                    }else{
-    
+             }else{
             if($inactive_day<=31){
 
                   for($y=$inactive_day;$y>=1; $y--){ 

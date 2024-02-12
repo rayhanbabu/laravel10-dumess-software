@@ -1,6 +1,6 @@
 @foreach($data as $row)
    <?php
-           if($row['cur_daymeal']<=0){
+           if($row['onmeal_amount']<=0){
                      $over = 'style="background:#fccccc"';
             }else{ $over = ''; } ?>
      <tr <?php echo  $over; ?> >
