@@ -554,7 +554,7 @@ class ManagerController extends Controller
                         $pre_invoice->pre_reserve_amount=$row['reserve_amount'];
                         $pre_invoice->pre_refund=$row['total_refund'];
                         $pre_invoice->pre_monthdue=$row['total_due'];
-                        $pre_invoice->pre_last_meal=$row['pre_section_last_day'];
+                        $pre_invoice->pre_last_meal=$row[$data->pre_section_last_day]; 
                         $pre_invoice->pre_meeting_present=$row['meeting_present'];
                         $pre_invoice->save();  
                      }
