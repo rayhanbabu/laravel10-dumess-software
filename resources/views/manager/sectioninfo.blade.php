@@ -5,24 +5,28 @@
 
       <div class="row mt-3 mb-0 mx-2">
                 <div class="col-sm-3 my-2"> <h5 class="mt-0">Section  Information : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}} </h5></div>                    
+                
+                @if(manager_info()['role']=='admin')
                  <div class="col-sm-3 my-2">
-                 <div class="d-grid gap-2 d-flex justify-content-start"> 
-                      <h4> </h4>
-                </div>    
-                </div>
-
-
-                <div class="col-sm-3 my-2 ">
-                 <div class="d-grid gap-3 d-flex justify-content-end">
-                       <a href="{{url('manager/new_invoice_create')}}" onclick="return confirm('Are you sure you want to create new invoice')" class="btn btn-info">Invoice Create </a>
+                    <div class="d-grid gap-2 d-flex justify-content-start"> 
+                        <h4>  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addEmployeeModalday">Invoice Delete</button> </h4>
+                    </div>    
                  </div>
+
+               
+                <div class="col-sm-3 my-2 ">
+                   <div class="d-grid gap-3 d-flex justify-content-end">
+                         <a href="{{url('manager/new_invoice_create')}}" onclick="return confirm('Are you sure you want to create new invoice')" class="btn btn-info">Invoice Create </a>
+                    </div>
                 </div>
+                @endif
 
                 <div class="col-sm-3 my-2 ">
-                 <div class="d-grid gap-3 d-flex justify-content-end">
+                   <div class="d-grid gap-3 d-flex justify-content-end">
                        <a href="{{url('manager/section_update')}}" class="btn btn-warning">Refresh </a>
-                 </div>
+                   </div>
                 </div>
+             
 
                 @if(Session::has('success'))
                   <div  class="alert alert-success"> {{Session::get('success')}}</div>
@@ -321,6 +325,61 @@
 });
 
 </script>
+
+
+{{-- add new Student modal start --}}
+<div class="modal fade" id="addEmployeeModalday" tabindex="-1" aria-labelledby="exampleModalLabel" data-bs-backdrop="static" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Invoice Delete Form</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form method="post" action="{{url('/manager/invoice_all_delete')}}"  class="myform"  enctype="multipart/form-data" >
+           {!! csrf_field() !!}
+
+        <div class="modal-body p-4 bg-light">
+          <ul class="alert alert-warning d-none" id="add_form_errlist"></ul>
+
+                <label><b> Year-Month(2024-03) </b></label><br>
+                 <input type="month" name="month"  class="form-control" required><br>
+
+                 <label><b>Section  </b></label><br>
+	                 <select name ="section" class="form-control" required>
+				             <option   value="">Select one</option>
+					                 <option   value="A">A</option>	
+                           <option   value="B">B</option>					 
+			               </select>	<br>
+
+                    
+              
+
+
+     
+
+                <p class="text-danger err_product"></p>
+
+
+
+          <div class="loader">
+            <img src="{{ asset('images/abc.gif') }}" alt="" style="width: 50px;height:50px;">
+          </div><br>
+
+
+          <input type="submit" value="Submit" id="submit" class=" btn btn-success" />
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{{-- add new employee modal end --}}
 
 
 {{-- edit employee modal start --}}

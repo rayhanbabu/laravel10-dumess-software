@@ -117,81 +117,68 @@ use App\Http\Controllers\BookingController;
         Route::get('/manager/section_fetch', [InvoiceController::class,'section_fetch']);
         Route::get('/manager/section/fetch_data', [InvoiceController::class,'section_fetch_data']);
         //Route::post('/manager/invoice_create', [InvoiceController::class,'invoice_create']);
-        Route::get('/manager/section_update', [InvoiceController::class,'section_update']);
+       
         Route::get('/manager/section_view/{id}', [InvoiceController::class,'section_view_id']);
-        Route::post('/manager/section_update_id', [InvoiceController::class,'section_update_id']);
+        Route::get('/manager/section_update', [InvoiceController::class,'section_update']);
 
+         //members
+         Route::get('/manager/member/{member_status}', [ManagerController::class, 'member']);
+         Route::get('/manager/member_fetch/{member_status}', [ManagerController::class, 'member_fetch']);
+         Route::get('/manager/member_view/{id}', [ManagerController::class, 'member_view']);
+         Route::get('/manager/member/{member_status}/fetch_data', [ManagerController::class, 'member_fetch_data']);
+       
 
-          Route::middleware('BookingSeatToken')->group(function(){
-              //Building  create
-              Route::get('/manager/building_view',[BuildingController::class,'building_view']);
-              Route::get('/manager/building_fetch',[BuildingController::class,'fetch']);
-              Route::get('/manager/building/fetch_data',[BuildingController::class,'fetch_data']);
-              Route::post('/manager/building_store',[BuildingController::class,'store']);
-              Route::get('/manager/building_edit',[BuildingController::class,'building_edit']);
-              Route::post('/manager/building_update',[BuildingController::class,'building_update']);
-              Route::delete('/manager/building_delete',[BuildingController::class,'building_delete']);
+         //Payment 
+         Route::get('/manager/payment/{invoice_status}', [InvoiceController::class, 'payment_view']);
+         Route::get('/manager/payment_view/{id}', [InvoiceController::class, 'payment_view_all']);
+         Route::get('/manager/payment_fetch/{invoice_status}', [InvoiceController::class, 'payment_fetch']);
+         Route::get('/manager/payment/{invoice_status}/fetch_data', [InvoiceController::class, 'payment_fetch_data']);
+         Route::get('/manager/payment1_view/{id}', [InvoiceController::class, 'payment1_view']);
 
-              //Room  create
-              Route::get('/manager/room_view',[RoomController::class,'room_view']);
-              Route::get('/manager/room_fetch',[RoomController::class,'fetch']);
-              Route::get('/manager/room/fetch_data',[RoomController::class,'fetch_data']);
-              Route::post('/manager/room_store',[RoomController::class,'store']);
-              Route::get('/manager/room_edit',[RoomController::class,'room_edit']);
-              Route::post('/manager/room_update',[RoomController::class,'room_update']);
-              Route::delete('/manager/room_delete',[RoomController::class,'room_delete']); 
+        //meal
+        Route::get('/manager/mealsheet', [InvoiceController::class, 'mealsheet_view']);
+        Route::get('/manager/mealsheet_fetch', [InvoiceController::class, 'mealsheet_fetch']);
+        Route::get('/manager/mealsheet/fetch_data', [InvoiceController::class, 'mealsheet_fetch_data']);
 
-
-               //Seat  create
-                Route::get('/manager/seat_view',[SeatController::class,'seat_view']);
-                Route::get('/manager/seat_fetch',[SeatController::class,'fetch']);
-                Route::get('/manager/seat/fetch_data',[SeatController::class,'fetch_data']);
-                Route::post('/manager/seat_store',[SeatController::class,'store']);
-                Route::get('/manager/seat_edit',[SeatController::class,'seat_edit']);
-                Route::post('/manager/seat_update',[SeatController::class,'seat_update']);
-                Route::delete('/manager/seat_delete',[SeatController::class,'seat_delete']); 
-                Route::get('/manager/room_fetch_building',[SeatController::class,'room_fetch_building']);
-
-                Route::get('/manager/booking/{category}', [BookingController::class, 'index']);
-                Route::post('/manager/booking', [BookingController::class, 'store']);
-                Route::get('/manager/booking_fetch/{category}', [BookingController::class, 'fetch']);
-                Route::get('/manager/booking/{category}/fetch_data', [BookingController::class, 'fetch_data']);
-                Route::get('/manager/booking_edit/{id}', [BookingController::class, 'edit']);
-                Route::post('/manager/booking_update/{id}', [BookingController::class, 'update']);
-                Route::post('/manager/payment_update/{id}', [BookingController::class, 'payment_update']);
-                
-
-        });
-
+        //bazar
+        Route::get('/manager/bazar/',[BazarController::class, 'index']);
+        Route::post('/manager/bazar',[BazarController::class, 'store']);
+        Route::get('/manager/bazar/fetch_data', [BazarController::class, 'fetch_data']);
 
         Route::middleware('AdminToken')->group(function(){
-           Route::get('/manager/information_update',[ManagerController::class,'information_update']);
-           Route::get('/manager/information_update_view/{id}',[ManagerController::class,'information_update_view']);
-           Route::post('/manager/information_update_submit',[ManagerController::class,'information_update_submit']);
+          Route::get('/manager/information_update',[ManagerController::class,'information_update']);
+          Route::get('/manager/information_update_view/{id}',[ManagerController::class,'information_update_view']);
+          Route::post('/manager/information_update_submit',[ManagerController::class,'information_update_submit']);
 
-           //Manager  add
-           Route::get('manager/manager_access',[ManagerController::class,'manager_access']);
-           Route::post('/manager/store',[ManagerController::class,'store']);
-           Route::get('/manager/fetchAll',[ManagerController::class,'fetchAll']);
-           Route::get('/manager/edit',[ManagerController::class,'edit']);
-           Route::post('/manager/update',[ManagerController::class,'update']);
-           Route::get('/manager/new_invoice_create',[ManagerController::class,'invoice_create']);
-           Route::get('/manager/mealon_update',[ManagerController::class,'mealon_update']);
-           Route::post('/manager/daywise_mealupdate',[ManagerController::class,'daywise_mealupdate']);
+          //Manager  add
+          Route::get('manager/manager_access',[ManagerController::class,'manager_access']);
+          Route::post('/manager/store',[ManagerController::class,'store']);
+          Route::get('/manager/fetchAll',[ManagerController::class,'fetchAll']);
+          Route::get('/manager/edit',[ManagerController::class,'edit']);
+          Route::post('/manager/update',[ManagerController::class,'update']);
+          Route::get('/manager/new_invoice_create',[ManagerController::class,'invoice_create']);
+          Route::get('/manager/mealon_update',[ManagerController::class,'mealon_update']);
+          Route::post('/manager/daywise_mealupdate',[ManagerController::class,'daywise_mealupdate']);
+          Route::post('/manager/invoice_all_delete',[ManagerController::class,'invoice_all_delete']);
+
+          // Presvous Section  Due , Refund, Reserve Update
+          Route::post('/manager/section_update_id', [InvoiceController::class,'section_update_id']);
+          
+          //member and invoice delete
+          Route::get('/manager/member_delete/{id}',[ManagerController::class,'member_delete']);
+          Route::get('/manager/ex_payment_delete/{id}',[InvoiceController::class,'ex_payment_delete']);
+     
+         });
 
 
-           //member and invoice delete
-           Route::get('/manager/member_delete/{id}',[ManagerController::class,'member_delete']);
-           Route::get('/manager/ex_payment_delete/{id}',[InvoiceController::class,'ex_payment_delete']);
+
+
       
-          });
 
+     
 
        Route::middleware('MealToken')->group(function(){    
                //MealSheet Info
-               Route::get('/manager/mealsheet', [InvoiceController::class, 'mealsheet_view']);
-               Route::get('/manager/mealsheet_fetch', [InvoiceController::class, 'mealsheet_fetch']);
-               Route::get('/manager/mealsheet/fetch_data', [InvoiceController::class, 'mealsheet_fetch_data']);
                Route::get('/manager/mealsheet_view/{id}', [InvoiceController::class, 'mealsheet_view_id']);
                Route::post('manager/mealupdate', [InvoiceController::class, 'mealupdate']);    
 
@@ -200,11 +187,6 @@ use App\Http\Controllers\BookingController;
 
         Route::middleware('PaymentToken')->group(function(){
                //Payment Info
-               Route::get('/manager/payment/{invoice_status}', [InvoiceController::class, 'payment_view']);
-               Route::get('/manager/payment_view/{id}', [InvoiceController::class, 'payment_view_all']);
-               Route::get('/manager/payment_fetch/{invoice_status}', [InvoiceController::class, 'payment_fetch']);
-               Route::get('/manager/payment/{invoice_status}/fetch_data', [InvoiceController::class, 'payment_fetch_data']);
-               Route::get('/manager/payment1_view/{id}', [InvoiceController::class, 'payment1_view']);
                Route::post('/manager/payment1_update', [InvoiceController::class, 'payment1_update']);
                Route::post('/manager/payment2_update', [InvoiceController::class, 'payment2_update']);
                Route::post('/manager/withdraw_update', [InvoiceController::class, 'withdraw_update']);
@@ -240,10 +222,7 @@ use App\Http\Controllers\BookingController;
              Route::delete('/manager/product_delete/{id}', [ProductController::class, 'destroy']);
 
              //Bazar
-             Route::get('/manager/bazar/',[BazarController::class, 'index']);
-             Route::post('/manager/bazar',[BazarController::class, 'store']);
              Route::get('/manager/bazar_fetch', [BazarController::class, 'fetch']);
-             Route::get('/manager/bazar/fetch_data', [BazarController::class, 'fetch_data']);
              Route::get('/manager/bazar_edit/{id}', [BazarController::class, 'edit']);
              Route::post('/manager/bazar_update/{id}', [BazarController::class, 'update']);
              Route::delete('/manager/bazar_delete/{id}', [BazarController::class, 'destroy']);
@@ -252,10 +231,6 @@ use App\Http\Controllers\BookingController;
 
          Route::middleware('MemberaccessToken')->group(function(){
              //members
-             Route::get('/manager/member/{member_status}', [ManagerController::class, 'member']);
-             Route::get('/manager/member_fetch/{member_status}', [ManagerController::class, 'member_fetch']);
-             Route::get('/manager/member_view/{id}', [ManagerController::class, 'member_view']);
-             Route::get('/manager/member/{member_status}/fetch_data', [ManagerController::class, 'member_fetch_data']);
              Route::post('/manager/member_update', [ManagerController::class, 'member_update']);
              Route::get('/manager/member/{operator}/{status}/{id}', [ManagerController::class, 'memberstatus']);
              
@@ -287,6 +262,51 @@ use App\Http\Controllers\BookingController;
           Route::post('/pdf/overall_summary', [HallinfoController::class, 'overall_summary']);
           Route::post('/pdf/booking_payment', [HallinfoController::class, 'booking_payment']);
           Route::post('/pdf/refund_summary', [HallinfoController::class, 'refund_summary']);
+
+
+
+
+          Route::middleware('BookingSeatToken')->group(function(){
+               //Building  create
+               Route::get('/manager/building_view',[BuildingController::class,'building_view']);
+               Route::get('/manager/building_fetch',[BuildingController::class,'fetch']);
+               Route::get('/manager/building/fetch_data',[BuildingController::class,'fetch_data']);
+               Route::post('/manager/building_store',[BuildingController::class,'store']);
+               Route::get('/manager/building_edit',[BuildingController::class,'building_edit']);
+               Route::post('/manager/building_update',[BuildingController::class,'building_update']);
+               Route::delete('/manager/building_delete',[BuildingController::class,'building_delete']);
+ 
+               //Room  create
+               Route::get('/manager/room_view',[RoomController::class,'room_view']);
+               Route::get('/manager/room_fetch',[RoomController::class,'fetch']);
+               Route::get('/manager/room/fetch_data',[RoomController::class,'fetch_data']);
+               Route::post('/manager/room_store',[RoomController::class,'store']);
+               Route::get('/manager/room_edit',[RoomController::class,'room_edit']);
+               Route::post('/manager/room_update',[RoomController::class,'room_update']);
+               Route::delete('/manager/room_delete',[RoomController::class,'room_delete']); 
+ 
+ 
+                //Seat  create
+                 Route::get('/manager/seat_view',[SeatController::class,'seat_view']);
+                 Route::get('/manager/seat_fetch',[SeatController::class,'fetch']);
+                 Route::get('/manager/seat/fetch_data',[SeatController::class,'fetch_data']);
+                 Route::post('/manager/seat_store',[SeatController::class,'store']);
+                 Route::get('/manager/seat_edit',[SeatController::class,'seat_edit']);
+                 Route::post('/manager/seat_update',[SeatController::class,'seat_update']);
+                 Route::delete('/manager/seat_delete',[SeatController::class,'seat_delete']); 
+                 Route::get('/manager/room_fetch_building',[SeatController::class,'room_fetch_building']);
+ 
+                 Route::get('/manager/booking/{category}', [BookingController::class, 'index']);
+                 Route::post('/manager/booking', [BookingController::class, 'store']);
+                 Route::get('/manager/booking_fetch/{category}', [BookingController::class, 'fetch']);
+                 Route::get('/manager/booking/{category}/fetch_data', [BookingController::class, 'fetch_data']);
+                 Route::get('/manager/booking_edit/{id}', [BookingController::class, 'edit']);
+                 Route::post('/manager/booking_update/{id}', [BookingController::class, 'update']);
+                 Route::post('/manager/payment_update/{id}', [BookingController::class, 'payment_update']);
+                 
+ 
+         });
+ 
 
 
     });

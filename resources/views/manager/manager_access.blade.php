@@ -4,7 +4,7 @@
 @section('content')
 
  <div class="row mt-3 mb-0 mx-2">
-                <div class="col-sm-3 my-2"> <h4 class="mt-0">University View </h4></div>
+                <div class="col-sm-3 my-2"> <h4 class="mt-0">Manager Access View </h4></div>
                      
 
                  <div class="col-sm-3 my-2">

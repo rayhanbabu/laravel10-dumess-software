@@ -4,11 +4,11 @@
 @section('content')
 
 <div class="row mt-3 mb-0 mx-2 ">
-    <div class="col-sm-2 my-2">
-        <h5 class="mt-0">Meal Info : {{$data->cur_year}}-{{$data->cur_month}}-{{$data->cur_section}} </h5>
+    <div class="col-sm-3 my-2">
+        <h5 class="mt-0">Meal Info : {{$data->cur_year}} - {{$data->cur_month}} - {{$data->cur_section}} </h5>
     </div>
 
-    <div class="col-sm-2 my-2">
+    <div class="col-sm-1 my-2">
         <form action="{{url('pdf/meal_chart')}}" method="POST" enctype="multipart/form-data">
             {!! csrf_field() !!}
             <div class="d-grid gap-3 d-flex justify-content-end">
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-
+    @if(manager_info()['role']=='admin')
     <div class="col-sm-2 my-2">
         <div class="d-grid gap-3 d-flex justify-content-start">
             <a   class="btn btn-info"  onclick="return confirm('Are you sure you want to Meal On Using Previous  month Last meal On?')" 
@@ -46,7 +46,7 @@
          </div>
      </div>
 
-
+       @endif
 
     </form>
 

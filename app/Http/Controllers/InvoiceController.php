@@ -66,7 +66,6 @@ class InvoiceController extends Controller
                 $model->pre_refund = $request->input('pre_refund');
                 $model->pre_monthdue = $request->input('pre_monthdue');
                 $model->hostel_fee = $request->input('hostel_fee');
-                $model->resign_month = $request->input('resign_month');
                 $model->update();
                 return response()->json([
                     'status' => 200,
@@ -263,7 +262,7 @@ class InvoiceController extends Controller
               if($data->employeef==1){$employee_value=$data->employee;}else{$employee_value=0;}
   
              $first_others_amount=$friday_value+$feast_value+$welfare_value+$others_value+$water_value+$wifi_value+$dirt_value
-                +$gass_value+$electricity_value+$tissue_value+$employee_value+$data->card_fee+$data->security_money+$data->service_charge;
+                +$gass_value+$electricity_value+$tissue_value+$employee_value;
         }else{
              $first_others_amount=0;
         }
@@ -323,7 +322,7 @@ class InvoiceController extends Controller
 
            first_others_amount=(CASE 
                  WHEN first_pay_mealon<=0 THEN 0 
-                 ELSE $first_others_amount  END),
+                 ELSE '$first_others_amount'+security+service_charge+card_fee  END),
 
             payble_amount1=(CASE 
                  WHEN first_pay_mealon<=0 THEN 0

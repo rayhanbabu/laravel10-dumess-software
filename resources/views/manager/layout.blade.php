@@ -82,13 +82,12 @@
           Dashboard
      </a>
 
-     @if(member_access())
+    
         <a class="nav-link @yield('member1')" href="{{url('manager/member/1')}}">
            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
             Member view
          </a>
-     @else
-     @endif
+  
 
      @if(booking_access())
      <a class="nav-link @yield('Life_Member_select') @yield('Member_select')  @yield('Executive_select')
@@ -146,29 +145,19 @@
               Section Information
        </a>
 
-
-    
-
-																	
-  
-
-
-     @if(payment_access())
+												
         <a class="nav-link @yield('payment1')" href="{{url('manager/payment/1')}}">
            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
             Payment Summary
          </a>
-     @else
-     @endif
-
+   
      
-     @if(meal_access())
+   
         <a class="nav-link @yield('mealsheet')" href="{{url('manager/mealsheet')}}">
            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
             Meal Sheet
          </a>
-     @else
-     @endif
+ 
 
      @if(application_access())
         <a class="nav-link @yield('appApplication')" href="{{url('manager/app/Application')}}">
@@ -184,17 +173,18 @@
      @else
      @endif
 
-
+     <a class="nav-link @yield('bazar')" href="{{url('manager/bazar')}}">
+           <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+            Bazar Details
+         </a>
+         
      @if(bazar_access())
         <a class="nav-link @yield('product')" href="{{url('manager/product')}}">
            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
             Product Details
          </a>
 
-         <a class="nav-link @yield('bazar')" href="{{url('manager/bazar')}}">
-           <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-            Bazar Details
-         </a>
+        
      @else
      @endif
 

@@ -607,8 +607,8 @@ class ManagerController extends Controller
             $request->all(),
             [
                 'name' => 'required',
-                'phone' => 'required|unique:maintains,phone',
-                'email' => 'required|unique:maintains,email',
+                'phone' => 'required|unique:halls,phone',
+                'email' => 'required|unique:halls,email',
                 'password' => 'required|min:6|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
                 'image' => 'image|mimes:jpeg,png,jpg|max:400',
             ],
@@ -736,8 +736,8 @@ class ManagerController extends Controller
             $request->all(),
              [
                 'name' => 'required',
-                'phone' => 'required|unique:maintains,phone,' . $request->input('edit_id'),
-                'email' => 'required|unique:maintains,email,' . $request->input('edit_id'),
+                'phone' => 'required|unique:halls,phone,' . $request->input('edit_id'),
+                'email' => 'required|unique:halls,email,' . $request->input('edit_id'),
                 'password' => 'required|min:6|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
                 'image' => 'image|mimes:jpeg,png,jpg|max:400',
              ],
@@ -1143,7 +1143,7 @@ class ManagerController extends Controller
                 if($hallinfo->breakfast_status==1){
                     DB::update(
                         "update invoices set  
-                         b$x=(CASE WHEN pre_last_meal>=1 THEN 1 ELSE 0 END)
+                         b$x=(CASE WHEN pre_last_meal=1 THEN 1 ELSE 0 END)
                          where invoice_month=$hallinfo->cur_month AND invoice_year=$hallinfo->cur_year
                          AND invoice_section='$hallinfo->cur_section' AND hall_id='$hall_id'"
                       );
@@ -1152,7 +1152,7 @@ class ManagerController extends Controller
              if($hallinfo->lunch_status==1){
               DB::update(
                   "update invoices set  
-                   l$x=(CASE WHEN pre_last_meal>=1 THEN 1 ELSE 0 END)
+                   l$x=(CASE WHEN pre_last_meal=1 THEN 1 ELSE 0 END)
                    where invoice_month=$hallinfo->cur_month AND invoice_year=$hallinfo->cur_year
                    AND invoice_section='$hallinfo->cur_section' AND hall_id='$hall_id'"
                 );
@@ -1161,7 +1161,7 @@ class ManagerController extends Controller
               if($hallinfo->dinner_status==1){
                 DB::update(
                     "update invoices set  
-                     d$x=(CASE WHEN pre_last_meal>=1 THEN 1 ELSE 0 END)
+                     d$x=(CASE WHEN pre_last_meal=1 THEN 1 ELSE 0 END)
                      where invoice_month=$hallinfo->cur_month AND invoice_year=$hallinfo->cur_year
                      AND invoice_section='$hallinfo->cur_section' AND hall_id='$hall_id' "
                   );
@@ -1196,11 +1196,27 @@ class ManagerController extends Controller
    }
 
 
+      public function invoice_all_delete(Request $request){
+           
+          $month = date('n', strtotime($_POST['month']));
+          $year = date('Y', strtotime($_POST['month']));
+          $section = $_POST['section'];
+          $hall_id = $request->header('hall_id');
 
-           
-           
-            
-    }
+          $invoice = Invoice::where('invoice_month',$month)->where('invoice_year',$year)
+          ->where('invoice_section',$section)->where('hall_id',$hall_id)->get();
+
+          if($invoice->sum('payment_status1')>=1 || $invoice->sum('payment_status2')>=1 || $invoice->sum('onmeal_amount')>=1){
+                  return back()->with('fail','Meal ON or First Payment or Second Payment Already Exists'); 
+           }else{
+            $invoice = Invoice::where('invoice_month',$month)->where('invoice_year',$year)
+            ->where('invoice_section',$section)->where('hall_id',$hall_id)->delete();
+
+                  return back()->with('success','All Invoice Deleted. Please Create New Invoice');
+           }      
+     }
+
+}
        
         
       
