@@ -373,9 +373,9 @@ class ManagerController extends Controller
     public function information_update(request $request)
     {
         try {
-            $hall_id = $request->header('hall_id');
-            $data = Hallinfo::where('hall_id_info', '=', $hall_id)->get();
-            return view('manager.information_update', ['data' => $data]);
+             $hall_id = $request->header('hall_id');
+             $data = Hallinfo::where('hall_id_info', '=', $hall_id)->get();
+             return view('manager.information_update', ['data' => $data]);
         } catch (Exception $e) {
             return  view('errors.error', ['error' => $e]);
         }
@@ -1075,13 +1075,13 @@ class ManagerController extends Controller
              ,'$hallinfo->breakfast_status' ,'$hallinfo->lunch_status' ,'$hallinfo->dinner_status'
             )");
 
-     DB::update( "update members set admin_verify ='$type' ,verify_month='$hallinfo->cur_month'
+       DB::update( "update members set admin_verify ='$type' ,verify_month='$hallinfo->cur_month'
          ,verify_year='$hallinfo->cur_year', verify_section='$hallinfo->cur_section' , security_money='$hallinfo->security_money' where id = '$id'");  
-               
-          return back()->with('success','Member Verify Successful');         
+       SendEmail($member->email,"Your Member Card ".$member->card, "Your Hall  Verification Successfull", "Your Member Card ".$member->card, "ANCOVA");            
+       return back()->with('success','Member Verify Successful');   
            } 
-         }
-       }
+        }
+     }
           //} catch (Exception $e) {  return  view('errors.error', ['error' => $e]);  }
       }
 
