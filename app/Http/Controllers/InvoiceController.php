@@ -11,6 +11,7 @@ use App\Models\Hallinfo;
 use  DateTime;
 use Illuminate\Support\Str;
 use App\Models\Member;
+use Illuminate\Support\Facades\Mail;
 
 class InvoiceController extends Controller
 {
@@ -755,7 +756,6 @@ class InvoiceController extends Controller
                    $invoice->$day = $mealstatus;
                  }
                }
-             
              $invoice->save();
 
           DB::update("update invoices set 
@@ -770,12 +770,25 @@ class InvoiceController extends Controller
                 ELSE cur_total_amount-(inmeal_amount+withdraw)  END)
                 where id ='$id'");
 
-           
+              $member=Member::where('id',$invoice->member_id)->first();
+
+              $subject="Payment 1 Invoice Sauumary: ".$invoice->invoice_year.'-'.$invoice->invoice_month.'-'.$invoice->invoice_section;
+              $details = [
+                  'subject' =>$subject,
+                  'otp_code' =>255,
+                  'payment' => $data->payble_amount1,
+                  'payment_status' => $payment_status,
+                  'paymenttime' => $paymenttime,
+                  'paymenttype' => $paymenttype,
+                  'name' => 'ANCOVA',
+                ];
+               Mail::to($member->email)->send(new \App\Mail\paymentMail($details));   
            $mess = " Invoice No: " . $id . ".  First Payable Amount  " . $data->payble_amount1 . "TK " . $payment_status;
              return response()->json([
                'status' => 200,
                'message' => $mess,
              ]);
+
 
           }
        
@@ -879,6 +892,18 @@ class InvoiceController extends Controller
                 ELSE cur_total_amount-(inmeal_amount+withdraw)  END)
                 where id ='$id'");
 
+                $member=Member::where('id',$invoice->member_id)->first();
+                $subject="Payment 2 Invoice Sauumary: ".$invoice->invoice_year.'-'.$invoice->invoice_month.'-'.$invoice->invoice_section;
+                $details = [
+                    'subject' =>$subject,
+                    'otp_code' =>255,
+                    'payment' => $data->payble_amount2,
+                    'payment_status' => $payment_status,
+                    'paymenttime' => $paymenttime,
+                    'paymenttype' => $paymenttype,
+                    'name' => 'ANCOVA',
+                  ];
+                 Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
            
             $mess = " Invoice No : " . $id . ".  Second Payable Amount  " . $data->payble_amount2 . "TK " . $payment_status;
              return response()->json([
