@@ -139,18 +139,19 @@
      @else
      @endif
 
-     
-       <a class="nav-link @yield('section')" href="{{url('manager/sectioninfo')}}">
-          <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-              Section Information
-       </a>
-
-												
-        <a class="nav-link @yield('payment1')" href="{{url('manager/payment/1')}}">
-           <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-            Payment Summary
+ 
+        <a class="nav-link @yield('section')" href="{{url('manager/sectioninfo')}}">
+           <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+               Section Information
+        </a>
+  
+					
+       @if(manager_access_payment())	
+          <a class="nav-link @yield('payment1')" href="{{url('manager/payment/1')}}">
+            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+             Payment Summary
          </a>
-   
+         @endif
      
    
         <a class="nav-link @yield('mealsheet')" href="{{url('manager/mealsheet')}}">

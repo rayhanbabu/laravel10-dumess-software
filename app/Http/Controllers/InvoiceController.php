@@ -772,7 +772,7 @@ class InvoiceController extends Controller
 
               $member=Member::where('id',$invoice->member_id)->first();
 
-              $subject="Payment 1 Invoice Sauumary: ".$invoice->invoice_year.'-'.$invoice->invoice_month.'-'.$invoice->invoice_section;
+              $subject="Payment 1 Invoice Summary: ".$invoice->invoice_year.'-'.$invoice->invoice_month.'-'.$invoice->invoice_section;
               $details = [
                   'subject' =>$subject,
                   'otp_code' =>255,
@@ -893,7 +893,7 @@ class InvoiceController extends Controller
                 where id ='$id'");
 
                 $member=Member::where('id',$invoice->member_id)->first();
-                $subject="Payment 2 Invoice Sauumary: ".$invoice->invoice_year.'-'.$invoice->invoice_month.'-'.$invoice->invoice_section;
+                $subject="Payment 2 Invoice Summary: ".$invoice->invoice_year.'-'.$invoice->invoice_month.'-'.$invoice->invoice_section;
                 $details = [
                     'subject' =>$subject,
                     'otp_code' =>255,

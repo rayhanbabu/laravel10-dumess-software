@@ -338,7 +338,7 @@ class HallinfoController extends Controller
        public function daily_sheet(Request $request)
        {
             $hall_id = $request->header('hall_id');
-            $data = Hallinfo::where('hall_id_info', $hall_id)->select('meal_start_date')->first();
+            $data = Hallinfo::where('hall_id_info', $hall_id)->select('meal_start_date','pdf_order')->first();
             $status=$_POST['status'];
             $month=date('n',strtotime($_POST['month']));
             $year=date('Y',strtotime($_POST['month']));
@@ -359,7 +359,8 @@ class HallinfoController extends Controller
           $meal = Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
              ->where($meal, $status)->where('invoice_month', $month)->where('invoices.hall_id', $hall_id)
              ->where('invoice_year', $year)->where('invoice_section', $section)
-             ->select('invoices.id','name','registration','card')->get();
+             ->select('invoices.id','name','registration','card')
+             ->orderBy($data->pdf_order,'asc')->get();
 
               $sum=$meal->count('id');
               $file='Meal Sheet-'.$month1.'.pdf';
