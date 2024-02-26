@@ -196,13 +196,14 @@
        <h4>Excel Import Format</h4>
          <p> 'hall_id'=>$row[0],
             'name'=>$row[1],
-            'phone '=>$row[2],
+            'phone'=>$row[2],
             'card'=>$row[3],
             'registration'=>$row[4],
-            'email_verify'=>$row[5],
-            'email '=>$row[6],
-            'email2'=>$row[7],
-            'password'=>$row[8], </p>
+            'email'=>$row[5],
+            'email2'=>$row[6],
+            'password'=>$row[7], 
+            'security_money'=>$row[8], 
+            'session'=>$row[9],  </p>
   </section>
 </div>
 

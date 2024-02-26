@@ -20,7 +20,7 @@
 @endif
 
 
-<div class="overflow">
+<div class="table-responsive">
   <div id="employee_table">
     <table id="employee_data" class="table table-bordered table-hover">
       <thead>

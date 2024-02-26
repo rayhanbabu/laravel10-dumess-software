@@ -58,7 +58,7 @@
   </div>
 </div>
 
-<div class="overflow">
+<div class="table-responsive">
   <div class="x_content">
     <table id="employee_data" class="table table-bordered table-hover table-sm">
       <thead>

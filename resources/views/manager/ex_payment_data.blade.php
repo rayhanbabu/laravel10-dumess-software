@@ -11,6 +11,7 @@
 		      <td><?php echo $row['id']; ?></td>
               <td><?php echo $row['pre_refund']; ?></td>
               <td><?php echo $row['pre_reserve_amount']; ?></td>
+              <td><?php echo $row['security']; ?></td>
               <td><?php echo $row['pre_monthdue']; ?></td>
               <td><?php echo $row['withdraw']; ?>TK</td>
              <?php if($row['withdraw_status'] ==1){

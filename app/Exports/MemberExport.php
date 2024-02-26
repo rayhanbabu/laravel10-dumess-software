@@ -30,6 +30,8 @@ class MemberExport implements FromQuery,WithHeadings
             'Father Name',
             'Mother name',
             'Department',
+            'Session',
+            'Sucurity Money',
         ];
      }
 
@@ -47,6 +49,8 @@ class MemberExport implements FromQuery,WithHeadings
             'father',
             'mother',
             'dept',
+            'session',
+            'security_money',
           ])->where('hall_id',$this->hall_id);
       }
 

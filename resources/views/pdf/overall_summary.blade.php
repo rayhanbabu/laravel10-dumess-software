@@ -79,11 +79,14 @@
           @if($section) {{$month1}} -{{$section}} @else @endif</h4>
       </center>
 
-      @php 
-              $admin_get=($invoice->sum('mealreducetk')+$invoice->sum('card_fee')
-                +$invoice->sum('service_charge')+$invoice->sum('security')) - $invoice->sum('security_money');
-           
-           @endphp 
+      @php
+       $admin_get=($invoice->sum('mealreducetk')+$invoice->sum('card_fee')
+        +$invoice->sum('service_charge')+$invoice->sum('security')) - $exinvoice->sum('security');
+     @endphp
+
+        @php
+          $total_payment=($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2'))+$exinvoice_payment->sum('withdraw');
+        @endphp
 
       <div class="row">
 
@@ -94,92 +97,101 @@
             </tr>
 
             <tr>
-              <td align="left" width="160">Total Refund Previous Month</td>
+              <td align="left" width="160">i. Total Refund Previous Month</td>
               <td align="right" width="80"> {{ $invoice->sum('pre_refund')+$exinvoice->sum('pre_refund')}} TK</td>
             </tr>
 
             <tr>
-              <td align="left" width="160">Total Reserve Previous Month</td>
+              <td align="left" width="160">ii. Total Reserve Previous Month</td>
               <td align="right" width="80"> {{ $invoice->sum('pre_reserve_amount')+$exinvoice->sum('pre_reserve_amount') }} TK</td>
             </tr>
 
             <tr>
-              <td align="left" width="160">Due amount Previous Month</td>
+              <td align="left" width="160">iii. Due amount Previous Month</td>
               <td align="right" width="80"> {{ $invoice->sum('pre_monthdue')+$exinvoice->sum('pre_monthdue') }} TK</td>
             </tr>
 
             <tr>
-              <th align="left" width="160">Total Manager get</th>
+              <th align="left" width="160">Total Manager get(i+ii-iii)</th>
               <th align="right" width="80">{{($invoice->sum('pre_refund')+$exinvoice->sum('pre_refund')+
                     $invoice->sum('pre_reserve_amount')+$exinvoice->sum('pre_reserve_amount'))
                     -($invoice->sum('pre_monthdue')+$exinvoice->sum('pre_monthdue')) }} TK</th>
 
-                   @php 
-                      $manager_get=($invoice->sum('pre_refund')+$exinvoice->sum('pre_refund')+
-                          $invoice->sum('pre_reserve_amount')+$exinvoice->sum('pre_reserve_amount'))
-                         -($invoice->sum('pre_monthdue')+$exinvoice->sum('pre_monthdue'));
-                   @endphp
+              @php
+                    $manager_get=($invoice->sum('pre_refund')+$exinvoice->sum('pre_refund')+
+                    $invoice->sum('pre_reserve_amount')+$exinvoice->sum('pre_reserve_amount'))
+                    -($invoice->sum('pre_monthdue')+$exinvoice->sum('pre_monthdue'));
+               @endphp
             </tr>
 
           </table>
         </div>
 
+
+
+
+
+
         <div class="column">
 
-        <table>
+          <table>
 
-<tr>
-  <td colspan="2" width="240"><b>Table 2:Bazar summary</b></td>
-</tr>
+            <tr>
+              <td colspan="2" width="240"><b>Table 2:Bazar summary</b></td>
+            </tr>
 
-  <tr>
-     <td align="left" width="160">Active Meal Amount</td>
-     <td align="right" width="80">{{ $invoice->sum('onmeal_amount') }}TK</td>
-  </tr>
+            <tr>
+              <td align="left" width="160">Active Meal Amount</td>
+              <td align="right" width="80">{{ $invoice->sum('onmeal_amount') }}TK</td>
+            </tr>
 
 
-<tr>
-   <td align="left" width="160"> Friday Amount</td>
-   <td align="right" width="80">{{ ($invoice->sum('friday')- $invoice->sum('refund_friday')) }}TK</td>
-</tr>
+            <tr>
+              <td align="left" width="160"> Friday Amount</td>
+              <td align="right" width="80">{{ ($invoice->sum('friday')- $invoice->sum('refund_friday')) }}TK</td>
+            </tr>
 
-<tr>
-   <td align="left" width="160">Feast Amount</td>
-   <td align="right" width="80">{{ ($invoice->sum('feast')-$invoice->sum('refund_feast')) }}TK</td>
-</tr>
+            <tr>
+              <td align="left" width="160">Feast Amount</td>
+              <td align="right" width="80">{{ ($invoice->sum('feast')-$invoice->sum('refund_feast')) }}TK</td>
+            </tr>
 
-<tr>
-  <th align="left" width="160">Monthly estimated bazar</th>
-  <th align="right" width="80">{{($invoice->sum('onmeal_amount')+($invoice->sum('friday')- $invoice->sum('refund_friday'))
+            <tr>
+              <th align="left" width="160">Monthly estimated bazar</th>
+              <th align="right" width="80">{{($invoice->sum('onmeal_amount')+($invoice->sum('friday')- $invoice->sum('refund_friday'))
     +($invoice->sum('feast')-$invoice->sum('refund_feast'))) }}TK</th>
-</tr>
+            </tr>
 
 
-<tr>
-  <td align="left" width="160"></td>
-  <td align="right" width="80"></td>
-</tr>
+            <tr>
+              <td align="left" width="160"></td>
+              <td align="right" width="80"></td>
+            </tr>
 
 
 
-<tr>
-  <td align="left" width="160">Monthly Total Bazar</td>
-  <td align="right" width="80">{{$bazar->sum('total')}}TK</td>
-</tr>
+            <tr>
+              <td align="left" width="160">Monthly Total Bazar</td>
+              <td align="right" width="80">{{$bazar->sum('total')}}TK</td>
+            </tr>
 
-<tr>
-    <td align="left" width="160">Extra Bazar</td>
-    <td align="right" width="80"> {{($invoice->sum('onmeal_amount')+($invoice->sum('friday')- $invoice->sum('refund_friday'))
+            <tr>
+              <td align="left" width="160">Extra Bazar</td>
+              <td align="right" width="80"> {{($invoice->sum('onmeal_amount')+($invoice->sum('friday')- $invoice->sum('refund_friday'))
     +($invoice->sum('feast')-$invoice->sum('refund_feast')))-$bazar->sum('total')}}TK </td>
-</tr>
+            </tr>
 
-</table>
+          </table>
 
 
-         
+
         </div>
       </div>
-  
+
+
+
+     
+
 
       <div class="row">
         <div class="column">
@@ -195,7 +207,7 @@
             </tr>
 
             <tr>
-              <td align="left" width="160">Total friday amount</td>
+              <td align="left" width="160"> Total friday amount </td>
               <td align="right" width="80"> {{$invoice->sum('friday')}}TK </td>
             </tr>
 
@@ -276,27 +288,37 @@
             </tr>
 
             <tr>
-              <th align="left" width="160">Total Invoice amount</th>
-              <th align="right" width="80"> {{$invoice->sum('cur_total_amount')}}TK </th>
+              <th align="left" width="160">i. Total Invoice amount</th>
+              <th align="right" width="80">{{$invoice->sum('cur_total_amount')}}TK </th>
             </tr>
 
             <tr>
-              <th align="left" width="160"> Inactive Meal Amount </th>
-              <th align="right" width="80"> {{$invoice->sum('inmeal_amount')}}TK </th>
+              <th align="left" width="160">ii. Inactive Meal Amount </th>
+              <th align="right" width="80">{{$invoice->sum('inmeal_amount')}}TK </th>
             </tr>
 
             <tr>
-              <th align="left" width="160"> Manager get </th>
-              <th align="right" width="80"> {{ $manager_get }}TK </th>
+              <th align="left" width="160">iii. Manager get </th>
+              <th align="right" width="80">{{ $manager_get }}TK </th>
             </tr>
 
             <tr>
-              <th align="left" width="160"> Payment Invoice </th>
-              <th align="right" width="80"> {{$invoice->sum('cur_total_amount')-$invoice->sum('inmeal_amount')-$manager_get}}TK </th>
-              @php 
-                   $payment_invoice=$invoice->sum('cur_total_amount')-$invoice->sum('inmeal_amount')-$manager_get;
+              <th align="left" width="160"> iv. Refund Security </th>
+              <th align="right" width="80">{{ $exinvoice->sum('security')}}TK </th>
+            </tr>
+
+            <tr>
+              <th align="left" width="160"> v. Withdraw Amount</th>
+              <th align="right" width="80">{{ $withdraw->sum('withdraw')}}TK </th>
+            </tr>
+
+            <tr>
+              <th align="left" width="160"> Payment Invoice (i-ii-iii-iv+v) </th>
+              <th align="right" width="80"> {{$invoice->sum('payble_amount')+$exinvoice->sum('withdraw')}}TK  </th>
+              @php
+            
               @endphp
-           
+
             </tr>
 
           </table>
@@ -305,24 +327,24 @@
 
 
 
-       <div class="column">
-       <table>
+        <div class="column">
+          <table>
             <tr>
-                 <td colspan="2" width="240"><b>Table :4 Total Spends </b></td>
+              <td colspan="2" width="240"><b>Table :4 Total Spends </b></td>
             </tr>
 
             <tr>
               <td align="left" width="160"> Monthly total bazar </td>
               <td align="right" width="80"> {{$bazar->sum('total')}}TK </td>
             </tr>
- 
+
             <tr>
               <td align="left" width="160">Fund transfer to next manager</td>
-              <td align="right" width="80">{{$invoice->sum('total_refund')-($payment_invoice -($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')))}} </td>
+              <td align="right" width="80">{{ ($invoice->sum('total_refund')+$invoice->sum('reserve_amount')) - $invoice->sum('total_due') }} </td>
             </tr>
-             @php 
-              $refund= $invoice->sum('total_refund')-($payment_invoice -($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')))
-             @endphp
+            @php
+            $refund= ($invoice->sum('total_refund')+$invoice->sum('reserve_amount')) - $invoice->sum('total_due');
+            @endphp
 
             <tr>
               <td align="left" width="160">Employee salary</td>
@@ -335,11 +357,11 @@
               <td align="right" width="80">{{$invoice->sum('meeting_penalty')}}TK </td>
             </tr>
 
-             
+
 
             <tr>
               <td align="left" width="160">Welfare</td>
-              <td align="right" width="80">{{$invoice->sum('welfare')-$invoice->sum('refund_welfare')}}TK  </td>
+              <td align="right" width="80">{{$invoice->sum('welfare')-$invoice->sum('refund_welfare')}}TK </td>
             </tr>
 
 
@@ -387,39 +409,44 @@
               <th align="right" width="80">{{$admin_get}} </th>
             </tr>
 
+            <tr>
+                 <th align="left" width="160">Withdraw Amount</th>
+                 <th align="right" width="80">{{$withdraw->sum('withdraw')}} </th>
+            </tr>
 
-          <tr>
-             <th align="left" width="160">Total Spends</th>
-             <th align="right" width="80">{{ $bazar->sum('total')+$refund +$admin_get+
+
+            <tr>
+              <th align="left" width="160">i.Total Spends</th>
+              <th align="right" width="80">{{ $bazar->sum('total')+$refund +$admin_get+$withdraw->sum('withdraw')+
                 ($invoice->sum('employee')-$invoice->sum('refund_employee'))+$invoice->sum('meeting_penalty')
                 +($invoice->sum('others')-$invoice->sum('refund_others'))+($invoice->sum('gass')-$invoice->sum('refund_gass'))
                 +($invoice->sum('electricity')-$invoice->sum('refund_electricity'))+($invoice->sum('tissue')-$invoice->sum('refund_tissue'))
                 +($invoice->sum('water')-$invoice->sum('refund_water'))+($invoice->sum('wifi')-$invoice->sum('refund_wifi'))
                 +($invoice->sum('welfare')-$invoice->sum('refund_welfare')) }}</th>
-          </tr>
+            </tr>
 
             <tr>
-               <th align="left" width="160">Extra Spends</th>
-               <th align="right" width="80"> {{ ($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')+$invoice->sum('withdraw'))
-                 -($bazar->sum('total')+$refund +$admin_get+
-                 ($invoice->sum('employee')-$invoice->sum('refund_employee'))+$invoice->sum('meeting_penalty')
-                 +($invoice->sum('others')-$invoice->sum('refund_others'))+($invoice->sum('gass')-$invoice->sum('refund_gass'))
-                 +($invoice->sum('electricity')-$invoice->sum('refund_electricity'))+($invoice->sum('tissue')-$invoice->sum('refund_tissue'))
-                 +($invoice->sum('water')-$invoice->sum('refund_water'))+($invoice->sum('wifi')-$invoice->sum('refund_wifi'))
-                 +($invoice->sum('welfare')-$invoice->sum('refund_welfare')))}}</th>
-             </tr>
+              <th align="left" width="160">Extra Spends (table 8-i)</th>
+              <th align="right" width="80"> {{ ($total_payment+$manager_get)
+                 -($bazar->sum('total')+$refund +$admin_get+$withdraw->sum('withdraw')+
+                ($invoice->sum('employee')-$invoice->sum('refund_employee'))+$invoice->sum('meeting_penalty')
+                +($invoice->sum('others')-$invoice->sum('refund_others'))+($invoice->sum('gass')-$invoice->sum('refund_gass'))
+                +($invoice->sum('electricity')-$invoice->sum('refund_electricity'))+($invoice->sum('tissue')-$invoice->sum('refund_tissue'))
+                +($invoice->sum('water')-$invoice->sum('refund_water'))+($invoice->sum('wifi')-$invoice->sum('refund_wifi'))
+                +($invoice->sum('welfare')-$invoice->sum('refund_welfare')))}}</th>
+            </tr>
 
           </table>
         </div>
       </div>
 
-             <br><br><br><br>
+      <br><br><br><br>
       <div class="row">
         <div class="column">
           <table>
 
             <tr>
-              <td colspan="2" width="240"><b>Table 5:Payment summary </b></td>
+              <td colspan="2" width="240"><b>Table 5: Payment summary </b></td>
             </tr>
 
             <tr>
@@ -453,13 +480,26 @@
             </tr>
 
             <tr>
-              <th align="left" width="160">Total Payment</th>
+              <th align="left" width="160">i. Total Invoice Payment</th>
               <th align="right" width="80"> {{ $payment1->sum('payble_amount1')+$payment2->sum('payble_amount2') }}TK</th>
             </tr>
 
             <tr>
-              <th align="left" width="160">Invoice due amount</th>
-              <th align="right" width="80">{{ $payment_invoice -($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2'))}}TK</th>
+              <th align="left" width="160">ii. Total Resign Payment</th>
+              <th align="right" width="80"> {{ $exinvoice_payment->sum('withdraw')}}TK</th>
+            </tr>  
+
+        
+
+            <tr>
+              <th align="left" width="160">iii. Total Payment(i+ii)</th>
+              <th align="right" width="80"> {{ ($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2'))+$exinvoice_payment->sum('withdraw') }}TK</th>
+              
+            </tr>
+
+            <tr>
+              <th align="left" width="160">Invoice due amount(table 3-iii)</th>
+              <th align="right" width="80">{{$invoice->sum('total_due')}} TK</th>
             </tr>
 
           </table>
@@ -478,7 +518,7 @@
             </tr>
 
             <tr>
-              <td align="left" width="160">Reserve Amount</td>
+              <td align="left" width="160">Refund Reserve Amount</td>
               <td align="right" width="80">{{$invoice->sum('reserve_amount')}}TK</td>
             </tr>
 
@@ -498,27 +538,24 @@
           <table>
 
             <tr>
-                <td colspan="2" width="240"><b>Table 7: Total Earns </b></td>
+              <td colspan="2" width="240"><b>Table 7: Total Earns </b></td>
             </tr>
 
             <tr>
-                <th align="left" width="160">Total Payment</th>
-                <th align="right" width="80">{{$payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')}}TK</th>
+              <th align="left" width="160">Total Payment</th>
+              <th align="right" width="80">{{ $total_payment }}TK</th>
             </tr>
 
             <tr>
-                <th align="left" width="160">Received by Previous manager</th>
-                <th align="right" width="80">{{$manager_get}}TK</th>
+              <th align="left" width="160">Received by Previous manager</th>
+              <th align="right" width="80">{{$manager_get}}TK</th>
             </tr>
 
-            <tr>
-              <td align="left" width="160">Total Resign payment</td>
-              <td align="right" width="80"> {{$exinvoice_payment->sum('withdraw')}}TK</td>
-            </tr>
+
 
             <tr>
-                 <th align="left" width="160">Total Received</th>
-                 <th align="right" width="80">{{ $payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')+$manager_get-$exinvoice_payment->sum('withdraw') }}TK</th>
+              <th align="left" width="160">Total Received</th>
+              <th align="right" width="80">{{$total_payment+$manager_get }}TK</th>
             </tr>
           </table>
         </div>
@@ -526,7 +563,7 @@
 
 
         <div class="column">
-        <table>
+          <table>
             <tr>
               <td colspan="2" width="240"> <b>Table 8:Admin get </b> </td>
             </tr>
@@ -537,19 +574,19 @@
             </tr>
 
 
-       
+
             <tr>
               <td align="left" width="160">Breakfat Meal rate, ON </td>
               <td align="right" width="80">{{$invoice->max('breakfast_rate')}}, {{$invoice->sum('breakfast_onmeal')}} </td>
             </tr>
-           
+
 
             <tr>
               <td align="left" width="160">Lunch Meal rate, ON </td>
               <td align="right" width="80">{{$invoice->max('lunch_rate')}}, {{$invoice->sum('lunch_onmeal')}} </td>
             </tr>
 
-            
+
             <tr>
               <td align="left" width="160">Dinner Meal rate, ON </td>
               <td align="right" width="80">{{$invoice->max('dinner_rate')}}, {{$invoice->sum('dinner_onmeal')}} </td>
@@ -566,29 +603,29 @@
             </tr>
 
             <tr>
-               <td align="left" width="160"> Serviec Charge </td>
-               <td align="right" width="80">{{ $invoice->sum('service_charge') }}TK</td>
+              <td align="left" width="160"> Serviec Charge </td>
+              <td align="right" width="80">{{ $invoice->sum('service_charge') }}TK</td>
             </tr>
 
             <tr>
-                <td align="left" width="160">Security</td>
-                <td align="right" width="80">{{ $invoice->sum('security') }}TK</td>
-             </tr>
+              <td align="left" width="160">Security</td>
+              <td align="right" width="80">{{ $invoice->sum('security') }}TK</td>
+            </tr>
 
-             <tr>
-                <td align="left" width="160">Refund Security(-) </td>
-                <td align="right" width="80">{{ $invoice->sum('security_money') }}TK</td>
+            <tr>
+              <td align="left" width="160">Refund Security(-) </td>
+              <td align="right" width="80">{{ $exinvoice->sum('security') }}TK</td>
             </tr>
 
             <tr>
               <th align="left" width="160">Total admin get</th>
               <th align="right" width="80"> {{ ($invoice->sum('mealreducetk')+$invoice->sum('card_fee')
-                +$invoice->sum('service_charge')+$invoice->sum('security')) - $invoice->sum('security_money')}}TK</th>
+                +$invoice->sum('service_charge')+$invoice->sum('security')) - $exinvoice->sum('security')}}TK</th>
             </tr>
           </table>
 
-          
-        
+
+
         </div>
       </div>
 

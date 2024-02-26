@@ -49,9 +49,9 @@
     </div>
    </div>
 				
-<div class="overflow">		
-<div class="x_content">
- <table id="employee_data"  class="table table-bordered table-hover">
+<div class="table-responsive">		
+  <div class="x_content">
+  <table id="employee_data"  class="table table-bordered table-hover">
     <thead>
      <tr>
          <th width="10%">Card No</th>

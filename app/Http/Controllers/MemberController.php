@@ -644,14 +644,22 @@ class MemberController extends Controller
                    'message' => "Time Over",
                 ]);
             }else if($meal_no<=$hallinfo->mealon_without_payment){
-
-                DB::update("update invoices set  $meal_name = $status  where  id= $data->id");
-                     member_meal_update($data);
-                     SendEmail($email, $body, $name, $body, "ANCOVA");
-                     return response()->json([
-                        'status' => 200,
-                        'message' => "Meal Status updated"
+                  $diff=$data->pre_monthdue-($data->pre_refund+$data->pre_refund);
+                  $payment = $data->payment_status1+$data->payment_status2;         
+                  if($diff>0 && $payment==0){    
+                      return response()->json([
+                         'status' => 400,
+                         'message' => "Please pay the security deposit you have consumed"
                       ]);
+                  }else{
+                        DB::update("update invoices set  $meal_name = $status where id=$data->id");
+                        member_meal_update($data);
+                        SendEmail($email, $body, $name, $body, "ANCOVA");
+                        return response()->json([
+                           'status' => 200,
+                           'message' => "Meal Status updated"
+                        ]);
+                    }
              }else{
                 if($data->payment_status2==1){  //2nd Payment Status
                           

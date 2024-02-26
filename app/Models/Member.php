@@ -18,7 +18,12 @@ class Member extends Model
          'password',
          'profile_image',
          'father',
+         'status',
          'mother',
+         'session',
+         'security_money',
+         'email_verify',
+         'member_status',
          'dept',
     ];
 }

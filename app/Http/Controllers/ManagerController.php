@@ -962,17 +962,21 @@ class ManagerController extends Controller
               $invoice=Invoice::where('member_id',$id)->where('invoice_month',$hallinfo->cur_month)->where('invoice_year',$hallinfo->cur_year)
                  ->where('invoice_section',$hallinfo->cur_section)->where('hall_id',$hall_id)->first();
               if($member->admin_verify==1){
-                 if($invoice->payment_status1==1 OR $invoice->payment_status2==1){
-                      return back()->with('fail','Member Already Paid');  
+                 $payment=$invoice->payment_status1+$invoice->payment_status2;
+                 if($invoice->onmeal_amount>0 OR $payment>0){
+                      return back()->with('fail','Member Already Paid OR Meal ON');  
                 }else{
                       DB::update( "update members set member_status ='$type' , admin_verify ='$type' where id = '$id'" );
-                      DB::update( "update invoices set invoice_status ='$type' where id = '$invoice->id'" );
+                      $withdraw=$invoice->pre_monthdue-($invoice->pre_reserve_amount+$invoice->pre_refund+$member->security_money);
+                      DB::update( "update invoices set invoice_status ='$type', withdraw='$withdraw', security='$member->security_money' where id = '$invoice->id'" );
                       return back()->with('success','Member Status update Successfull');  
                 }   
-              }else {
-                   DB::update( "update members set member_status ='$type' where id = '$id'" );
-                   return back()->with('success','Member Status update Successfull');  
               }
+              
+            //   else {
+            //        DB::update( "update members set member_status ='$type' where id = '$id'" );
+            //        return back()->with('success','Member Status update Successfull');  
+            //   }
         
       }else if($operator=='verify'){
  

@@ -47,9 +47,9 @@
    </div>
    <div id="success_message"></div>
 				
-<div class="overflow">		
-<div class="x_content">
- <table id="employee_data"  class="table table-bordered table-hover table-sm shadow">
+ <div class="table-responsive">	
+  <div class="x_content">
+   <table id="employee_data"  class="table table-bordered table-hover table-sm shadow">
     <thead>
        <tr>
           <th  width="10%">University/Location </th>

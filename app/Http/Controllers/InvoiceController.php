@@ -127,7 +127,7 @@ class InvoiceController extends Controller
               ->orWhere('phone', 'like', '%' . $search . '%');
           })
           ->select('members.name', 'members.phone','members.registration','members.card', 'invoices.*')
-          ->orderBy('registration', 'asc')
+          ->orderBy('registration','asc')
           ->paginate(10);
          return view('manager.section_data', compact('data'))->render();
       }
@@ -380,7 +380,11 @@ class InvoiceController extends Controller
                     WHEN payment_status2<=0 THEN payble_amount2 
                     ELSE 0 END)
 
-           , total_due=first_payment_due+second_payment_due
+           , total_due=(CASE 
+             WHEN payment_status1<=0 AND payment_status2<=0 THEN payble_amount
+             WHEN payment_status1<=0 AND payment_status2>=0 THEN first_payment_due+second_payment_due
+             WHEN payment_status1>=1 AND payment_status2<=0 THEN first_payment_due+second_payment_due
+             ELSE 0 END)
 
             , reserve_amount=(CASE 
                WHEN payble_amount1<0 THEN -payble_amount1
@@ -926,7 +930,7 @@ class InvoiceController extends Controller
 
          $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('section_day','unpaid_day','breakfast_rate','lunch_rate','dinner_rate','first_payment_meal')->first();
      
-         if ($data->withdraw_status == 1) {
+         if($data->withdraw_status == 1) {
              $status1 = 0;
              $paymenttime = date('2010-10-10 10:10:10');
              $paymenttype = '';
@@ -948,7 +952,7 @@ class InvoiceController extends Controller
             'message' => 'You can not refund withdraw beacuse 1st or 2nd payment already paid',
           ]);
 
-       }else if($data->withdraw<=0){
+       }else if($data->withdraw<=0 && $data->member_status==1){
             return response()->json([
                'status' => 200,
                 'message' => 'You can not refund withdraw beacuse withdraw amount negative',
@@ -960,7 +964,6 @@ class InvoiceController extends Controller
 
   
           DB::update("update invoices set 
-
           payble_amount=(CASE 
           WHEN withdraw_status>=1 THEN cur_total_amount-inmeal_amount 
           ELSE cur_total_amount-(inmeal_amount+withdraw)  END),
@@ -1007,7 +1010,6 @@ class InvoiceController extends Controller
  
         public function ex_payment_fetch(Request $request, $invoice_status)
          {
-
            $hall_id = $request->header('hall_id');
            $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section')->first();
              $data = Invoice::leftjoin('members', 'members.id','=','invoices.member_id')
@@ -1025,29 +1027,28 @@ class InvoiceController extends Controller
             $hall_id=$request->header('hall_id');
             $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section')->first();
           
-          if($request->ajax()) {
+        if($request->ajax()) {
             $sort_by = $request->get('sortby');
             $sort_type = $request->get('sorttype');
             $search = $request->get('search');
             $search = str_replace(" ", "%", $search);
     
             $data = Invoice::leftjoin('members','members.id','=','invoices.member_id')
-            ->Where('invoices.hall_id',$hall_id)->where(function ($query) use ($search) {
-                $query->where('members.card', 'like', '%' . $search . '%')
-                  ->orWhere('name', 'like', '%' . $search . '%')
-                  ->orWhere('registration', 'like', '%' . $search . '%')
-                  ->orWhere('invoices.id', 'like', '%' . $search . '%')
-                  ->orWhere('phone', 'like', '%' . $search . '%');
-              })->select('members.name', 'members.phone','members.registration','members.card', 'invoices.*')
-              ->orderBy($sort_by,$sort_type)
-              ->paginate(10);
-             return view('manager.ex_payment_data', ['data'=>$data,'hallinfo'=>$hallinfo,'invoice_status'=>$invoice_status])->render();
+              ->Where('invoices.hall_id',$hall_id)->Where('members.member_status',5)
+              ->Where('invoices.invoice_status',5)->where(function ($query) use ($search) {
+                 $query->where('members.card', 'like', '%' . $search . '%')
+                   ->orWhere('name', 'like', '%' . $search . '%')
+                   ->orWhere('registration', 'like', '%' . $search . '%')
+                   ->orWhere('invoices.id', 'like', '%' . $search . '%')
+                   ->orWhere('phone', 'like', '%' . $search . '%');
+               })->select('members.name', 'members.phone','members.registration','members.card', 'invoices.*')
+               ->orderBy($sort_by,$sort_type)
+               ->paginate(10);
+              return view('manager.ex_payment_data', ['data'=>$data,'hallinfo'=>$hallinfo,'invoice_status'=>$invoice_status])->render();
           }
-    
         }
  
  
-     
         public function ex_payment_delete(Request $request , $id){
           try{ 
             $data = Invoice::find($id);

@@ -32,7 +32,7 @@
   </div>
 </div>
 
-<div class="overflow">
+<div class="table-responsive">
   <div class="x_content">
     <table id="employee_data" class="table table-bordered table-hover">
       <thead>
@@ -44,10 +44,11 @@
           <th width="">Invoice No</th>  
           <th width="">Pre Refund</th>
           <th width="">Pre Reserve</th>   
+          <th width="">Security Money</th> 
           <th width="">Pre Due</th> 
-          <th width="">Refund withdraw </th>
-          <th width="">Refund withdraw Status </th>
-          <th width="">withdraw by </th>
+          <th width="">Payment Amount(+Hall Get) (-Member Get) </th>
+          <th width="">Payment Status </th>
+          <th width="">Payemnt by </th>
           <th width=""> </th>
    
 
@@ -163,7 +164,7 @@
 
     function fetch_data(page, sort_type = "", sort_by = "", search = "") {
       $.ajax({
-        url: "/manager/payment/{{$invoice_status}}/fetch_data?page=" + page + "&sortby=" + sort_by + "&sorttype=" + sort_type + "&search=" + search,
+        url: "/manager/ex_payment/{{$invoice_status}}/fetch_data?page=" + page + "&sortby=" + sort_by + "&sorttype=" + sort_type + "&search=" + search,
         success: function(data) {
           $('tbody').html('');
           $('.x_content tbody').html(data);

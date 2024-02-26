@@ -98,15 +98,36 @@ class HallinfoController extends Controller
                $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
           
                $invoice = Invoice::leftjoin('members','members.id','=','invoices.member_id')
-                  ->where('invoice_month', $month)->where('invoices.hall_id', $hall_id)
-                  ->where('invoice_year', $year)->where('invoice_section', $section)
+                  ->where('invoice_month',$month)->where('invoices.hall_id',$hall_id)
+                  ->where('invoice_year',$year)->where('invoice_section',$section)
+                  ->where('invoice_status',1)
+                  ->select('name','registration','phone','email','card','cur_total_amount','inmeal_amount',
+                  'payble_amount1','payble_amount2','payble_amount','pre_refund','payble_amount'
+                  ,'pre_monthdue','pre_reserve_amount','invoice_status','security','withdraw')
+                  ->orderBy($hallinfo->pdf_order,'asc')->get();
+
+                  $withdraw = Invoice::leftjoin('members','members.id','=','invoices.member_id')
+                  ->where('invoice_month',$month)->where('invoices.hall_id',$hall_id)
+                  ->where('invoice_year',$year)->where('invoice_section',$section)
+                  ->where('invoice_status',1)->where('withdraw_status',1)
+                  ->select('name','registration','phone','email','card','cur_total_amount',
+                  'payble_amount1','payble_amount2','payble_amount','pre_refund','payble_amount'
+                  ,'pre_monthdue','pre_reserve_amount','invoice_status','security','withdraw')
+                  ->orderBy($hallinfo->pdf_order,'asc')->get();
+
+
+                  $exinvoice = Invoice::leftjoin('members','members.id','=','invoices.member_id')
+                  ->where('invoice_month',$month)->where('invoices.hall_id',$hall_id)
+                  ->where('invoice_year',$year)->where('invoice_section',$section)
+                  ->where('invoice_status',5)
                   ->select('name','registration','phone','email','card',
                   'payble_amount1','payble_amount2','payble_amount','pre_refund'
-                  ,'pre_monthdue','pre_reserve_amount','invoice_status')
+                  ,'pre_monthdue','pre_reserve_amount','invoice_status','security','withdraw')
                   ->orderBy($hallinfo->pdf_order,'asc')->get();
                
                return view('pdf.section_invoice',[
-                     'month1' => $month1, 'invoice' => $invoice, 'section' => $section    
+                     'month1' => $month1, 'invoice' => $invoice, 'section' => $section  
+                     ,'exinvoice' => $exinvoice ,'withdraw' => $withdraw
                 ]);
              
              } catch (Exception $e) {
@@ -123,11 +144,11 @@ class HallinfoController extends Controller
             $hall_id = $request->header('hall_id');
             $month = date('n',strtotime($_POST['month']));
             $year = date('Y',strtotime($_POST['month']));
-           $section = $_POST['section'];
-           $month1 = date('F-Y',strtotime($_POST['month']));
-           $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order'
-           ,'meal_start_date')->first();
-     
+            $section = $_POST['section'];
+            $month1 = date('F-Y',strtotime($_POST['month']));
+            $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order'
+            ,'meal_start_date')->first();
+      
     
        $invoice=DB::table('invoices')->where('invoice_month',$month)->where('hall_id',$hall_id)
           ->where('invoice_year',$year)->where('invoice_section',$section)->where('invoice_status',1)->get();
@@ -144,6 +165,11 @@ class HallinfoController extends Controller
         ->where('invoice_year', $year)->where('invoice_section', $section)->where('invoice_status',1)
         ->where('payment_status2',1)->get();
 
+        $withdraw=DB::table('invoices')->where('invoice_month', $month)->where('hall_id', $hall_id)
+        ->where('invoice_year', $year)->where('invoice_section', $section)->where('invoice_status',1)
+        ->where('withdraw_status',1)->get();
+
+
         $exinvoice_payment=DB::table('invoices')->where('invoice_month', $month)->where('hall_id', $hall_id)
         ->where('invoice_year', $year)->where('invoice_section', $section)->where('invoice_status',5)
         ->where('withdraw_status',1)->get();
@@ -158,11 +184,11 @@ class HallinfoController extends Controller
      $bazar=DB::table('bazars')->where('bazar_year',$year)->where('bazar_month',$month)->where('bazar_section',$section)
       ->where('hall_id',$hall_id)->get();
          
-            return view('pdf.overall_summary',[
-                        'month1' => $month1 ,'invoice' => $invoice,'section' => $section 
+            return view('pdf.overall_summary2',[
+                        'month1' => $month1 ,'invoice' => $invoice ,'section' => $section 
                         ,'exinvoice' => $exinvoice, 'active_invoice' => $active_invoice
                         ,'payment1' => $payment1,'payment2' => $payment2,'bazar'=>$bazar  
-                        ,'exinvoice_payment'=>$exinvoice_payment
+                        ,'exinvoice_payment'=>$exinvoice_payment,'withdraw' => $withdraw 
               ]);
              
              } catch (Exception $e) {
