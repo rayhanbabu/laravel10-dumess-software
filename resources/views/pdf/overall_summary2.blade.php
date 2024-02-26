@@ -432,7 +432,7 @@
               <tr>
                 <td>4</td>
                 <td>Dinner Meal rate, ON </td>
-                <td align="right">{{$invoice->max('lunch_rate')}}, {{$invoice->sum('lunch_onmeal')}}</td>
+                <td align="right">{{$invoice->max('dinner_rate')}}, {{$invoice->sum('dinner_onmeal')}} </td>
               </tr>
 
               <tr>
