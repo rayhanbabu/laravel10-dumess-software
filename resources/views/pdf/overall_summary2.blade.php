@@ -379,12 +379,19 @@
                 <td>Received by Previous manager</td>
                 <td align="right">{{$manager_get}} TK</td>
               </tr>
+
+              <tr>
+                <td>3</td>
+                <td>Reserve Amount </td>
+                <td align="right">{{$invoice->sum('reserve_amount')}} TK</td>
+              </tr>
+             
              
             </tbody>
             <tfoot>
               <tr>
                 <td class="text" colspan="2" >Total Received amount</td>
-                <td align="right">{{$total_payment+$manager_get }} TK</td> 
+                <td align="right">{{$total_payment+$manager_get+$invoice->sum('reserve_amount') }} TK</td> 
               </tr>
             </tfoot>
           </table>
@@ -673,7 +680,7 @@
             <tfoot class="text">
               <tr>
                 <td colspan="2">Extra Spends (table 7-15)</td>
-                <td align="right">{{ ($total_payment+$manager_get)
+                <td align="right">{{ ($total_payment+$manager_get+$invoice->sum('reserve_amount'))
                  -($bazar->sum('total')+$refund +$admin_get+$withdraw->sum('withdraw')+
                 ($invoice->sum('employee')-$invoice->sum('refund_employee'))+$invoice->sum('meeting_penalty')
                 +($invoice->sum('others')-$invoice->sum('refund_others'))+($invoice->sum('gass')-$invoice->sum('refund_gass'))
