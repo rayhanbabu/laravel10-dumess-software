@@ -217,6 +217,8 @@ class InvoiceController extends Controller
                            $day = "b" . $y;
                        if($invoiceupdate->breakfast_rate>0){
                              $invoiceupdate->$day = 9;
+                           }else{
+                            $invoiceupdate->$day = 0;
                            }
                         }
 
@@ -224,6 +226,8 @@ class InvoiceController extends Controller
                              $day = "l" . $y;
                            if($invoiceupdate->lunch_rate>0){
                                $invoiceupdate->$day = 9;
+                            }else{
+                               $invoiceupdate->$day = 0;
                             }
                         } 
                          
@@ -231,6 +235,8 @@ class InvoiceController extends Controller
                         $day = "d" . $y;
                           if($invoiceupdate->dinner_rate>0){
                               $invoiceupdate->$day = 9;
+                          }else{
+                             $invoiceupdate->$day = 0;
                           }
                      }
 
