@@ -1081,7 +1081,7 @@ class ManagerController extends Controller
 
        DB::update( "update members set admin_verify ='$type' ,verify_month='$hallinfo->cur_month'
          ,verify_year='$hallinfo->cur_year', verify_section='$hallinfo->cur_section' , security_money='$hallinfo->security_money' where id = '$id'");  
-       SendEmail($member->email,"Your Member Card ".$member->card, "Your Hall  Verification Successfull", "Your Member Card ".$member->card, "ANCOVA");            
+        SendEmail($member->email,"Your Member Card ".$member->card, "Your Hall  Verification Successfull", "Your Member Card ".$member->card, "ANCOVA");            
        return back()->with('success','Member Verify Successful');   
            } 
         }

@@ -160,95 +160,87 @@ class InvoiceController extends Controller
 
        $payment_date = date('Y-m-d');
        $inactive_day = getDaysBetween2Dates(new DateTime($payment_date), new DateTime($data->meal_start_date), false) + 1;
-
-    
        
-         for ($x = 0; $x < $invoice->count(); $x++) {       
-                  $id=Invoice::get()[$x]['id'];
-                   $lunch_off=0;
-                   $dinner_off=0;
-                   $breakfast_off=0;
-                   $lunch_on=0;
-                   $dinner_on=0;
-                   $breakfast_on=0;
-                   for($y = 1; $y <= $data->section_day; $y++) {
-                         $l_off=Invoice::where('id',$id)->where('l'.$y,0)->count(); 
-                         $lunch_off+=$l_off;
 
-                         $l_on=Invoice::where('id',$id)->where('l'.$y,1)->count(); 
-                         $lunch_on+=$l_on;
-                    }
-
-                   for($y = 1; $y <= $data->section_day; $y++) {
-                        $d=Invoice::where('id',$id)->where('d'.$y,0)->count(); 
-                        $dinner_off+=$d;
-
-                         $d_on=Invoice::where('id',$id)->where('d'.$y,1)->count(); 
-                         $dinner_on+=$d_on;
-                    }
-
-                   for($y = 1; $y <= $data->section_day; $y++) {
-                       $b=Invoice::where('id',$id)->where('b'.$y,0)->count(); 
-                       $breakfast_off+=$b;
-
-                       $b_on=Invoice::where('id',$id)->where('b'.$y,1)->count(); 
-                         $breakfast_on+=$b_on;
-                    }
-
-                    $invoiceupdate = Invoice::find($id);
-                    $invoiceupdate->lunch_offmeal = $lunch_off;
-                    $invoiceupdate->lunch_onmeal = $lunch_on;
-                    $invoiceupdate->lunch_inmeal = $data->section_day-($lunch_off+$lunch_on);
-                    $invoiceupdate->dinner_offmeal = $dinner_off;
-                    $invoiceupdate->dinner_onmeal = $dinner_on;
-                    $invoiceupdate->dinner_inmeal = $data->section_day-($dinner_off+$dinner_on);
-                    $invoiceupdate->breakfast_offmeal = $breakfast_off;
-                    $invoiceupdate->breakfast_onmeal = $breakfast_on;
-                    $invoiceupdate->breakfast_inmeal = $data->section_day-($breakfast_off+$breakfast_on);
-                    $invoiceupdate->save();
-
-
-            $invoice = Invoice::find($id);
-            if($invoice->payment_status1==1 || $invoice->payment_status2==1 || $invoice->onmeal_amount>1){
-
-             }else{
-            if($inactive_day<=31){
-
-                  for($y=$inactive_day;$y>=1; $y--){ 
-                         $day = "b" . $y;
-                   if($invoice->breakfast_rate<=0){
-                         $invoice->$day = 0;
-                    }else{
-                         $invoice->$day = 9;
-                     }
-                  }
- 
-                 for($y=$inactive_day;$y>=1; $y--){ 
-                     $day = "l" . $y;
-                     if($invoice->lunch_rate<=0){
-                          $invoice->$day = 0;
-                       }else{
-                          $invoice->$day = 9;
-                       }
-                  }
- 
-                 for($y=$inactive_day;$y>=1; $y--){ 
-                         $day = "d" . $y;
-                    if($invoice->dinner_rate<=0){
-                        $invoice->$day = 0;
-                     }else{
-                        $invoice->$day = 9;
-                     }
-                   }
-                   
-
-                  }
-                   
-                    }
-                   $invoice->save();   
-                 
-          }
       
+       foreach($invoice as $row){
+               $lunch_off=0;
+               $dinner_off=0;
+               $breakfast_off=0;
+               $lunch_on=0;
+               $dinner_on=0;
+               $breakfast_on=0;
+
+                  for($y = 1; $y <= $data->section_day; $y++) {
+                       $l_off=Invoice::where('id',$row->id)->where('l'.$y,0)->count(); 
+                       $lunch_off+=$l_off;
+    
+                       $l_on=Invoice::where('id',$row->id)->where('l'.$y,1)->count(); 
+                       $lunch_on+=$l_on;
+                    }
+
+                   for($y = 1; $y <= $data->section_day; $y++) {
+                          $d=Invoice::where('id',$row->id)->where('d'.$y,0)->count(); 
+                          $dinner_off+=$d;
+        
+                          $d_on=Invoice::where('id',$row->id)->where('d'.$y,1)->count(); 
+                          $dinner_on+=$d_on;
+                      }
+
+
+                      for($y = 1; $y <= $data->section_day; $y++) {
+                            $b=Invoice::where('id',$row->id)->where('b'.$y,0)->count(); 
+                            $breakfast_off+=$b;
+
+                            $b_on=Invoice::where('id',$row->id)->where('b'.$y,1)->count(); 
+                            $breakfast_on+=$b_on;
+                       }
+
+
+                $invoiceupdate = Invoice::find($row->id);
+                $invoiceupdate->lunch_offmeal = $lunch_off;
+                $invoiceupdate->lunch_onmeal = $lunch_on;
+                $invoiceupdate->lunch_inmeal = $data->section_day-($lunch_off+$lunch_on);
+                $invoiceupdate->dinner_offmeal = $dinner_off;
+                $invoiceupdate->dinner_onmeal = $dinner_on;
+                $invoiceupdate->dinner_inmeal = $data->section_day-($dinner_off+$dinner_on);
+                $invoiceupdate->breakfast_offmeal = $breakfast_off;
+                $invoiceupdate->breakfast_onmeal = $breakfast_on;
+                $invoiceupdate->breakfast_inmeal = $data->section_day-($breakfast_off+$breakfast_on);
+               if($invoiceupdate->payment_status1==1 || $invoiceupdate->payment_status2==1 || $invoiceupdate->onmeal_amount>1){
+
+                 }else{ 
+
+                if($inactive_day<=31){
+
+                      for($y=$inactive_day;$y>=1; $y--){ 
+                           $day = "b" . $y;
+                       if($invoiceupdate->breakfast_rate>0){
+                             $invoiceupdate->$day = 9;
+                           }
+                        }
+
+                       for($y=$inactive_day;$y>=1; $y--){ 
+                             $day = "l" . $y;
+                           if($invoiceupdate->lunch_rate>0){
+                               $invoiceupdate->$day = 9;
+                            }
+                        } 
+                         
+                    for($y=$inactive_day;$y>=1; $y--){ 
+                        $day = "d" . $y;
+                          if($invoiceupdate->dinner_rate>0){
+                              $invoiceupdate->$day = 9;
+                          }
+                     }
+
+                  }
+                }
+               
+                $invoiceupdate->save();
+
+            }
+        
     if($data->first_payment_meal>0){
               if($data->fridayf==1){$friday_value=$data->friday;}else{$friday_value=0;}
               if($data->feastf==1){$feast_value=$data->feast;}else{$feast_value=0;}
