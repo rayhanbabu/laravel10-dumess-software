@@ -27,13 +27,11 @@ class AppController extends Controller
     }
 
     public function store(Request $request)
-    {
-
+      {
         $hall_id = $request->header('hall_id');
         $validator = \Validator::make(
             $request->all(),
-            [
-               
+            [ 
                 'phone' => 'required|unique:apps,phone,NULL,id,hall_id,'.$hall_id,
             ],
             [
@@ -41,23 +39,22 @@ class AppController extends Controller
             ]
         );
 
-       
-        if ($validator->fails()) {
+      if ($validator->fails()) {
             return response()->json([
                 'status' => 700,
                 'message' => $validator->messages(),
             ]);
-        } else {
+       } else {
             $app = new App;
             $app->hall_id = $hall_id;
             $app->serial = $request->input('serial');
             $app->phone = $request->input('phone');
             $app->category = $request->input('category');
             $app->save();
-            return response()->json([
-                'status' => 200,
-                'message' => 'Inserted Data',
-            ]);
+               return response()->json([
+                   'status' => 200,
+                   'message' => 'Inserted Data',
+                ]);
         }
     }
 

@@ -19,9 +19,9 @@ class InvoiceController extends Controller
   public function section_view(Request $request)
    {
        try {
-              $hall_id = $request->header('hall_id');
-              $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section')->first();
-              return view('manager.sectioninfo',['hallinfo'=>$hallinfo]);
+             $hall_id = $request->header('hall_id');
+             $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section')->first();
+             return view('manager.sectioninfo',['hallinfo'=>$hallinfo]);
          }catch (Exception $e) {  return  view('errors.error', ['error' => $e]);} 
     }
 

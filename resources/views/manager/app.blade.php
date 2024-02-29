@@ -323,7 +323,7 @@
 				      Please select Valid mobile number" type="text" class="form-control" required /><br>
          @elseif($category=='Session')
 
-             <label><b>Serial No</b></label><br><br>
+             <label><b>Session </b></label><br><br>
                <input name="serial" id="edit_serial"   type="number" class="form-control" required /><br>
 
              <label><b>Session/Building/Location</b></label><br><br>
@@ -378,7 +378,7 @@
 				       Please select Valid mobile number" type="text" class="form-control" required /><br>
           @elseif($category=='Session')
 
-               <label><b>Serial No</b></label><br><br>
+               <label><b>Session </b></label><br><br>
               <input name="serial" id="serial"   type="number" class="form-control" required /><br>
 
               <label><b>Session/Building/Location</b></label><br><br>

@@ -1013,7 +1013,7 @@ class ManagerController extends Controller
           
           $cur_total_amount=$cur_meal_amount+$cur_others_amount;
 
-          if($hallinfo->first_payment_meal>0){
+    if($hallinfo->first_payment_meal>0){
             if($hallinfo->fridayf==1){$friday_value=$hallinfo->friday;}else{$friday_value=0;}
             if($hallinfo->feastf==1){$feast_value=$hallinfo->feast;}else{$feast_value=0;}
             if($hallinfo->welfaref==1){$welfare_value=$hallinfo->welfare;}else{$welfare_value=0;}
