@@ -188,12 +188,13 @@
         success: function(response) {
           //console.log(response);
           if (response.status == 404) {
-            $('#success_message').html("");
-            $('#success_message').addClass('alert alert-danger');
-            $('#success_message').text(response.message);
+             $('#success_message').html("");
+             $('#success_message').addClass('alert alert-danger');
+             $('#success_message').text(response.message);
           } else {
-            $('#edit_phone').val(response.edit_value.phone);
-            $('#edit_id').val(edit_id);
+             $('#edit_phone').val(response.edit_value.phone);
+             $('#edit_serial').val(response.edit_value.serial);
+             $('#edit_id').val(edit_id);
           }
         }
       });
