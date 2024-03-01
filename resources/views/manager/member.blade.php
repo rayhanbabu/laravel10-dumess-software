@@ -66,11 +66,13 @@
           <th width="15%"> Image </th>
           <th width="15%">Card Pdf</th>
           <th width="8%" class="sorting" data-sorting_type="asc" data-column_name="card" style="cursor: pointer">
-            Card No <span id="card_icon"> <i class="fas fa-sort-amount-up-alt"></i></span> </th>
+           Card No <span id="card_icon"> <i class="fas fa-sort-amount-up-alt"></i></span> </th>
           <th width="35%">Name</th>
           <th width="8%" class="sorting" data-sorting_type="asc" data-column_name="registration" style="cursor: pointer">
-          Registration <span id="registration_icon"> <i class="fas fa-sort-amount-up-alt"></i></span> </th>
+           Registration <span id="registration_icon"> <i class="fas fa-sort-amount-up-alt"></i></span> </th>
           <th width="35%">Mobile</th>
+          <th width="35%">Session</th>
+          <th width="35%">Security</th>
           <th width="15%">Edit</th>
           <th width="5%">View</th>
 
@@ -152,6 +154,8 @@
             $('#edit_registration').val(response.value.registration);
             $('#edit_email').val(response.value.email);
             $('#edit_phone').val(response.value.phone);
+            $('#edit_session').val(response.value.session);
+            $('#edit_security_money').val(response.value.security_money);
             $('#edit_hostel_fee').val(response.value.hostel_fee);
           }
         }
@@ -242,9 +246,9 @@
             $('.edit_err_hostel_fee').text('');
             fetchAll();
           } else if (response.status == 300) {
-            Swal.fire("Warning", response.message, "warning");
+            Swal.fire("Warning", response.message,"warning");
           } else if (response.status == 500) {
-            Swal.fire("Warning", response.message, "warning");
+            Swal.fire("Warning", response.message,"warning");
           } else if (response.status == 700) {
             $('.edit_err_registration').text(response.message.registration);
             $('.edit_err_phone').text(response.message.phone);
@@ -375,11 +379,7 @@
               <p class="text-danger edit_err_name"></p>
             </div>
 
-            <div class="col-lg-12 my-1">
-              <label> Registration / Seat  No</label>
-              <input name="registration" type="text" id="edit_registration" class="form-control" value="" required />
-              <p class="text-danger edit_err_registration"></p>
-            </div>
+          
 
             <div class="col-lg-12 my-1">
               <label> Mobile No</label>
@@ -397,6 +397,25 @@
             <div class="col-lg-12 my-1">
               <input name="hostel_fee" type="hidden" id="edit_hostel_fee" class="form-control" value="" required />
               <p class="text-danger edit_err_hostel_fee"></p>
+            </div>
+
+            <div class="col-lg-12 my-1">
+              <label> Registration / Seat  No</label>
+              <input name="registration" type="text" id="edit_registration" class="form-control" value="" required />
+              <p class="text-danger edit_err_registration"></p>
+            </div>
+
+
+            <div class="col-lg-12 my-1">
+               <label> Session</label>
+               <input name="session" type="number" id="edit_session" class="form-control" value="" required />
+               <p class="text-danger edit_err_session"></p>
+            </div>
+
+            <div class="col-lg-12 my-1">
+                <label> Security Money</label>
+                <input name="security_money" type="number" id="edit_security_money" class="form-control" value="" required />
+               <p class="text-danger edit_err_session"></p>
             </div>
 
 

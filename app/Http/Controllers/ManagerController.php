@@ -890,6 +890,8 @@ class ManagerController extends Controller
                 $model->phone = $request->input('phone');
                 $model->name = $request->input('name');
                 $model->email = $request->input('email');
+                $model->session = $request->input('session');
+                $model->security_money = $request->input('security_money');
                 $model->registration = $request->input('registration');
                 $model->hostel_fee = $request->input('hostel_fee');
                 $model->update();

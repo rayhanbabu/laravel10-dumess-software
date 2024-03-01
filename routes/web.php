@@ -112,12 +112,12 @@ use App\Http\Controllers\BookingController;
          Route::post('manager/password',[ManagerController::class,'passwordupdate']);
 
 
-         //Sction Info
+        //Sction Info
         Route::get('/manager/sectioninfo', [InvoiceController::class,'section_view']);
         Route::get('/manager/section_fetch', [InvoiceController::class,'section_fetch']);
         Route::get('/manager/section/fetch_data', [InvoiceController::class,'section_fetch_data']);
+        
         //Route::post('/manager/invoice_create', [InvoiceController::class,'invoice_create']);
-       
         Route::get('/manager/section_view/{id}', [InvoiceController::class,'section_view_id']);
         Route::get('/manager/section_update', [InvoiceController::class,'section_update']);
 
@@ -161,7 +161,7 @@ use App\Http\Controllers\BookingController;
           Route::post('/manager/daywise_mealupdate',[ManagerController::class,'daywise_mealupdate']);
           Route::post('/manager/invoice_all_delete',[ManagerController::class,'invoice_all_delete']);
 
-          // Presvous Section  Due , Refund, Reserve Update
+          //Presvous Section  Due , Refund, Reserve Update
           Route::post('/manager/section_update_id', [InvoiceController::class,'section_update_id']);
           
           //member and invoice delete

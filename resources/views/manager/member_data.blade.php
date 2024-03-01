@@ -11,6 +11,8 @@
   <td>{{ $row->name}}</td>
   <td>{{ $row->registration}}</td>
   <td>{{ $row->phone}}</td>
+  <td>{{ $row->session}}</td>
+  <td>{{ $row->security_money}}</td>
   <td> <button type="button" value="{{ $row->id}}" class="edit btn btn-info btn-sm">Edit </button> </td>
   <td> <button type="button" value="{{ $row->id}}" class="view_all btn btn-primary btn-sm">View</button> </td>
 
