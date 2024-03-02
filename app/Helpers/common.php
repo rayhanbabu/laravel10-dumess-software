@@ -213,7 +213,8 @@
 
 
 
-          function member_meal_update($data){
+   function member_meal_update($data){
+    
             $lunch_off=0;
             $dinner_off=0;
             $breakfast_off=0;

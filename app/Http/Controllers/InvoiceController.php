@@ -592,8 +592,9 @@ class InvoiceController extends Controller
           
           $invoice->pre_meeting_present =$request->input('pre_meeting_present');
           $invoice->meeting_present =$request->input('meeting_present');
-
           $invoice->update();
+
+          member_meal_update($invoice);
     
           return response()->json([
             'status' => 404,

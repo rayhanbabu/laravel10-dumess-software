@@ -346,14 +346,12 @@
       $('#hidden_sort_type').val(reverse_order);
       var page = $('#hidden_page').val();
       var search = $('#search').val();
-      fetch_data(page, reverse_order, column_name, search);
+      fetch_data(page,reverse_order,column_name,search);
     });
 
 
 
-
-
-
+ 
 
   });
 </script>
