@@ -617,7 +617,7 @@ class MemberController extends Controller
            $data = Invoice::where('member_id',$member_id)->where('hall_id',$hall_id)->where('invoice_year', $hallinfo->cur_year)
            ->where('invoice_month',$hallinfo->cur_month)->where('invoice_section',$hallinfo->cur_section)->first();
 
-
+          
 
               $next=$hallinfo->add_minute;
               $cur_time=strtotime(date('Y-m-d H:i:s',strtotime("+".$next." minute")));

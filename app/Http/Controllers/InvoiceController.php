@@ -207,18 +207,16 @@ class InvoiceController extends Controller
                 $invoiceupdate->breakfast_offmeal = $breakfast_off;
                 $invoiceupdate->breakfast_onmeal = $breakfast_on;
                 $invoiceupdate->breakfast_inmeal = $data->section_day-($breakfast_off+$breakfast_on);
-               if($invoiceupdate->payment_status1==1 || $invoiceupdate->payment_status2==1 || $invoiceupdate->onmeal_amount>1){
+            if($invoiceupdate->payment_status1==1 || $invoiceupdate->payment_status2==1 || $invoiceupdate->onmeal_amount>1){
 
-                 }else{ 
-
+             }else{ 
                 if($inactive_day<=31){
-
                       for($y=$inactive_day;$y>=1; $y--){ 
                            $day = "b" . $y;
                        if($invoiceupdate->breakfast_rate>0){
                              $invoiceupdate->$day = 9;
                            }else{
-                            $invoiceupdate->$day = 0;
+                             $invoiceupdate->$day = 0;
                            }
                         }
 
@@ -239,7 +237,6 @@ class InvoiceController extends Controller
                              $invoiceupdate->$day = 0;
                           }
                      }
-
                   }
                 }
                

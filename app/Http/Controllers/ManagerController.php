@@ -840,7 +840,7 @@ class ManagerController extends Controller
     public function member_fetch(Request $request,$member_status)
     {
        $hall_id = $request->header('hall_id');
-       $data = Member::where('hall_id', $hall_id)->where('member_status',$member_status)->orderBy('admin_verify', 'desc')->paginate(10);
+       $data = Member::where('hall_id', $hall_id)->where('member_status',$member_status)->orderBy('admin_verify', 'asc')->paginate(10);
        return view('manager.member_data',['data'=>$data,'member_status'=>$member_status]);
     }
 
@@ -932,7 +932,7 @@ class ManagerController extends Controller
 
 
 
-    public function memberstatus(Request $request ,$operator,$status,$id){
+    public function memberstatus(Request $request,$operator,$status,$id){
          //try{ 
          $hall_id = $request->header('hall_id');
          $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->first();
@@ -951,34 +951,30 @@ class ManagerController extends Controller
                  }else{
                       $type=1;
                  }
-              DB::update( "update members set status ='$type' where id = '$id'" );  
+              DB::update("update members set status ='$type' where id = '$id'" );  
                return back()->with('success','Status update Successfull');  
 
        }else if($operator=='member_status'){ 
-              if($status=='deactive'){
-                    $type=5;
-               }else{
-                    $type=5;
-               }
+              if($status=='deactive'){ $type=5; }else{ $type=5; }
               $member=Member::find($id);
               $invoice=Invoice::where('member_id',$id)->where('invoice_month',$hallinfo->cur_month)->where('invoice_year',$hallinfo->cur_year)
                  ->where('invoice_section',$hallinfo->cur_section)->where('hall_id',$hall_id)->first();
               if($member->admin_verify==1){
                  $payment=$invoice->payment_status1+$invoice->payment_status2;
-                 if($invoice->onmeal_amount>0 OR $payment>0){
-                      return back()->with('fail','Member Already Paid OR Meal ON');  
-                }else{
-                      DB::update( "update members set member_status ='$type' , admin_verify ='$type' where id = '$id'" );
-                      $withdraw=$invoice->pre_monthdue-($invoice->pre_reserve_amount+$invoice->pre_refund+$member->security_money);
-                      DB::update( "update invoices set invoice_status ='$type', withdraw='$withdraw', security='$member->security_money' where id = '$invoice->id'" );
-                      return back()->with('success','Member Status update Successfull');  
-                }   
+                    if($invoice->onmeal_amount>0 OR $payment>0){
+                         return back()->with('fail','Member Already Paid OR Meal ON');  
+                    }else{
+                        DB::update( "update members set member_status ='$type' , admin_verify ='$type' where id = '$id'" );
+                        $withdraw=$invoice->pre_monthdue-($invoice->pre_reserve_amount+$invoice->pre_refund+$member->security_money);
+                        DB::update( "update invoices set invoice_status ='$type', withdraw='$withdraw', security='$member->security_money' where id = '$invoice->id'" );
+                        return back()->with('success','Member Status update Successfull');  
+                    } 
+                
+                
+              }else {
+                   DB::update( "update members set member_status ='$type' where id = '$id'" );
+                   return back()->with('success','Member Status update Successfull');  
               }
-              
-            //   else {
-            //        DB::update( "update members set member_status ='$type' where id = '$id'" );
-            //        return back()->with('success','Member Status update Successfull');  
-            //   }
         
       }else if($operator=='verify'){
  
@@ -1089,7 +1085,9 @@ class ManagerController extends Controller
         }
      }
           //} catch (Exception $e) {  return  view('errors.error', ['error' => $e]);  }
-      }
+    
+    
+        }
 
 
       public function member_delete(Request $request , $id){
