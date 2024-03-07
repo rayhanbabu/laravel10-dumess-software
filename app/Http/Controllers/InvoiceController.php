@@ -771,6 +771,7 @@ class InvoiceController extends Controller
                 where id ='$id'");
 
               $member=Member::where('id',$invoice->member_id)->first();
+              member_meal_update(Invoice::find($id));
 
               $subject="Payment 1 Invoice Summary: ".$invoice->invoice_year.'-'.$invoice->invoice_month.'-'.$invoice->invoice_section;
               $details = [
@@ -858,17 +859,17 @@ class InvoiceController extends Controller
                 }
                
                if($hallinfo->lunch_status==1){
-                 for ($x = $fromday; $x <= $today; $x++) {
-                    $day = "l" . $x;
-                    $invoice->$day = $mealstatus;
-                  }
+                  for ($x = $fromday; $x <= $today; $x++) {
+                     $day = "l" . $x;
+                     $invoice->$day = $mealstatus;
+                   }
                }
 
                if($hallinfo->dinner_status==1){
-                for ($x = $fromday; $x <= $today; $x++) {
-                    $day = "d" . $x;
-                    $invoice->$day = $mealstatus;
-                 }
+                  for ($x = $fromday; $x <= $today; $x++) {
+                     $day = "d" . $x;
+                     $invoice->$day = $mealstatus;
+                  }
                }
              
              $invoice->save();
@@ -904,7 +905,7 @@ class InvoiceController extends Controller
                     'name' => 'ANCOVA',
                   ];
                  Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
-           
+                 member_meal_update(Invoice::find($id));
             $mess = " Invoice No : " . $id ." Card No: " . $member->card . ".  Second Payable Amount  " . $data->payble_amount2 . "TK " . $payment_status;
              return response()->json([
                 'status' => 200,
