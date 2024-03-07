@@ -254,6 +254,7 @@
             $('.edit_err_phone').text(response.message.phone);
             $('.edit_err_email').text(response.message.email);
             $('.edit_err_hostel_fee').text(response.message.hostel_fee);
+            $('.edit_err_card').text(response.message.card);
           }
 
           $('.loader').hide();
@@ -401,6 +402,12 @@
               <label> Registration / Seat  No</label>
               <input name="registration" type="text" id="edit_registration" class="form-control" value="" required />
               <p class="text-danger edit_err_registration"></p>
+            </div>
+
+            <div class="col-lg-12 my-1">
+              <label> Card No</label>
+              <input name="card" type="text" id="edit_card" class="form-control" value="" required />
+              <p class="text-danger edit_err_card"></p>
             </div>
 
 

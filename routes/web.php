@@ -248,19 +248,20 @@ use App\Http\Controllers\BookingController;
 
           Route::get('/manager/report', [HallinfoController::class, 'report']);
           Route::post('/pdf/memberlist_with_section', [HallinfoController::class, 'memberlist_with_section']);
-          Route::post('/pdf/bazarday', [HallinfoController::class, 'bazarday']);
-          Route::post('/pdf/bazarmonth', [HallinfoController::class, 'bazarmonth']);
-          Route::post('/pdf/product_wise', [HallinfoController::class, 'product_wise']);
-          Route::post('/pdf/daily_sheet', [HallinfoController::class, 'daily_sheet']);
-          Route::post('/pdf/meal_chart', [HallinfoController::class, 'meal_chart']);
-          Route::post('/pdf/daily_payment', [HallinfoController::class, 'daily_payment']);
-          Route::post('/pdf/active_member', [HallinfoController::class, 'active_member']);
-          Route::post('/pdf/monthly_payment', [HallinfoController::class, 'monthly_payment']);
-          Route::post('/pdf/section_invoice', [HallinfoController::class, 'section_invoice']);
-          Route::post('/pdf/overall_summary', [HallinfoController::class, 'overall_summary']);
-          Route::post('/pdf/booking_payment', [HallinfoController::class, 'booking_payment']);
-          Route::post('/pdf/refund_summary', [HallinfoController::class, 'refund_summary']);
-
+          Route::post('/pdf/bazarday', [HallinfoController::class,'bazarday']);
+          Route::post('/pdf/bazarmonth', [HallinfoController::class,'bazarmonth']);
+          Route::post('/pdf/product_wise', [HallinfoController::class,'product_wise']);
+          Route::post('/pdf/daily_sheet', [HallinfoController::class,'daily_sheet']);
+          Route::post('/pdf/meal_chart', [HallinfoController::class,'meal_chart']);
+          Route::post('/pdf/daily_payment', [HallinfoController::class,'daily_payment']);
+          Route::post('/pdf/active_member', [HallinfoController::class,'active_member']);
+          Route::post('/pdf/monthly_payment', [HallinfoController::class,'monthly_payment']);
+          Route::post('/pdf/section_invoice', [HallinfoController::class,'section_invoice']);
+          Route::post('/pdf/overall_summary', [HallinfoController::class,'overall_summary']);
+          Route::post('/pdf/booking_payment', [HallinfoController::class,'booking_payment']);
+          Route::post('/pdf/refund_summary', [HallinfoController::class,'refund_summary']);
+          Route::post('/pdf/monthly_payment_invoice', [HallinfoController::class,'monthly_payment_invoice']);
+          Route::post('/pdf/due_invoice', [HallinfoController::class,'due_invoice']);
 
 
 

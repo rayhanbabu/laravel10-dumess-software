@@ -783,7 +783,7 @@ class InvoiceController extends Controller
                   'name' => 'ANCOVA',
                 ];
                Mail::to($member->email)->send(new \App\Mail\paymentMail($details));   
-           $mess = " Invoice No: " . $id . ".  First Payable Amount  " . $data->payble_amount1 . "TK " . $payment_status;
+           $mess = "Invoice No: " . $id . "Card No: " . $member->card . ".  First Payable Amount  " . $data->payble_amount1 . "TK " . $payment_status;
              return response()->json([
                'status' => 200,
                'message' => $mess,
@@ -905,7 +905,7 @@ class InvoiceController extends Controller
                   ];
                  Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
            
-            $mess = " Invoice No : " . $id . ".  Second Payable Amount  " . $data->payble_amount2 . "TK " . $payment_status;
+            $mess = " Invoice No : " . $id ." Card No: " . $member->card . ".  Second Payable Amount  " . $data->payble_amount2 . "TK " . $payment_status;
              return response()->json([
                 'status' => 200,
                 'message' => $mess,

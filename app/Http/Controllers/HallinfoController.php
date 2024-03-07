@@ -361,7 +361,7 @@ class HallinfoController extends Controller
 
 
 
-       public function daily_sheet(Request $request)
+   public function daily_sheet(Request $request)
        {
             $hall_id = $request->header('hall_id');
             $data = Hallinfo::where('hall_id_info', $hall_id)->select('meal_start_date','pdf_order')->first();
@@ -377,16 +377,25 @@ class HallinfoController extends Controller
            }else{
                $type_status="OFF";
            }
-  
-       $daymeal = (getDaysBetween2Dates(new DateTime($_POST['milloff_date']), new DateTime($data->meal_start_date), false) + 1);
-  
+
+     $daymeal = (getDaysBetween2Dates(new DateTime($_POST['milloff_date']), new DateTime($data->meal_start_date), false) + 1);
         if($daymeal>=1){
           $meal = $type . $daymeal;
-          $meal = Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
-             ->where($meal, $status)->where('invoice_month', $month)->where('invoices.hall_id', $hall_id)
-             ->where('invoice_year', $year)->where('invoice_section', $section)
-             ->select('invoices.id','name','registration','card')
-             ->orderBy($data->pdf_order,'asc')->get();
+          if($status==1){
+               $meal=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
+                 ->where($meal,$status)->where('invoice_month',$month)->where('invoices.hall_id',$hall_id)
+                 ->where('invoice_year', $year)->where('invoice_section', $section)
+                 ->select('invoices.id','name','registration','card')
+                 ->orderBy($data->pdf_order,'asc')->get();
+          }else{
+               $meal=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
+                 ->where($meal,$status)->where('invoice_month',$month)->where('invoices.hall_id',$hall_id)
+                 ->where('invoice_year',$year)->where('invoice_section',$section)
+                 ->where('onmeal_amount','>',0)
+                 ->select('invoices.id','name','registration','card')
+                 ->orderBy($data->pdf_order,'asc')->get();
+          }
+        
 
               $sum=$meal->count('id');
               $file='Meal Sheet-'.$month1.'.pdf';
@@ -398,20 +407,20 @@ class HallinfoController extends Controller
           }else{
                return back()->with('fail', 'Data not found  ');
            }
-     
         }
 
-        public function meal_chart(Request $request){
-
+    public function meal_chart(Request $request){
           $hall_id = $request->header('hall_id');
           $month=date('n',strtotime($_POST['month']));
           $year=date('Y',strtotime($_POST['month']));
           $section=$_POST['section'];
+
+          $data = Hallinfo::where('hall_id_info', $hall_id)->select('meal_start_date','pdf_order')->first();
       
           $month1=date('F-Y',strtotime($_POST['month']));
           $file='Mealchart_'.$month1.'.pdf';	
 
-          $meal=Invoice::where('invoice_month',$month)->where('invoice_year',$year)->where('hall_id',$hall_id)
+          $meal=Invoice::where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
           ->where('invoice_section',$section)->first();
 
        if($meal){
@@ -423,8 +432,10 @@ class HallinfoController extends Controller
            $refund_meal=00;
            $ddue_meal=00;
       
-          $invoice=Invoice::where('invoice_month',$month)->where('invoice_year',$year)->where('hall_id',$hall_id)
-            ->where('invoice_section',$section)->get();
+          $invoice=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
+            ->where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
+            ->where('invoice_section',$section)->select('invoices.*','name','registration','card')
+            ->orderBy($data->pdf_order,'asc')->get();
        
            return view('pdf.mealchart',['invoice'=>$invoice,'month1'=>$month1 ,'file'=>$file,
              't_invoice'=>$t_invoice,'t_meal'=>$t_meal ,'refund_meal'=>$refund_meal 
@@ -475,11 +486,9 @@ class HallinfoController extends Controller
            ->select('invoices.id','name','registration','card','payble_amount1','phone',
            'payble_amount2','payment_time1','payment_time2','payment_type1','payment_type2')->get();
         }
-        
-      
+           
        return view('pdf.daily_payment',['type'=>$type,'date1'=>$date1 ,"payment1"=>$payment1, "payment2"=>$payment2]);
-
-      
+  
    }
  
 
@@ -562,6 +571,62 @@ class HallinfoController extends Controller
      }
 
 
+
+
+     public function monthly_payment_invoice(Request $request){
+
+               $hall_id = $request->header('hall_id');
+               $month = date('n',strtotime($_POST['month']));
+               $year = date('Y',strtotime($_POST['month']));
+               $section = $_POST['section'];
+               $month1 = date('F-Y',strtotime($_POST['month']));
+               $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
+          
+            $payment1=array();
+            $payment2=array();
+            $status=1;
+        
+     $payment1=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
+       ->where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
+       ->where('invoice_section',$section)->where('payment_status1',$status)->select('invoices.*','name','registration','card','phone')
+       ->orderBy($hallinfo->pdf_order,'asc')->get();
+
+     $payment2=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
+       ->where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
+       ->where('invoice_section',$section)->where('payment_status2',$status)->select('invoices.*','name','registration','card','phone')
+       ->orderBy($hallinfo->pdf_order,'asc')->get();
+     
+      
+      return view('pdf.daily_payment_invoice',["section"=>$section,"month1"=>$month1,"payment1"=>$payment1, "payment2"=>$payment2]);
+  
+     }
+
+
+     public function due_invoice(Request $request){
+
+          $hall_id = $request->header('hall_id');
+          $month = date('n',strtotime($_POST['month']));
+          $year = date('Y',strtotime($_POST['month']));
+          $section = $_POST['section'];
+          $month1 = date('F-Y',strtotime($_POST['month']));
+          $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
+     
+       $payment1=array();
+       $status=0;
+   
+       $payment=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
+        ->where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
+        ->where('invoice_section',$section)->where('payment_status1',$status)
+        ->where('payment_status2',$status)->where('onmeal_amount','>',0)->select('invoices.*','name','registration','card','phone')
+        ->orderBy($hallinfo->pdf_order,'asc')->get();
+
+       return view('pdf.due_invoice',["section"=>$section,"month1"=>$month1,"payment"=>$payment,]);
+
+}
+
+
+
+ 
 
 
        

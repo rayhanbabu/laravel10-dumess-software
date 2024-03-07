@@ -49,8 +49,8 @@ function Footer()
 	 
 	    $pdf->SetFont('Times','I',12);	
 		$pdf->Cell(15,7,'Invoice',1,0,'C');
-		$pdf->Cell(10,7,'Card',1,0,'L');
-        $pdf->Cell(17,7,'Reg/Seat',1,0,'L');
+		$pdf->Cell(10,7,'',1,0,'L');
+        $pdf->Cell(17,7,'Card',1,0,'L');
 		$meal_start= date('d',strtotime($meal_start_date));
 	for($x=$meal_start; $x<$meal_start+$cur_day; $x++){
 		$pdf->Cell(7,7,$x,1,0 ,'L');
@@ -67,8 +67,8 @@ function Footer()
 	  $pdf->SetFont('Times','I',10);
 	  foreach($invoice as $row){
 	     $pdf->Cell(15,6,$row['id'],1,0, 'C' );
-		 $pdf->Cell(10,6,$row['card'],1,0 , 'L' );
-         $pdf->Cell(17,6,$row['registration'],1,0 , 'L' );
+		 $pdf->Cell(10,6,'',1,0 , 'L' );
+         $pdf->Cell(17,6,$row['card'],1,0 , 'L' );
 		 $pdf->Cell(7,6,empty($row['date1'])?"":$row['b1'].$row['l1'].$row['d1'],1,0 , 'L' );
 		 $pdf->Cell(7,6,empty($row['date2'])?"":$row['b2'].$row['l2'].$row['d2'],1,0 , 'L' );
 		 $pdf->Cell(7,6,empty($row['date3'])?"":$row['b3'].$row['l3'].$row['d3'],1,0 , 'L' );

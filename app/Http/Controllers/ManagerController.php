@@ -24,8 +24,6 @@ class ManagerController extends Controller
     public function login(Request $request)
     {
         try {
-
-
             return view('manager.login');
         } catch (Exception $e) {
             return  view('errors.error', ['error' => $e]);
@@ -593,7 +591,6 @@ class ManagerController extends Controller
 
 
 
-
     public function manager_access()
     {
         return view('manager.manager_access');
@@ -870,6 +867,7 @@ class ManagerController extends Controller
                 'phone' => 'required|unique:members,phone,' . $request->input('edit_id'),
                 'email' => 'required|unique:members,email,' . $request->input('edit_id'),
                 'registration' => 'required|unique:members,registration,' . $request->input('edit_id') . 'NULL,id,hall_id,' . $hall_id,
+                'card' => 'required|unique:members,card,' . $request->input('edit_id') . 'NULL,id,hall_id,' . $hall_id,
                 'hostel_fee' => 'required|numeric',
             ],
             [
@@ -889,6 +887,7 @@ class ManagerController extends Controller
             if ($model) {
                 $model->phone = $request->input('phone');
                 $model->name = $request->input('name');
+                $model->card = $request->input('card');
                 $model->email = $request->input('email');
                 $model->session = $request->input('session');
                 $model->security_money = $request->input('security_money');
