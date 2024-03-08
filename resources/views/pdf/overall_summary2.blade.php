@@ -61,7 +61,7 @@
 
     <center>
         <h4> {{ manager_info()['hall_name'] }} <br>
-          Section Invoice List<br>
+              Overall Summary<br>
           @if($section) {{$month1}} -{{$section}} @else @endif</h4>
       </center>
 

@@ -372,11 +372,8 @@ class HallinfoController extends Controller
             $section=$_POST['section'];
             $type=$_POST['type'];
 
-            if($status==1){
-               $type_status="ON";
-           }else{
-               $type_status="OFF";
-           }
+           if($status==1){ $type_status="ON";
+           }else{ $type_status="OFF"; }
 
      $daymeal = (getDaysBetween2Dates(new DateTime($_POST['milloff_date']), new DateTime($data->meal_start_date), false) + 1);
         if($daymeal>=1){
@@ -391,7 +388,7 @@ class HallinfoController extends Controller
                $meal=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
                  ->where($meal,$status)->where('invoice_month',$month)->where('invoices.hall_id',$hall_id)
                  ->where('invoice_year',$year)->where('invoice_section',$section)
-                 ->where('onmeal_amount','>',0)
+                 ->where('onmeal_amount','>=',1)
                  ->select('invoices.id','name','registration','card')
                  ->orderBy($data->pdf_order,'asc')->get();
           }
@@ -434,7 +431,7 @@ class HallinfoController extends Controller
       
           $invoice=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
             ->where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
-            ->where('invoice_section',$section)->select('invoices.*','name','registration','card')
+            ->where('invoice_section',$section)->where('onmeal_amount','>=',1)->select('invoices.*','name','registration','card')
             ->orderBy($data->pdf_order,'asc')->get();
        
            return view('pdf.mealchart',['invoice'=>$invoice,'month1'=>$month1 ,'file'=>$file,

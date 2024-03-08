@@ -75,7 +75,7 @@
         <div class="area">
         <center>
           <h4> {{ manager_info()['hall_name'] }} <br>
-             Payment Summary: {{$month1}}, Section : {{ $section }} </h4>
+             Payment Invoice Summary: {{$month1}}, Section : {{ $section }} </h4>
         </center>
              
         <h5>First paymnet and Second paymnet: {{$payment2->sum('payble_amount2')+$payment1->sum('payble_amount1')}}TK

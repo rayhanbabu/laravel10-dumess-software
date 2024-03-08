@@ -2,7 +2,13 @@
 @section('page_title','Maintain Panel')
 @section('report','active')
 @section('content')
-
+<div class="grey-bg container-fluid">
+  <section id="minimal-statistics">
+    <div class="row">
+      <div class="col-12 mt-3 mb-1">
+         <h4 class="text-uppercase">Current Section : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}}</h4>
+      </div>
+    </div>
 
 <div class="row my-3">
 

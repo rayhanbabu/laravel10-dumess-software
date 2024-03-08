@@ -613,7 +613,8 @@ class MemberController extends Controller
            $hall_id = $request->header('hall_id');
            $email = $request->header('email');
            $name = $request->header('name');
-           $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','add_minute','mealon_without_payment')->first();
+           $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','add_minute'
+           ,'mealon_without_payment','max_meal_off','last_meal_off','section_day')->first();
            $data = Invoice::where('member_id',$member_id)->where('hall_id',$hall_id)->where('invoice_year', $hallinfo->cur_year)
            ->where('invoice_month',$hallinfo->cur_month)->where('invoice_section',$hallinfo->cur_section)->first();
 
@@ -632,8 +633,24 @@ class MemberController extends Controller
                     $status=1;
                     $body="Your Meal Will ON on ". date('d-F-Y',strtotime($data->$date));
                 }
-            
-          if($meal_status==9){
+
+             $sum1=0;
+             $max_meal=$hallinfo->max_meal_off;
+             $section_day=$hallinfo->section_day;
+             for($x=1; $x<=$section_day; $x++){
+                 $sum = Invoice::where('member_id',$member_id)->where('hall_id',$hall_id)->where('invoice_year',$hallinfo->cur_year)
+                ->where('invoice_month',$hallinfo->cur_month)->where('invoice_section',$hallinfo->cur_section)->sum('l'.$x);
+                   if($sum==9){
+                       $sum2=1;
+                   }else{
+                       $sum2=$sum;
+                    }
+                    $sum1+=$sum2;
+                }
+            $meal_total_on= $sum1;  
+
+    
+           if($meal_status==9){
                 return response()->json([
                    'status' => 400,
                    'message' => "This Meal Inactive",
@@ -649,7 +666,7 @@ class MemberController extends Controller
                   if($diff>0 && $payment==0){    
                       return response()->json([
                          'status' => 400,
-                         'message' => "Please pay the security deposit you have consumed"
+                         'message' => " Please pay the security deposit you have consumed"
                       ]);
                   }else{
                         DB::update("update invoices set  $meal_name = $status where id=$data->id");
@@ -657,12 +674,19 @@ class MemberController extends Controller
                         SendEmail($email, $body, $name, $body, "ANCOVA");
                         return response()->json([
                            'status' => 200,
-                           'message' => "Meal Status updated"
+                           'message' => " Meal Status updated"
                         ]);
                     }
-             }else{
+           }else if($hallinfo->mealon_without_payment<=0 && ($section_day-($meal_total_on-$meal_status))>$max_meal){
+               return response()->json([
+                      'status'=>200,  
+                      'alert'=>'danger',   
+                      'message'=>'Can Not Meal Off more than '.$max_meal.' meals',
+                ]);
+
+           } else{
                 if($data->payment_status2==1){  //2nd Payment Status
-                          
+                 
                     DB::update("update invoices set  $meal_name = $status  where  id= $data->id");
                        member_meal_update($data);
                        SendEmail($email, $body, $name, $body, "ANCOVA");

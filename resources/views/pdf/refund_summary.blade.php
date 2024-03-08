@@ -76,8 +76,8 @@
       <div class="area">
         <center>
                  <h4> {{ manager_info()['hall_name'] }} <br>
-                        Section Invoice List<br>
-                        @if($section) {{$month1}} -{{$section}} @else  @endif</h4>
+                          Refund Summary <br>
+                          @if($section) {{$month1}} -{{$section}} @else  @endif</h4>
         </center>
 
         <table>
@@ -114,8 +114,9 @@
 
             <tr>
               <td></td>
-              <td colspan="2"> Total Invoice </td>
-              <td colspan="2" align="left">{{$invoice->count()}}</td>
+              <td colspan="2"> Total Invoice : {{$invoice->count()}}</td>
+              <td colspan="3" align="left">Total Refund :
+                 {{($invoice->sum('total_refund')+$invoice->sum('reserve_amount'))-$invoice->sum('total_due')}} </td>
             </tr>
         
         </table>

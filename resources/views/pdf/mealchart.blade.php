@@ -9,12 +9,12 @@ function Header()
 }	
 function Footer()
   {
-       // Position at 1.5 cm from bottom
-     $this->SetY(-15);
-       // Arial italic 8
+      // Position at 1.5 cm from bottom
+      $this->SetY(-15);
+      // Arial italic 8
       $this->SetFont('Arial','I',12);
-       // Page number
-     $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}'.',  Date: '.date('d-M-Y, h:i:sA'),0,0,'C');
+      // Page number
+      $this->Cell(0,10,'Page '.$this->PageNo().'/{nb}'.',  Date: '.date('d-M-Y, h:i:sA'),0,0,'C');
   }		
 }					  	
 	
@@ -102,8 +102,6 @@ function Footer()
 		 $pdf->Cell(7,6,empty($row['date31'])?"":$row['b31'].$row['l31'].$row['d31'],1,0 , 'L' );
 		 $pdf->Cell(10,6,$row['breakfast_onmeal'].','.$row['lunch_onmeal'].','.$row['dinner_onmeal'],1,0,'L' );
 		 $pdf->Cell(10,6,$row['breakfast_offmeal'].','.$row['lunch_offmeal'].','.$row['dinner_offmeal'],1,1,'L' );
-		
-		
 		//date  input 
 	
    	  }
