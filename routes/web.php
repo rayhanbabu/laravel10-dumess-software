@@ -127,6 +127,10 @@ use App\Http\Controllers\BookingController;
          Route::get('/manager/member_view/{id}', [ManagerController::class, 'member_view']);
          Route::get('/manager/member/{member_status}/fetch_data', [ManagerController::class, 'member_fetch_data']);
        
+         //Meeting Fee
+         Route::get('/manager/meeting', [ManagerController::class, 'meeting']);
+         Route::get('/manager/meeting/{session}', [ManagerController::class, 'meeting_view']);
+         Route::post('/manager/meeting-update', [ManagerController::class, 'meeting_update']);
 
          //Payment 
          Route::get('/manager/payment/{invoice_status}', [InvoiceController::class, 'payment_view']);

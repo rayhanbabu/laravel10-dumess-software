@@ -1219,6 +1219,62 @@ class ManagerController extends Controller
            }      
      }
 
+
+     public function meeting(Request $request)
+     {
+        $hall_id = $request->header('hall_id');
+        $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
+          if(isset($_GET['session'])) {
+               $session=$_GET['session'];       
+    
+           $invoice=Member::join('invoices','invoices.member_id','=','members.id')->where('session',$session)->where('invoices.hall_id',$hall_id)
+           ->where('invoice_month',$hallinfo->cur_month)->where('invoice_year',$hallinfo->cur_year)->where('invoice_section',$hallinfo->cur_section)->orderBy('card', 'ASC')->get();  
+
+        
+        }else{
+              $session='';
+             
+           }
+
+         
+        return view('manager.meeting',['hallinfo' =>$hallinfo,'session'=>$session]);
+     } 
+
+     public function meeting_view(Request $request,$session)
+     {
+        $hall_id = $request->header('hall_id');
+        $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
+             $session=$session;
+             $invoice=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
+             ->where('invoice_month',$hallinfo->cur_month)->where('invoice_year',$hallinfo->cur_year)->where('invoices.hall_id',$hall_id)
+             ->where('invoice_section',$hallinfo->cur_section)->where('members.session',$session)->select('invoices.*','name','registration','card','session')
+             ->orderBy($hallinfo->pdf_order,'asc')->get();
+          
+           return response()->json([
+             'status'=>100,  
+             'data'=>$invoice,
+            
+        ]);  
+     } 
+
+     public function meeting_update(Request $request){
+      
+        foreach($request->id as  $key=>$items){ 
+    
+                  $meeting_present=$request->meeting_present[$key];
+                  $id=$request->id[$key];
+              
+              DB::update("update invoices set meeting_present='$meeting_present'          
+                  where id = '$id'");
+              }
+    
+           return response()->json([
+                'status'=>100, 
+                'message'=>'Data Updated',  
+          ]);
+       }
+    
+
 }
        
         

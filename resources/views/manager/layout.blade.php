@@ -194,6 +194,11 @@
             Reports   
       </a>
   
+      <a class="nav-link @yield('meeting')" href="{{url('manager/meeting')}}">
+        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+          Meeting Fee   
+    </a>
+
 
     <a class="nav-link @yield('feedback')" href="{{url('manager/feedback')}}">
         <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
