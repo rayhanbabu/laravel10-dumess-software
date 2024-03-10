@@ -5,8 +5,7 @@
 
       <div class="row mt-3 mb-0 mx-2">
                 <div class="col-sm-3 my-2"> <h5 class="mt-0">Section  Information : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}} </h5></div>                    
-                
-                @if(manager_info()['role']=='admin')
+              @if(manager_info()['role']=='admin')
                  <div class="col-sm-3 my-2">
                     <div class="d-grid gap-2 d-flex justify-content-start"> 
                         <h4>  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addEmployeeModalday">Invoice Delete</button> </h4>
@@ -28,13 +27,13 @@
                 </div>
              
 
-                @if(Session::has('success'))
-                  <div  class="alert alert-success"> {{Session::get('success')}}</div>
-                   @endif
+               @if(Session::has('success'))
+                     <div class="alert alert-success">  {{Session::get('success')}} </div>
+               @endif
  
-                     @if(Session::has('fail'))
-                 <div  class="alert alert-danger"> {{Session::get('fail')}}</div>
-                  @endif
+               @if(Session::has('fail'))
+                    <div class="alert alert-danger"> {{Session::get('fail')}} </div>
+               @endif
     </div> 
     
     
@@ -122,8 +121,6 @@
 
         <th width="10%">Total ON Meal Amount</th>
        
-     
-
       <th width="10%">Refund Breakfast rate</th>
       <th width="10%">Refund Lunch rate</th>
       <th width="10%">Refund Dinner rate</th>
@@ -248,11 +245,11 @@
             $('#success_message').text(response.message);
           } else {
             $('#edit_id').val(response.value.id);
-
             $('#edit_pre_reserve_amount').val(response.value.pre_reserve_amount);
             $('#edit_pre_refund').val(response.value.pre_refund);
             $('#edit_pre_monthdue').val(response.value.pre_monthdue);
             $('#edit_hostel_fee').val(response.value.hostel_fee);
+            $('#edit_security').val(response.value.security);
           }
         }
       });
@@ -418,10 +415,15 @@
               <p class="text-danger edit_err_pre_monthdue"></p>
             </div>
 
+            <div class="col-lg-12 my-2">
+              <label>  Security Money</label>
+              <input name="security" type="number" id="edit_security" class="form-control" value="" required />
+              <p class="text-danger edit_err_security"></p>
+            </div>
+
     
             <div class="col-lg-12 my-2">
-              <label> Hostel Fee</label>
-              <input name="hostel_fee" type="number" id="edit_hostel_fee" class="form-control" value="" required />
+              <input name="hostel_fee" type="hidden" id="edit_hostel_fee" class="form-control" value="" required />
               <p class="text-danger edit_err_hostel_fee"></p>
             </div>
 

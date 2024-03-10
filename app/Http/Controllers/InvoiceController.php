@@ -67,6 +67,7 @@ class InvoiceController extends Controller
                 $model->pre_refund = $request->input('pre_refund');
                 $model->pre_monthdue = $request->input('pre_monthdue');
                 $model->hostel_fee = $request->input('hostel_fee');
+                $model->security = $request->input('security');
                 $model->update();
                 return response()->json([
                     'status' => 200,

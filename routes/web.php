@@ -150,20 +150,20 @@ use App\Http\Controllers\BookingController;
         Route::get('/manager/bazar/fetch_data', [BazarController::class, 'fetch_data']);
 
         Route::middleware('AdminToken')->group(function(){
-          Route::get('/manager/information_update',[ManagerController::class,'information_update']);
-          Route::get('/manager/information_update_view/{id}',[ManagerController::class,'information_update_view']);
-          Route::post('/manager/information_update_submit',[ManagerController::class,'information_update_submit']);
+           Route::get('/manager/information_update',[ManagerController::class,'information_update']);
+           Route::get('/manager/information_update_view/{id}',[ManagerController::class,'information_update_view']);
+           Route::post('/manager/information_update_submit',[ManagerController::class,'information_update_submit']);
 
-          //Manager  add
-          Route::get('manager/manager_access',[ManagerController::class,'manager_access']);
-          Route::post('/manager/store',[ManagerController::class,'store']);
-          Route::get('/manager/fetchAll',[ManagerController::class,'fetchAll']);
-          Route::get('/manager/edit',[ManagerController::class,'edit']);
-          Route::post('/manager/update',[ManagerController::class,'update']);
-          Route::get('/manager/new_invoice_create',[ManagerController::class,'invoice_create']);
-          Route::get('/manager/mealon_update',[ManagerController::class,'mealon_update']);
-          Route::post('/manager/daywise_mealupdate',[ManagerController::class,'daywise_mealupdate']);
-          Route::post('/manager/invoice_all_delete',[ManagerController::class,'invoice_all_delete']);
+           //Manager  add
+           Route::get('manager/manager_access',[ManagerController::class,'manager_access']);
+           Route::post('/manager/store',[ManagerController::class,'store']);
+           Route::get('/manager/fetchAll',[ManagerController::class,'fetchAll']);
+           Route::get('/manager/edit',[ManagerController::class,'edit']);
+           Route::post('/manager/update',[ManagerController::class,'update']);
+           Route::get('/manager/new_invoice_create',[ManagerController::class,'invoice_create']);
+           Route::get('/manager/mealon_update',[ManagerController::class,'mealon_update']);
+           Route::post('/manager/daywise_mealupdate',[ManagerController::class,'daywise_mealupdate']);
+           Route::post('/manager/invoice_all_delete',[ManagerController::class,'invoice_all_delete']);
 
           //Presvous Section  Due , Refund, Reserve Update
           Route::post('/manager/section_update_id', [InvoiceController::class,'section_update_id']);
