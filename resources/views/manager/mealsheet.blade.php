@@ -1570,16 +1570,16 @@
                         <div class="col-sm-3">Pre Meeting Present</div>
                         <div class="col-sm-3">
                             <select class="form-control mb-2" id="pre_meeting_present" name="pre_meeting_present" aria-label="Default select example" required>
-                                <option value="1">Presence</option>
-                                <option value="0">Absence</option>
+                                <option value="0">Presence</option>
+                                <option value="1">Absence</option>
                             </select>
                         </div>
 
                        <div class="col-sm-3">Meeting Present</div>
                        <div class="col-sm-3">
                             <select class="form-control mb-2" id="meeting_present" name="meeting_present" aria-label="Default select example" required>
-                               <option value="1">Presence</option>
-                               <option value="0">Absence</option>   
+                               <option value="0">Presence</option>
+                               <option value="1">Absence</option>   
                             </select>
                        </div>
                    </div>

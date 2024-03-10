@@ -6,12 +6,9 @@
 <h3>  Meeting Info View </h3>
 <form  method="get">
 	  <div class="row">
-    
          <div class="col-sm-4">
                 
          </div>
-		
-
         <div class="col-sm-4">
             <label>Session of Year<label>
             <input name="session" type="text"  class="form-control" autocomplete="off"  value=""  required >

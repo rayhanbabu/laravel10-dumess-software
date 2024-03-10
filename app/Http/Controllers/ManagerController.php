@@ -39,8 +39,6 @@ class ManagerController extends Controller
              ,'friday1t','friday2t','friday3t','friday4t','friday5t','feast'
              ,'breakfast_rate','lunch_rate','dinner_rate')->first();
             
-           
-         
             $payment_date= date('Y-m-d');
             $from_day=getDaysBetween2Dates(new DateTime($payment_date), new DateTime($hallinfo->meal_start_date),false)+1;
             if($from_day<=31){
