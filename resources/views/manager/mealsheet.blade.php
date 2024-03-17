@@ -71,7 +71,7 @@
         </div>
     </div>
 
-    <div class="col-sm-2 my-2">
+    <div class="col-sm-1 my-2">
         <div class="d-grid gap-3 d-flex justify-content-end">
             <select class="form-control" name="section" id="section" aria-label="Default select example" required>
                 @if($data->cur_section=="A")
@@ -96,8 +96,17 @@
         </div>
     </div>
 
+    <div class="col-sm-2 my-2">
+        <div class="d-grid gap-3 d-flex justify-content-end">
+            <select class="form-control" name="page_type" id="page_type" aria-label="Default select example" required>
+                <option value="cardName">Card with Name</option>
+                <option value="card">Only Card </option>
+            </select>
+        </div>
+    </div>
 
-    <div class="col-sm-3 my-2">
+
+    <div class="col-sm-2 my-2">
         <input type="date" name="milloff_date" class="form-control" value="" required>
     </div>
 

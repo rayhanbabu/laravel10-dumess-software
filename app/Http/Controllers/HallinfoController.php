@@ -365,21 +365,27 @@ class HallinfoController extends Controller
        {
             $hall_id = $request->header('hall_id');
             $data = Hallinfo::where('hall_id_info', $hall_id)->select('meal_start_date','pdf_order')->first();
+          
             $status=$_POST['status'];
             $month=date('n',strtotime($_POST['month']));
             $year=date('Y',strtotime($_POST['month']));
             $month1=date('d-M-Y',strtotime($_POST['milloff_date']));
             $section=$_POST['section'];
             $type=$_POST['type'];
+            $page_type=$_POST['page_type'];
 
+           $invoice= Invoice::where('invoice_month',$month)->where('invoices.hall_id',$hall_id)
+                 ->where('invoice_year', $year)->where('invoice_section', $section)->first();
+
+             
            if($status==1){ $type_status="ON";
            }else{ $type_status="OFF"; }
 
-     $daymeal = (getDaysBetween2Dates(new DateTime($_POST['milloff_date']), new DateTime($data->meal_start_date), false) + 1);
+     $daymeal = (getDaysBetween2Dates(new DateTime($_POST['milloff_date']), new DateTime($invoice->meal_start_date), false) + 1);
         if($daymeal>=1){
           $meal = $type . $daymeal;
           if($status==1){
-               $meal=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
+               $meal=Invoice::leftjoin('members','members.id', '=', 'invoices.member_id')
                  ->where($meal,$status)->where('invoice_month',$month)->where('invoices.hall_id',$hall_id)
                  ->where('invoice_year', $year)->where('invoice_section', $section)
                  ->select('invoices.id','name','registration','card')
@@ -397,10 +403,21 @@ class HallinfoController extends Controller
               $sum=$meal->count('id');
               $file='Meal Sheet-'.$month1.'.pdf';
 
-              return view('pdf.mealonfpdf', [
-                  'month1' => $month1, 'meal' => $meal, 'type' => $type_status,'file'=>$file ,
-                  'section' => $section, 'meal_type' => $type, 'sum' => $sum,  
-               ]);
+              if($page_type=="card"){
+                 return view('pdf.mealoncard', [
+                      'month1' => $month1, 'meal' => $meal, 'type' => $type_status,'file'=>$file ,
+                      'section' => $section, 'meal_type' => $type, 'sum' => $sum,  
+                    ]);
+              }else{
+                return view('pdf.mealonfpdf', [
+                    'month1' => $month1, 'meal' => $meal, 'type' => $type_status,'file'=>$file ,
+                    'section' => $section, 'meal_type' => $type, 'sum' => $sum,  
+                 ]);
+              }
+
+             
+
+
           }else{
                return back()->with('fail', 'Data not found  ');
            }

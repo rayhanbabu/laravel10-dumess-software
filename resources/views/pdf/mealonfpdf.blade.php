@@ -86,9 +86,8 @@ function ChapterBody($data)
 $this->SetFont('Times','',11);
  
     $this->Cell(15,6,$row['card'],1,0 , 'L' );
-    $this->Cell(16.5,6,$row['old_card'],1,0 , 'L' );
 	$this->Cell(49.5,6,substr(strtoupper($row['name']),0,18),1,0 , 'L' );
-
+    $this->Cell(16.5,6,'',1,0 , 'L' );
     $this->Cell(16.5,6,'',1,1 , 'L' );
    
    }
