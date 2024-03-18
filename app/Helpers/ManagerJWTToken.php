@@ -7,7 +7,7 @@ use Exception;
 
 class ManagerJWTToken
 {
-    public static function CreateToken($id,$name,$email,$hall_id,$role)
+    public static function CreateToken($id,$name,$email,$hall_id,$role,$role2)
     {
         $key =env('JWT_KEY');
         $payload=[
@@ -18,7 +18,8 @@ class ManagerJWTToken
             'email'=>$email,
             'manager_username'=>$name,
             'hall_id'=>$hall_id,
-            'role'=>$role
+            'role'=>$role,
+            'role2'=>$role2
         ];
         return JWT::encode($payload,$key,'HS256');
     }

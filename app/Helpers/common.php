@@ -60,7 +60,7 @@
 
 
         
-        function manageraccess(){
+        function adminaccess(){
             $token_manager=Cookie::get('token_manager');
             $result=ManagerJWTToken::ReadToken($token_manager);
             if($result=="unauthorized"){
@@ -72,6 +72,20 @@
                 return false;
             }
         }
+
+        function adminauditoraccess(){
+            $token_manager=Cookie::get('token_manager');
+            $result=ManagerJWTToken::ReadToken($token_manager);
+            if($result=="unauthorized"){
+                return redirect('/maintain/login');
+            }
+            else if($result->role=="admin" OR $result->role2=="auditor"){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
 
 
          function manager_access_info(){

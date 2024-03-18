@@ -451,7 +451,7 @@
         }).then((result) => {
           if (result.isConfirmed) {
             $.ajax({
-              url:'/manager/delete',
+              url:'/manager/manager_delete',
               method: 'delete',
               data: {
                 id: id,

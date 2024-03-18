@@ -55,6 +55,7 @@ class Kernel extends HttpKernel
      */
     
     protected $middlewareAliases = [
+        'AdminAuditorToken' => \App\Http\Middleware\AdminAuditorToken::class,
         'BookingMemberToken' => \App\Http\Middleware\BookingMemberToken::class,
         'BookingSeatToken' => \App\Http\Middleware\BookingSeatToken::class,
         'PaymentToken' => \App\Http\Middleware\PaymentToken::class,

@@ -126,18 +126,19 @@
      @endif  
 
 
-      @if(manageraccess())				
+      @if(adminaccess())				
      <a class="nav-link @yield('information_update')" href="{{url('manager/information_update')}}">
          <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
             Section Update
      </a>
+     @endif
 
-      <a class="nav-link @yield('manager_access')" href="{{url('manager/manager_access')}}">
+     @if(adminauditoraccess())
+     <a class="nav-link @yield('manager_access')" href="{{url('manager/manager_access')}}">
          <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
             Manager Access  
       </a>
-     @else
-     @endif
+      @endif
 
  
         <a class="nav-link @yield('section')" href="{{url('manager/sectioninfo')}}">

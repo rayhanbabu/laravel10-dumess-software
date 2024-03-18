@@ -27,6 +27,7 @@ class ManagerToken
               $request->headers->set('role',$result->role);
               $request->headers->set('id',$result->id);
               $request->headers->set('manager_username',$result->manager_username);
+              $request->headers->set('role2',$result->role2);
               return $next($request);
         }
     }

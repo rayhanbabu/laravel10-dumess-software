@@ -154,18 +154,12 @@ use App\Http\Controllers\BookingController;
            Route::get('/manager/information_update_view/{id}',[ManagerController::class,'information_update_view']);
            Route::post('/manager/information_update_submit',[ManagerController::class,'information_update_submit']);
 
-           //Manager  add
-           Route::get('manager/manager_access',[ManagerController::class,'manager_access']);
-           Route::post('/manager/store',[ManagerController::class,'store']);
-           Route::get('/manager/fetchAll',[ManagerController::class,'fetchAll']);
-           Route::get('/manager/edit',[ManagerController::class,'edit']);
-           Route::post('/manager/update',[ManagerController::class,'update']);
+         
            Route::get('/manager/new_invoice_create',[ManagerController::class,'invoice_create']);
            Route::get('/manager/mealon_update',[ManagerController::class,'mealon_update']);
            Route::post('/manager/daywise_mealupdate',[ManagerController::class,'daywise_mealupdate']);
            Route::post('/manager/invoice_all_delete',[ManagerController::class,'invoice_all_delete']);
-         
-
+          
           //Presvous Section  Due , Refund, Reserve Update
           Route::post('/manager/section_update_id', [InvoiceController::class,'section_update_id']);
           
@@ -176,7 +170,17 @@ use App\Http\Controllers\BookingController;
          });
 
 
+         Route::middleware('AdminAuditorToken')->group(function(){
 
+            //Manager  add and access
+            Route::get('manager/manager_access',[ManagerController::class,'manager_access']);
+            Route::post('/manager/store',[ManagerController::class,'store']);
+            Route::get('/manager/fetchAll',[ManagerController::class,'fetchAll']);
+            Route::get('/manager/edit',[ManagerController::class,'edit']);
+            Route::post('/manager/update',[ManagerController::class,'update']);
+            Route::delete('/manager/manager_delete',[ManagerController::class,'manager_delete']);
+
+          });
 
       
 
@@ -269,7 +273,7 @@ use App\Http\Controllers\BookingController;
           Route::post('/pdf/due_invoice', [HallinfoController::class,'due_invoice']);
           Route::post('/pdf/member_invoice_summary', [HallinfoController::class,'member_invoice_summary']);
           Route::post('/pdf/withdraw_invoice', [HallinfoController::class,'withdraw_invoice']);
-
+          Route::post('/pdf/range_inactive_member', [HallinfoController::class,'range_inactive_member']);
 
 
           Route::middleware('BookingSeatToken')->group(function(){

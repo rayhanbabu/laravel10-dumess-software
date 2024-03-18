@@ -223,12 +223,12 @@ class ManagerController extends Controller
                 ->where('login_code', $request->otp)->first();
             if ($username) {
                 DB::update("update maintains set login_code ='null' where phone = '$username->phone'");
-                $token_manager = ManagerJWTToken::CreateToken($username->id, $username->manager_username, $username->email, $username->hall_id, $username->role);
+                $token_manager = ManagerJWTToken::CreateToken($username->id, $username->manager_username, $username->email, $username->hall_id, $username->role,$username->role2);
                 Cookie::queue('token_manager', $token_manager, 60 * 24*2); //96 hour
-                $manager_info = [
+              $manager_info = [
                     "hall_name" => $username->hall, "role" => $username->role, "manager_name" => $username->manager_name,
                     "email" => $username->email, "phone" => $username->phone, "hall_id" => $username->hall_id
-                ];
+               ];
                 $manager_info_array = serialize($manager_info);
                 Cookie::queue('manager_info', $manager_info_array, 60 * 24*2);
                 return response()->json([
@@ -521,15 +521,14 @@ class ManagerController extends Controller
     public function invoice_create(Request $request)
     {
         //try {
-            $hall_id = $request->header('hall_id');
-            $data = Hallinfo::where('hall_id_info', $hall_id)->first();
+          $hall_id = $request->header('hall_id');
+          $data = Hallinfo::where('hall_id_info', $hall_id)->first();
 
-            $invoice1=DB::table('invoices')->where('invoice_month',$data->cur_month)->where('invoice_year',$data->cur_year)
+           $invoice1=DB::table('invoices')->where('invoice_month',$data->cur_month)->where('invoice_year',$data->cur_year)
                    ->where('invoice_section',$data->cur_section)->where('hall_id',$hall_id)->get();
-             if($invoice1->count()>=1){
+         if($invoice1->count()>=1){
                    return back()->with('fail','Invoice already exist');   
-             }else{
-                  
+         }else{     
                 $pre_invoice=Invoice::where('invoice_month',$data->pre_month)->where('invoice_year',$data->pre_year)
                 ->where('invoice_section',$data->pre_section)->where('hall_id',$hall_id)->get();
 
@@ -598,6 +597,7 @@ class ManagerController extends Controller
     public function store(Request $request)
     {
         $hall_id = $request->header('hall_id');
+        $role = $request->header('role');
         $validator = \Validator::make(
             $request->all(),
             [
@@ -621,6 +621,9 @@ class ManagerController extends Controller
             $data = Hall::where('role','admin')->where('hall_id', $hall_id)->first();
             $model = new Hall;
             $model->role = 'manager';
+            if($role=='admin'){
+                $model->role2 = 'auditor';
+            } 
             $model->status = 1;
             $model->university_id = $data->university_id;
             $model->hall_id = $data->hall_id;
@@ -662,7 +665,9 @@ class ManagerController extends Controller
     public function fetchAll(Request $request)
     {
         $hall_id = $request->header('hall_id');
-        $data = Hall::where('role', 'manager')->where('hall_id', $hall_id)->get();
+        $role = $request->header('role');
+        $role2 = $request->header('role2');
+        $data = Hall::where('role','manager')->where('hall_id', $hall_id)->get();
         $output = '';
         if ($data->count() > 0) {
             $output .= ' <h5 class="text-success"> Total Row : ' . $data->count() . ' </h5>';
@@ -671,16 +676,22 @@ class ManagerController extends Controller
         <tr>
           <th>Image </th>
           <th>Name </th>
+          <th>Role </th>
+          <th>Role 2</th>
           <th>Phone </th>
           <th>Email </th>
           <th>Passsword </th>
-          <th>Status </th>
           <th>Login code </th>
+          <th>Status </th>
           <th>Action </th>
         </tr>
      </thead>
      <tbody>';
             foreach ($data as $row) {
+
+                if($role2==$row->role2){
+
+                }else{
                 if (!$row->image) {
                     $image = "";
                 } else {
@@ -695,6 +706,8 @@ class ManagerController extends Controller
                 $output .= '<tr>
           <td> <a href=/uploads/' . $row->image . ' download id="' . $row->id . '" class="text-success mx-1">' . $image . ' </a></td>
           <td>' . $row->manager_name . '</td>
+          <td>' . $row->role . '</td> 
+          <td>' . $row->role2 . '</td>
           <td>' . $row->phone . '</td>
           <td>' . $row->email . '</td>
           <td>' . $row->password . '</td>
@@ -706,6 +719,7 @@ class ManagerController extends Controller
            </td>
       </tr>';
             }
+         }
             $output .= '</tbody></table>';
             echo $output;
         } else {
@@ -800,9 +814,9 @@ class ManagerController extends Controller
     }
 
 
-    public function delete(Request $request)
+    public function manager_delete(Request $request)
     {
-        $model = Maintain::find($request->input('id'));
+        $model = Hall::find($request->input('id'));
         $path = public_path('uploads/' . $model->image);
           if(File::exists($path)) {
               File::delete($path);

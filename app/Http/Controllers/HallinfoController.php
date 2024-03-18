@@ -663,17 +663,34 @@ class HallinfoController extends Controller
           $month1 = date('F-Y',strtotime($_POST['month']));
           $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
      
-       
         $status=1;
    
-    $withdraw=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
-     ->where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
-     ->where('invoice_section',$section)->where('withdraw_status',$status)->select('invoices.*','name','registration','card','phone')
-     ->orderBy($hallinfo->pdf_order,'asc')->get();
-
+       $withdraw=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
+        ->where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
+        ->where('invoice_section',$section)->where('withdraw_status',$status)->select('invoices.*','name','registration','card','phone')
+         ->orderBy($hallinfo->pdf_order,'asc')->get();
      return view('pdf.withdraw_invoice',["section"=>$section,"month1"=>$month1,"withdraw"=>$withdraw]);
 
 }
+
+
+  public function range_inactive_member(Request $request){
+
+       $hall_id = $request->header('hall_id');
+       $date1 = $_POST['date1'];
+       $date2 = $_POST['date2'];
+       $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
+
+       $status=1;
+
+       $invoice=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
+          ->whereBetween('invoice_date', [$date1, $date2])->where('onmeal_amount','<=',0)->select('invoices.*','name','registration','card','phone')
+           ->orderBy($hallinfo->pdf_order,'asc')->get();
+ 
+        return view('pdf.range_inactive',["date1"=>$date1,"date2"=>$date2,"invoice"=>$invoice]);
+
+    }
+
 
 
        
