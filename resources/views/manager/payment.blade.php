@@ -3,7 +3,7 @@
 @section('payment'.$invoice_status,'active')
 @section('content')
 
-@if($invoice_status=='1' )
+@if($invoice_status=='1')
 <div class="row mt-3 mb-0 mx-2">
   <div class="col-sm-3 my-2">
        <h5 class="mt-0">Payment Info : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}} </h5>
@@ -383,32 +383,26 @@
       $('#ViewModal').modal('show');
       $.ajax({
         type: 'GET',
-        url: '/manager/payment_view/' + view_id,
+        url: '/manager/payment_show/' + view_id,
         success: function(response) {
-          //console.log(response);
+        //  console.log(response);
           if (response.status == 404) {
             $('#success_message').html("");
             $('#success_message').addClass('alert alert-danger');
             $('#success_message').text(response.message);
           } else {
             $('#view_name').text(response.value.name);
-            $('#view_card').text(response.value.card_id);
-            $('#view_dureg').text(response.value.dureg);
-            $('#view_pre_duemeal').text(response.value.pre_duemeal);
-            $('#view_pre_duemealrate').text(response.value.pre_duemealrate);
-            $('#view_pre_duemealamount').text(response.value.pre_duemealamount);
-            $('#view_pre_dayfeast').text(response.value.pre_dayfeast);
-            $('#view_pre_employee').text(response.value.pre_employee);
-            $('#view_pre_friday').text(response.value.pre_friday);
-            $('#view_others').text(response.value.pre_others);
-            $('#view_welfare').text(response.value.pre_welfare);
+            $('#view_card').text(response.value.card);
+            $('#view_pre_reserve_amount').text(response.value.pre_reserve_amount);
             $('#view_pre_refund').text(response.value.pre_refund);
             $('#view_pre_monthdue').text(response.value.pre_monthdue);
-            $('#view_security').text(response.value.security);
-            $('#view_cur_budget').text(response.value.cur_budget);
-            $('#view_cur_total').text(response.value.cur_total);
-            $('#view_payment2').text(response.value.cur_payment);
-            $('#view_payment1').text(response.value.cur_payment1);
+
+            $('#view_cur_total_amount').text(response.value.cur_total_amount);
+            $('#view_inmeal_amount').text(response.value.inmeal_amount);
+           
+            $('#view_payble_amount').text(response.value.payble_amount);
+            $('#view_payble_amount1').text(response.value.payble_amount1);
+            $('#view_payble_amount2').text(response.value.payble_amount2);
             $('#view_withdraw').text(response.value.withdraw);
 
           }
@@ -679,11 +673,12 @@
               <hr>
             </div>
 
+          
             <div class="row">
               <div class="col-sm-8">
-                <b>Registration No</b>
+                <b>Previous Reserve </b>
               </div>
-              <div class="col-sm-4" id="view_dureg">
+              <div class="col-sm-4" id="view_pre_reserve_amount">
 
               </div>
               <hr>
@@ -691,88 +686,7 @@
 
             <div class="row">
               <div class="col-sm-8">
-                <b>previous Due Meal </b>
-              </div>
-              <div class="col-sm-4" id="view_pre_duemeal">
-
-              </div>
-              <hr>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-8">
-                <b>Reduce meal rate</b>
-              </div>
-              <div class="col-sm-4" id="view_pre_duemealrate">
-
-              </div>
-              <hr>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-8">
-                <b>Previous section meal amount</b>
-              </div>
-              <div class="col-sm-4" id="view_pre_duemealamount">
-
-              </div>
-              <hr>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-8">
-                <b>Previous Month refund Feast amount</b>
-              </div>
-              <div class="col-sm-4" id="view_pre_dayfeast">
-
-              </div>
-              <hr>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-8">
-                <b>Previous section refund employee amount</b>
-              </div>
-              <div class="col-sm-4" id="view_pre_employee">
-
-              </div>
-              <hr>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-8">
-                <b>Previous section refund friday amount</b>
-              </div>
-              <div class="col-sm-4" id="view_pre_friday">
-
-              </div>
-              <hr>
-            </div>
-
-
-            <div class="row">
-              <div class="col-sm-8">
-                <b>Previous section refund others amount</b>
-              </div>
-              <div class="col-sm-4" id="view_others">
-
-              </div>
-              <hr>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-8">
-                <b>Previous section refund welfare amount</b>
-              </div>
-              <div class="col-sm-4" id="view_welfare">
-
-              </div>
-              <hr>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-8">
-                <b>Previous section total refund amount</b>
+                <b> Previous Refund</b>
               </div>
               <div class="col-sm-4" id="view_pre_refund">
 
@@ -780,21 +694,9 @@
               <hr>
             </div>
 
-
             <div class="row">
               <div class="col-sm-8">
-                <b>Previous section total refund Withdraw</b>
-              </div>
-              <div class="col-sm-4" id="view_withdraw">
-
-              </div>
-              <hr>
-            </div>
-
-
-            <div class="row">
-              <div class="col-sm-8">
-                <b>Previous section Due amount</b>
+                <b>Previous Due</b>
               </div>
               <div class="col-sm-4" id="view_pre_monthdue">
 
@@ -804,9 +706,29 @@
 
             <div class="row">
               <div class="col-sm-8">
-                <b>Security Money </b>
+                <b> Total Budget</b>
               </div>
-              <div class="col-sm-4" id="view_security">
+              <div class="col-sm-4" id="view_cur_total_amount">
+
+              </div>
+              <hr>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-8">
+                <b>Inactive Meal Amount</b>
+              </div>
+              <div class="col-sm-4" id="view_inmeal_amount">
+
+              </div>
+              <hr>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-8">
+                <b>Payable Amount</b>
+              </div>
+              <div class="col-sm-4" id="view_payble_amount">
 
               </div>
               <hr>
@@ -815,19 +737,9 @@
 
             <div class="row">
               <div class="col-sm-8">
-                <b>Curreunt section Budget </b>
+                <b>1st Payable</b>
               </div>
-              <div class="col-sm-4" id="view_cur_budget">
-
-              </div>
-              <hr>
-            </div>
-
-            <div class="row">
-              <div class="col-sm-8">
-                <b>Total Amount </b>
-              </div>
-              <div class="col-sm-4" id="view_cur_total">
+              <div class="col-sm-4" id="view_payble_amount1">
 
               </div>
               <hr>
@@ -835,9 +747,9 @@
 
             <div class="row">
               <div class="col-sm-8">
-                <b>Curreunt section Payment 2 </b>
+                <b>2nd Payable</b>
               </div>
-              <div class="col-sm-4" id="view_payment2">
+              <div class="col-sm-4" id="view_payble_amount2">
 
               </div>
               <hr>
@@ -845,15 +757,13 @@
 
             <div class="row">
               <div class="col-sm-8">
-                <b>Curreunt section Payment 1 </b>
+                <b>withdraw </b>
               </div>
-              <div class="col-sm-4" id="view_payment1">
+              <div class="col-sm-4" id="view_pre_refund">
 
               </div>
               <hr>
             </div>
-
-
 
 
           </div>

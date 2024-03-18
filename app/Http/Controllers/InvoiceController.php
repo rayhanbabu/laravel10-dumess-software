@@ -995,6 +995,23 @@ class InvoiceController extends Controller
 
 
 
+    public function payment_show($id)
+      {
+      $value = Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
+       ->Where('invoices.id', $id)->select('members.name', 'members.phone','members.registration','members.card' ,'invoices.*')->first();
+         if ($value) {
+           return response()->json([
+             'status' =>200,
+             'value' =>$value,
+           ]);
+         } else {
+           return response()->json([
+             'status' =>404,
+             'message' =>'Student not found',
+           ]);
+         }
+       }
+
 
        public function ex_payment_view(Request $request , $invoice_status)
        {

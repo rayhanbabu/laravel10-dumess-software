@@ -199,7 +199,7 @@ use App\Http\Controllers\BookingController;
                Route::post('/manager/payment1_update', [InvoiceController::class, 'payment1_update']);
                Route::post('/manager/payment2_update', [InvoiceController::class, 'payment2_update']);
                Route::post('/manager/withdraw_update', [InvoiceController::class, 'withdraw_update']);
-
+               Route::get('/manager/payment_show/{id}', [InvoiceController::class, 'payment_show']);
                Route::get('/manager/ex_payment/{invoice_status}', [InvoiceController::class, 'ex_payment_view']);
                Route::get('/manager/ex_payment_view/{id}', [InvoiceController::class, 'ex_payment_view_all']);
                Route::get('/manager/ex_payment_fetch/{invoice_status}', [InvoiceController::class, 'ex_payment_fetch']);
