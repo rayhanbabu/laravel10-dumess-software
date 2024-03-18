@@ -27,11 +27,11 @@ class ManagerToken
               $request->headers->set('role',$result->role);
               $request->headers->set('id',$result->id);
               $request->headers->set('manager_username',$result->manager_username);
-              if(!empty($result->role2)){
-                $request->headers->set('role2',$result->role2);
-              }else{
-                $request->headers->set('role2','');
-              }
+              // if(!empty($result->role2)){
+              //   $request->headers->set('role2',$result->role2);
+              // }else{
+              //   $request->headers->set('role2','');
+              // }
               return $next($request);
         }
     }
