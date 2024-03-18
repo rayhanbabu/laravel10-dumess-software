@@ -164,6 +164,7 @@ use App\Http\Controllers\BookingController;
            Route::get('/manager/mealon_update',[ManagerController::class,'mealon_update']);
            Route::post('/manager/daywise_mealupdate',[ManagerController::class,'daywise_mealupdate']);
            Route::post('/manager/invoice_all_delete',[ManagerController::class,'invoice_all_delete']);
+         
 
           //Presvous Section  Due , Refund, Reserve Update
           Route::post('/manager/section_update_id', [InvoiceController::class,'section_update_id']);
@@ -266,6 +267,8 @@ use App\Http\Controllers\BookingController;
           Route::post('/pdf/refund_summary', [HallinfoController::class,'refund_summary']);
           Route::post('/pdf/monthly_payment_invoice', [HallinfoController::class,'monthly_payment_invoice']);
           Route::post('/pdf/due_invoice', [HallinfoController::class,'due_invoice']);
+          Route::post('/pdf/member_invoice_summary', [HallinfoController::class,'member_invoice_summary']);
+          Route::post('/pdf/withdraw_invoice', [HallinfoController::class,'withdraw_invoice']);
 
 
 

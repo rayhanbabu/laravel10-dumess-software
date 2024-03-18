@@ -232,6 +232,78 @@
     </div>
 
 
+    <div class="col-xl-4 col-md-6 p-2">
+        <div class="card bg-light shadow">
+            <div class="mx-3 my-2">
+                 <b class="text-center"> Member Invoice Summary  </b>
+            </div>
+            <form action="{{ url('pdf/member_invoice_summary') }}" method="post" enctype="multipart/form-data">
+                   {!! csrf_field() !!}         
+                      <div class="d-grid gap-3 d-flex justify-content-end p-3">
+                         <label>Card </label>
+                         <input type="text" name="card" class="form-control form-control-sm" value="" >
+                      </div>
+
+                     <div class="form-group  mx-3 my-3">
+                         <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                     </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <div class="col-xl-4 col-md-6 p-2">
+        <div class="card bg-light shadow">
+            <div class="mx-3 my-2">
+                 <b class="text-center">  Withdraw Invoice Summary  </b>
+            </div>
+            <form action="{{ url('pdf/withdraw_invoice') }}" method="post" enctype="multipart/form-data">
+                   {!! csrf_field() !!}
+                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
+                      <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
+                          <option value="">Select Section </option>
+                          <option value="A">A</option>
+                          <option value="B">B</option>
+                      </select>
+
+                       <input type="month" name="month" class="form-control form-control-sm" value="" >
+                   </div>
+
+                  <div class="form-group  mx-3 my-3">
+                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                  </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="col-xl-4 col-md-6 p-2">
+        <div class="card bg-light shadow">
+            <div class="mx-3 my-2">
+                 <b class="text-center"> Range wise Inactive Member </b>
+            </div>
+            <form action="{{ url('pdf/range_inactive_member') }}" method="post" enctype="multipart/form-data">
+                   {!! csrf_field() !!}
+                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
+                       <input type="date" name="date1" class="form-control form-control-sm" value="" >      
+                          To
+                       <input type="date" name="date2" class="form-control form-control-sm" value="" >
+                   </div>
+
+                  <div class="form-group  mx-3 my-3">
+                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                  </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+
+
 </div>
 
 
