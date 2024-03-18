@@ -76,7 +76,7 @@
         function adminauditoraccess(){
             $token_manager=Cookie::get('token_manager');
             $result=ManagerJWTToken::ReadToken($token_manager);
-            $rore2="auditor";
+            $role2="auditor";
             if($result=="unauthorized"){
                 return redirect('/maintain/login');
             }

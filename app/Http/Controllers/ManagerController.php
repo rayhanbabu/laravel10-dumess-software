@@ -223,7 +223,7 @@ class ManagerController extends Controller
                 ->where('login_code', $request->otp)->first();
             if ($username) {
                 DB::update("update maintains set login_code ='null' where phone = '$username->phone'");
-                $token_manager = ManagerJWTToken::CreateToken($username->id, $username->manager_username, $username->email, $username->hall_id, $username->role,$username->role2);
+                $token_manager = ManagerJWTToken::CreateToken($username->id, $username->manager_username, $username->email, $username->hall_id, $username->role);
                 Cookie::queue('token_manager', $token_manager, 60 * 24*2); //96 hour
               $manager_info = [
                     "hall_name" => $username->hall, "role" => $username->role, "manager_name" => $username->manager_name,
