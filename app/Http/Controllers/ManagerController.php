@@ -622,7 +622,7 @@ class ManagerController extends Controller
             $model = new Hall;
             $model->role = 'manager';
             if($role=='admin'){
-                $model->role2 = 'auditor';
+                $model->role2 = $request->input('access_type');
             } 
             $model->status = 1;
             $model->university_id = $data->university_id;
@@ -667,64 +667,128 @@ class ManagerController extends Controller
         $hall_id = $request->header('hall_id');
         $role = $request->header('role');
         $role2 = $request->header('role2');
-        $data = Hall::where('role','manager')->where('hall_id', $hall_id)->get();
-        $output = '';
-        if ($data->count() > 0) {
-            $output .= ' <h5 class="text-success"> Total Row : ' . $data->count() . ' </h5>';
-            $output .= '<table class="table table-bordered table-sm text-start align-middle">
-     <thead>
-        <tr>
-          <th>Image </th>
-          <th>Name </th>
-          <th>Role </th>
-          <th>Role 2</th>
-          <th>Phone </th>
-          <th>Email </th>
-          <th>Passsword </th>
-          <th>Login code </th>
-          <th>Status </th>
-          <th>Action </th>
-        </tr>
-     </thead>
-     <tbody>';
-            foreach ($data as $row) {
-
-                if($role2==$row->role2){
-
-                }else{
-                if (!$row->image) {
-                    $image = "";
-                } else {
-                    $image = '<i class="fa fa-download"></i>';
+        if($role=='admin'){
+            $data = Hall::where('role','manager')->where('hall_id', $hall_id)->get();
+            $output = '';
+            if ($data->count() > 0) {
+                $output .= ' <h5 class="text-success"> Total Row : ' .$data->count(). ' </h5>';
+                $output .= '<table class="table table-bordered table-sm text-start align-middle">
+         <thead>
+            <tr>
+              <th>Image </th>
+              <th>Name </th>
+              <th>Role </th>
+              <th>Role 2</th>
+              <th>Phone </th>
+              <th>Email </th>
+              <th>Passsword </th>
+              <th>Login code </th>
+              <th>Status </th>
+              <th>Action </th>
+            </tr>
+         </thead>
+         <tbody>';
+                foreach ($data as $row) {
+    
+                  
+                    if (!$row->image) {
+                        $image = "";
+                    } else {
+                        $image = '<i class="fa fa-download"></i>';
+                    }
+                    if ($row->status == 1) {
+                        $status = '<a href="#"class="btn btn-success btn-sm">Active</a>';
+                    } else {
+                        $status = '<a href="#"class="btn btn-danger btn-sm">Inactive</a>';
+                    }
+    
+                    $output .= '<tr>
+              <td> <a href=/uploads/' . $row->image . ' download id="' . $row->id . '" class="text-success mx-1">' . $image . ' </a></td>
+              <td>' . $row->manager_name . '</td>
+              <td>' . $row->role . '</td> 
+              <td>' . $row->role2 . '</td>
+              <td>' . $row->phone . '</td>
+              <td>' . $row->email . '</td>
+              <td>' . $row->password . '</td>
+              <td>' . $row->login_code . '</td>
+              <td>' . $status . '</td>
+               <td>
+                  <a href="#" id="' . $row->id . '"class="text-success mx-1 editIcon" data-bs-toggle="modal" data-bs-target="#editEmployeeModal"><i class="bi-pencil-square h4"></i>Edit</a>
+                  <a href="#" id="' . $row->id . '"class="text-danger mx-1 deleteIcon"><i class="bi-trash h4"></i>Delete</a>
+               </td>
+          </tr>';
                 }
-                if ($row->status == 1) {
-                    $status = '<a href="#"class="btn btn-success btn-sm">Active</a>';
-                } else {
-                    $status = '<a href="#"class="btn btn-danger btn-sm">Inactive</a>';
-                }
-
-                $output .= '<tr>
-          <td> <a href=/uploads/' . $row->image . ' download id="' . $row->id . '" class="text-success mx-1">' . $image . ' </a></td>
-          <td>' . $row->manager_name . '</td>
-          <td>' . $row->role . '</td> 
-          <td>' . $row->role2 . '</td>
-          <td>' . $row->phone . '</td>
-          <td>' . $row->email . '</td>
-          <td>' . $row->password . '</td>
-          <td>' . $row->login_code . '</td>
-          <td>' . $status . '</td>
-           <td>
-              <a href="#" id="' . $row->id . '"class="text-success mx-1 editIcon" data-bs-toggle="modal" data-bs-target="#editEmployeeModal"><i class="bi-pencil-square h4"></i>Edit</a>
-              <a href="#" id="' . $row->id . '"class="text-danger mx-1 deleteIcon"><i class="bi-trash h4"></i>Delete</a>
-           </td>
-      </tr>';
+             
+                $output .= '</tbody></table>';
+                echo $output;
             }
-         }
-            $output .= '</tbody></table>';
-            echo $output;
-        } else {
-            echo '<h1 class="text-center text-secondary my-5">No record present in the database!</h1>';
+
+        }else{
+  
+            $data = Hall::where('role','manager')->where('hall_id', $hall_id)->get();
+            $output = '';
+            if ($data->count() > 0) {
+                $output .= ' <h5 class="text-success"> Total Row : ' .$data->count(). ' </h5>';
+                $output .= '<table class="table table-bordered table-sm text-start align-middle">
+         <thead>
+            <tr>
+              <th>Image </th>
+              <th>Name </th>
+              <th>Role </th>
+              <th>Role 2</th>
+              <th>Phone </th>
+              <th>Email </th>
+              <th>Passsword </th>
+              <th>Login code </th>
+              <th>Status </th>
+              <th>Action </th>
+            </tr>
+         </thead>
+         <tbody>';
+                foreach ($data as $row) {
+                 
+             if($row->role2=='auditor'){
+
+                    }else{ 
+                    if (!$row->image) {
+                        $image = "";
+                    } else {
+                        $image = '<i class="fa fa-download"></i>';
+                    }
+                    if ($row->status == 1) {
+                        $status = '<a href="#"class="btn btn-success btn-sm">Active</a>';
+                    } else {
+                        $status = '<a href="#"class="btn btn-danger btn-sm">Inactive</a>';
+                    }
+    
+                    $output .= '<tr>
+              <td> <a href=/uploads/' . $row->image . ' download id="' . $row->id . '" class="text-success mx-1">' . $image . ' </a></td>
+              <td>' . $row->manager_name . '</td>
+              <td>' . $row->role . '</td> 
+              <td>' . $row->role2 . '</td>
+              <td>' . $row->phone . '</td>
+              <td>' . $row->email . '</td>
+              <td>' . $row->password . '</td>
+              <td>' . $row->login_code . '</td>
+              <td>' . $status . '</td>
+               <td>
+                  <a href="#" id="' . $row->id . '"class="text-success mx-1 editIcon" data-bs-toggle="modal" data-bs-target="#editEmployeeModal"><i class="bi-pencil-square h4"></i>Edit</a>
+                  <a href="#" id="' . $row->id . '"class="text-danger mx-1 deleteIcon"><i class="bi-trash h4"></i>Delete</a>
+               </td>
+          </tr>';
+
+                  }
+                }
+             
+                $output .= '</tbody></table>';
+                echo $output;
+            }
+
+
         }
+        
+      
+        
     }
 
 
