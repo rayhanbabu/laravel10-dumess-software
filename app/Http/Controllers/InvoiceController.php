@@ -321,17 +321,17 @@ class InvoiceController extends Controller
                  WHEN first_pay_mealon<=0 THEN 0 
                  ELSE '$first_others_amount'+security+service_charge+card_fee  END),
 
-            payble_amount1=(CASE 
+           payble_amount1=(CASE 
                  WHEN first_pay_mealon<=0 THEN 0
                  WHEN withdraw_status>=1 THEN  first_pay_mealamount+first_others_amount-inmeal_amount
-                 ELSE first_pay_mealamount+first_others_amount-(inmeal_amount+withdraw)  END),
+                 ELSE first_pay_mealamount+first_others_amount-(inmeal_amount+withdraw) END),
 
 
-            second_pay_mealon=section_day-first_pay_mealon,
-            second_pay_mealamount=cur_meal_amount-first_pay_mealamount,
-            second_others_amount=cur_others_amount-first_others_amount,
+           second_pay_mealon=section_day-first_pay_mealon,
+           second_pay_mealamount=cur_meal_amount-first_pay_mealamount,
+           second_others_amount=cur_others_amount-first_others_amount,
            
-            payble_amount2=(CASE 
+           payble_amount2=(CASE 
                 WHEN payment_status1>=1 THEN second_pay_mealamount+second_others_amount
                 WHEN withdraw_status>=1 THEN cur_total_amount-inmeal_amount
                 ELSE cur_total_amount-(inmeal_amount+withdraw)  END),
@@ -376,16 +376,15 @@ class InvoiceController extends Controller
                     WHEN payment_status2<=0 THEN payble_amount2 
                     ELSE 0 END)
 
-           , total_due=(CASE 
-             WHEN payment_status1<=0 AND payment_status2<=0 THEN payble_amount
-             WHEN payment_status1<=0 AND payment_status2>=0 THEN first_payment_due+second_payment_due
-             WHEN payment_status1>=1 AND payment_status2<=0 THEN first_payment_due+second_payment_due
-             ELSE 0 END)
+          , total_due=(CASE 
+              WHEN payment_status1<=0 AND payment_status2<=0 THEN payble_amount
+              WHEN payment_status1<=0 AND payment_status2>=0 THEN first_payment_due+second_payment_due
+              WHEN payment_status1>=1 AND payment_status2<=0 THEN first_payment_due+second_payment_due
+              ELSE 0 END)
 
-            , reserve_amount=(CASE 
-               WHEN payble_amount1<0 THEN -payble_amount1
-               WHEN payble_amount2<0 THEN -payble_amount2
-            ELSE 0  END)
+          , reserve_amount=(CASE 
+                WHEN payble_amount2<0 THEN -payble_amount2
+             ELSE 0  END)
           
           ,date1='$data->date1',date2='$data->date2',date3='$data->date3',date4='$data->date4',date5='$data->date5'
           ,date6='$data->date6',date7='$data->date7',date8='$data->date8',date9='$data->date9',date10='$data->date10'
@@ -394,7 +393,7 @@ class InvoiceController extends Controller
           ,date21='$data->date21',date22='$data->date22',date23='$data->date23',date24='$data->date24',date25='$data->date25'
           ,date26='$data->date26',date27='$data->date27',date28='$data->date28',date29='$data->date29',date30='$data->date30'
           ,date31='$data->date31'            
-          where invoice_status=1 AND invoice_month=$data->cur_month AND invoice_year=$data->cur_year  AND invoice_section='$data->cur_section' AND hall_id='$hall_id'");
+           where invoice_status=1 AND invoice_month=$data->cur_month AND invoice_year=$data->cur_year  AND invoice_section='$data->cur_section' AND hall_id='$hall_id'");
 
     if($data->refresh_date==$payment_date){
           $number=$data->refresh_no+1;
