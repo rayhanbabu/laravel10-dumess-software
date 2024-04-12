@@ -223,7 +223,7 @@ class ManagerController extends Controller
                 ->where('login_code', $request->otp)->first();
             if ($username) {
                 DB::update("update maintains set login_code ='null' where phone = '$username->phone'");
-                $token_manager = ManagerJWTToken::CreateToken($username->id, $username->manager_username, $username->email, $username->hall_id, $username->role);
+                $token_manager = ManagerJWTToken::CreateToken($username->id, $username->manager_username, $username->email, $username->hall_id, $username->role,$username->role2);
                 Cookie::queue('token_manager', $token_manager, 60 * 24*2); //96 hour
               $manager_info = [
                     "hall_name" => $username->hall, "role" => $username->role, "manager_name" => $username->manager_name,
@@ -608,8 +608,8 @@ class ManagerController extends Controller
                 'image' => 'image|mimes:jpeg,png,jpg|max:400',
             ],
             [
-             'password.regex' => 'password minimum six characters including one uppercase letter, 
-         one lowercase letter and one number '
+              'password.regex' => 'password minimum six characters including one uppercase letter, 
+                    one lowercase letter and one number '
             ]
         );
         if ($validator->fails()) {
@@ -618,7 +618,7 @@ class ManagerController extends Controller
                 'message' => $validator->messages(),
             ]);
         } else {
-            $data = Hall::where('role','admin')->where('hall_id', $hall_id)->first();
+            $data = Hall::where('role','admin')->where('hall_id',$hall_id)->first();
             $model = new Hall;
             $model->role = 'manager';
             if($role=='admin'){
@@ -633,7 +633,7 @@ class ManagerController extends Controller
             $model->manager_name = $request->input('name');
             $model->email = $request->input('email');
             $model->phone = $request->input('phone');
-            if ($request->hasfile('image')) {
+            if($request->hasfile('image')) {
                 $imgfile = 'manager-';
                 $size = $request->file('image')->getsize();
                 $file = $_FILES['image']['tmp_name'];
@@ -837,6 +837,7 @@ class ManagerController extends Controller
                 $model->status = $request->input('status');
                 $model->meal = $request->input('meal');
                 $model->member = $request->input('member');
+                $model->member_edit = $request->input('member_edit');
                 $model->payment = $request->input('payment');
                 $model->bazar = $request->input('bazar');
                 $model->application = $request->input('application');

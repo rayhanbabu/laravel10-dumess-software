@@ -43,12 +43,12 @@
             $token_maintain=Cookie::get('token_maintain');
             $result=MaintainJWTToken::ReadToken($token_maintain);
             if($result=="unauthorized"){
-                return redirect('/maintain/login');
+                  return redirect('/maintain/login');
             }
             else if($result->role=="supperadmin"){
-                return true;
+                 return true;
             }else{
-                return false;
+                 return false;
             }
         }
 
@@ -73,14 +73,13 @@
             }
         }
 
+
         function adminauditoraccess(){
             $token_manager=Cookie::get('token_manager');
             $result=ManagerJWTToken::ReadToken($token_manager);
-            $role2="auditor";
             if($result=="unauthorized"){
                 return redirect('/maintain/login');
-            }
-            else if($result->role=="admin" OR $role2=="auditor"){
+            } else if($result->role=="admin" OR $result->role2=="auditor"){
                 return true;
             }else{
                 return false;
@@ -158,6 +157,18 @@
                      return false;
             }       
         }
+
+        function member_edit_access(){               
+            if(admin_access_info()->member_edit=="Yes"){
+                   if(manager_access_info()->member_edit=="Yes"){
+                          return true;
+                   }else{
+                          return false;
+                    }
+             }else{
+                      return false;
+             }       
+         }
 
 
         function resign_access(){               

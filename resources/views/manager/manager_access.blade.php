@@ -174,6 +174,22 @@
                   </select>
             </div>
 
+            <div class="col-lg-6 my-2">
+                <label class="">Member Verify Access</label>
+                <select class="form-control mb-2" id="member" name="member" aria-label="Default select example" required>
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
+            </div>    
+
+            <div class="col-lg-6 my-2">
+                <label class="">Member Edit Access</label>
+                <select class="form-control mb-2" id="member_edit" name="member_edit" aria-label="Default select example" required>
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
+            </div>    
+
          <div class="col-lg-6 my-2">
             <label class="">Payment Access</label>
                 <select class="form-control mb-2" id="payment" name="payment" aria-label="Default select example" required>
@@ -190,13 +206,7 @@
                 </select>
            </div>
 
-            <div class="col-lg-6 my-2">
-                <label class="">Member Access</label>
-                <select class="form-control mb-2" id="member" name="member" aria-label="Default select example" required>
-                  <option value="No">No</option>
-                  <option value="Yes">Yes</option>
-                </select>
-            </div>    
+            
 
             <div class="col-lg-6 my-2">
                 <label class="">Bazar Access</label>
@@ -384,6 +394,7 @@
                $("#booking").val(response.data.booking);
                $("#others_access").val(response.data.others_access);
                $("#storage").val(response.data.storage);
+               $("#member_edit").val(response.data.member_edit);
                $("#avatar").html(
                 `<img src="/uploads/${response.data.image}" width="100" class="img-fluid img-thumbnail">`);
                $("#edit_id").val(response.data.id);

@@ -239,9 +239,12 @@ use App\Http\Controllers\BookingController;
 
 
           Route::middleware('MemberaccessToken')->group(function(){
-             //members
-             Route::post('/manager/member_update', [ManagerController::class, 'member_update']);
+             //members access
              Route::get('/manager/member/{operator}/{status}/{id}', [ManagerController::class, 'memberstatus']);
+          });
+
+          Route::middleware('MemberEditToken')->group(function(){
+               Route::post('/manager/member_update', [ManagerController::class, 'member_update']);
           });
 
 

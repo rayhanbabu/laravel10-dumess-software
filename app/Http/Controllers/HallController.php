@@ -120,6 +120,7 @@ class HallController extends Controller
          $model->frontend_link=$request->input('frontend_link');
          $model->meal=$request->input('meal');
          $model->member=$request->input('member'); 
+         $model->member_edit=$request->input('member_edit'); 
          $model->payment=$request->input('payment');
          $model->bazar=$request->input('bazar'); 
          $model->application=$request->input('application');

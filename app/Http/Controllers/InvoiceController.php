@@ -312,7 +312,7 @@ class InvoiceController extends Controller
 
            first_pay_mealon=(CASE 
                   WHEN  $data->first_payment_meal<=0 THEN 0 
-                  WHEN  $data->first_payment_meal<=breakfast_inmeal THEN 0 
+                  WHEN  $data->first_payment_meal<=lunch_inmeal THEN 0 
                   WHEN  payment_status1<=0 && payment_status2>=1 THEN 0   
                   ELSE $data->first_payment_meal  END),
            first_pay_mealamount=first_pay_mealon*(breakfast_rate+lunch_rate+dinner_rate),    
@@ -796,7 +796,6 @@ class InvoiceController extends Controller
        }
 
 
-
        public function payment2_update(Request $request)
        {
          $manager_username = $request->header('manager_username');
@@ -875,7 +874,6 @@ class InvoiceController extends Controller
              $invoice->save();
 
           DB::update("update invoices set 
-
           first_pay_mealon=(CASE 
              WHEN  $hallinfo->first_payment_meal<=0 THEN 0 
              WHEN  $hallinfo->first_payment_meal<=breakfast_inmeal THEN 0 

@@ -310,6 +310,14 @@
                   <option value="No">No</option>
                   <option value="Yes">Yes</option>
                 </select>
+            </div> 
+            
+            <div class="col-lg-6 my-2">
+                <label class="">Member Edit Access</label>
+                <select class="form-control mb-2" id="member_edit" name="member_edit" aria-label="Default select example" required>
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
             </div>    
 
             <div class="col-lg-6 my-2">
@@ -533,6 +541,7 @@
                $("#payment").val(response.data.payment);
                $("#meal").val(response.data.meal);
                $("#member").val(response.data.member);
+               $("#member_edit").val(response.data.member_edit);
                $("#application").val(response.data.application);
                $("#resign").val(response.data.resign);
                $("#booking").val(response.data.booking);
