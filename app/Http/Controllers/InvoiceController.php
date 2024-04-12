@@ -346,11 +346,11 @@ class InvoiceController extends Controller
 
             friday1='$friday1', friday2='$friday2', friday3='$friday3', friday4='$friday4', friday5='$friday5'
 
-           , fridayt1=(CASE WHEN $friday1<=0 OR $friday1>=9 THEN $friday1t ELSE 0 END)
-           , fridayt2=(CASE WHEN $friday2<=0 OR $friday1>=9 THEN $friday2t ELSE 0 END)
-           , fridayt3=(CASE WHEN $friday3<=0 OR $friday1>=9 THEN $friday3t ELSE 0 END)
-           , fridayt4=(CASE WHEN $friday4<=0 OR $friday1>=9 THEN $friday4t ELSE 0 END)
-           , fridayt5=(CASE WHEN $friday5<=0  OR $friday1>=9 THEN $friday5t ELSE 0 END)
+           , fridayt1=(CASE WHEN $friday1=1  THEN 0 ELSE $friday1t END)
+           , fridayt2=(CASE WHEN $friday2=1  THEN 0 ELSE $friday2t END)
+           , fridayt3=(CASE WHEN $friday3=1  THEN 0 ELSE $friday3t END)
+           , fridayt4=(CASE WHEN $friday4=1  THEN 0 ELSE $friday4t END)
+           , fridayt5=(CASE WHEN $friday5=1  THEN 0 ELSE $friday5t END)
 
            , refund_feast=(CASE WHEN $feast_day<=0 OR $feast_day>=9 THEN $feast ELSE 0 END)
            , refund_friday=fridayt1+fridayt2+fridayt3+fridayt4+fridayt5
