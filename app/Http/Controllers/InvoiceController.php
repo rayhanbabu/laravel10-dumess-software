@@ -245,8 +245,7 @@ class InvoiceController extends Controller
                         }
                      }
                   }
-                }
-               
+                
                 $invoiceupdate->save();
 
             }
