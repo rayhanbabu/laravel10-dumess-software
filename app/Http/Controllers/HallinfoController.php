@@ -197,8 +197,6 @@ class HallinfoController extends Controller
      }
 
 
-
-
      public function monthly_payment(Request $request)
      {
         //  try {

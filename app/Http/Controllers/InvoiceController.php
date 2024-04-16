@@ -211,32 +211,38 @@ class InvoiceController extends Controller
             if($invoiceupdate->payment_status1==1 || $invoiceupdate->payment_status2==1 || $invoiceupdate->onmeal_amount>1){
 
              }else{ 
-                if($inactive_day<=31){
+                
                       for($y=$inactive_day;$y>=1; $y--){ 
+                        if($inactive_day<=31){
                            $day = "b" . $y;
-                       if($invoiceupdate->breakfast_rate>0){
-                             $invoiceupdate->$day = 9;
-                           }else{
-                             $invoiceupdate->$day = 0;
+                        if($invoiceupdate->breakfast_rate>0){
+                              $invoiceupdate->$day = 9;
+                            }else{
+                              $invoiceupdate->$day = 0;
+                            }
                            }
-                        }
+                         }
 
                        for($y=$inactive_day;$y>=1; $y--){ 
+                        if($inactive_day<=31){
                              $day = "l" . $y;
                            if($invoiceupdate->lunch_rate>0){
                                $invoiceupdate->$day = 9;
                             }else{
                                $invoiceupdate->$day = 0;
                             }
+                          }
                         } 
                          
                     for($y=$inactive_day;$y>=1; $y--){ 
+                      if($inactive_day<=31){
                         $day = "d" . $y;
                           if($invoiceupdate->dinner_rate>0){
                               $invoiceupdate->$day = 9;
                           }else{
                              $invoiceupdate->$day = 0;
                           }
+                        }
                      }
                   }
                 }
