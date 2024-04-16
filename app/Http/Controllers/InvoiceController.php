@@ -160,10 +160,13 @@ class InvoiceController extends Controller
           ->where('invoice_section',$data->cur_section)->where('invoice_status',1)->where('hall_id',$hall_id)->get();
 
        $payment_date = date('Y-m-d');
-       $inactive_day = getDaysBetween2Dates(new DateTime($payment_date), new DateTime($data->meal_start_date), false) + 1;
-       
+       $inactive_day1 = getDaysBetween2Dates(new DateTime($payment_date), new DateTime($data->meal_start_date), false) + 1;
+       if($inactive_day1<=31){
+             $inactive_day=$inactive_day1;
+       }else{
+             $inactive_day=31;
+        }
 
-      
        foreach($invoice as $row){
                $lunch_off=0;
                $dinner_off=0;
@@ -213,36 +216,30 @@ class InvoiceController extends Controller
              }else{ 
                 
                       for($y=$inactive_day;$y>=1; $y--){ 
-                        if($inactive_day<=31){
                            $day = "b" . $y;
                         if($invoiceupdate->breakfast_rate>0){
                               $invoiceupdate->$day = 9;
                             }else{
                               $invoiceupdate->$day = 0;
                             }
-                           }
                          }
 
                        for($y=$inactive_day;$y>=1; $y--){ 
-                        if($inactive_day<=31){
                              $day = "l" . $y;
                            if($invoiceupdate->lunch_rate>0){
                                $invoiceupdate->$day = 9;
                             }else{
                                $invoiceupdate->$day = 0;
                             }
-                          }
                         } 
                          
                     for($y=$inactive_day;$y>=1; $y--){ 
-                      if($inactive_day<=31){
                         $day = "d" . $y;
                           if($invoiceupdate->dinner_rate>0){
                               $invoiceupdate->$day = 9;
                           }else{
                              $invoiceupdate->$day = 0;
                           }
-                        }
                      }
                   }
                 
