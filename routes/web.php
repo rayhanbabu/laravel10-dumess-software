@@ -45,6 +45,7 @@ use App\Http\Controllers\BookingController;
    
    
      Route::middleware('MaintainToken')->group(function(){
+          
           Route::get('/maintain/dashboard',[MaintainController::class,'dashboard']);
           Route::get('/maintain/logout',[MaintainController::class,'logout']);
 
@@ -90,7 +91,6 @@ use App\Http\Controllers\BookingController;
               Route::get('/maintain/fetchAll',[MaintainController::class,'fetchAll']);
               Route::get('/maintain/edit',[MaintainController::class,'edit']);
               Route::post('/maintain/update',[MaintainController::class,'update']);
-
         });
 
      });
@@ -110,7 +110,6 @@ use App\Http\Controllers\BookingController;
          Route::get('/manager/logout',[ManagerController::class,'logout']);
          Route::get('manager/password',[ManagerController::class,'passwordview']);
          Route::post('manager/password',[ManagerController::class,'passwordupdate']);
-
 
         //Sction Info
         Route::get('/manager/sectioninfo', [InvoiceController::class,'section_view']);
@@ -160,8 +159,7 @@ use App\Http\Controllers\BookingController;
            Route::post('/manager/daywise_mealupdate',[ManagerController::class,'daywise_mealupdate']);
            Route::post('/manager/invoice_all_delete',[ManagerController::class,'invoice_all_delete']);
           
-          //Presvous Section  Due , Refund, Reserve Update
-          Route::post('/manager/section_update_id', [InvoiceController::class,'section_update_id']);
+         
           
           //member and invoice delete
           Route::get('/manager/member_delete/{id}',[ManagerController::class,'member_delete']);
@@ -179,6 +177,9 @@ use App\Http\Controllers\BookingController;
             Route::get('/manager/edit',[ManagerController::class,'edit']);
             Route::post('/manager/update',[ManagerController::class,'update']);
             Route::delete('/manager/manager_delete',[ManagerController::class,'manager_delete']);
+
+             //Presvous Section  Due , Refund, Reserve Update
+          Route::post('/manager/section_update_id', [InvoiceController::class,'section_update_id']);
 
           });
 
