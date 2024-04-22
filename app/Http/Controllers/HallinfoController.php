@@ -470,6 +470,8 @@ class HallinfoController extends Controller
 
           $payment1=array();
           $payment2=array();
+
+          $data = Hallinfo::where('hall_id_info', $hall_id)->select('meal_start_date','pdf_order')->first();
         
 
         if($type==1){
@@ -477,26 +479,26 @@ class HallinfoController extends Controller
            ->whereDate('invoices.payment_time1',$date)
            ->where('invoices.hall_id',$hall_id)->where('payment_status1',$status)
            ->select('invoices.id','name','registration','card','payble_amount1','phone',
-           'payble_amount2','payment_time1','payment_time2','payment_type1','payment_type2')->get();
+           'payble_amount2','payment_time1','payment_time2','payment_type1','payment_type2')->orderBy($data->pdf_order,'asc')->get();
          
         }else if($type==2){
            $payment2= Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
             ->whereDate('invoices.payment_time2',$date)
             ->where('invoices.hall_id',$hall_id)->where('payment_status2',$status)
             ->select('invoices.id','name','registration','card','payble_amount1','phone',
-            'payble_amount2','payment_time1','payment_time2','payment_type1','payment_type2')->get();
+            'payble_amount2','payment_time1','payment_time2','payment_type1','payment_type2')->orderBy($data->pdf_order,'asc')->get();
         }else if($type==3){
            $payment1= Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
            ->whereDate('invoices.payment_time1',$date)
            ->where('invoices.hall_id',$hall_id)->where('payment_status1',$status)
            ->select('invoices.id','name','registration','card','payble_amount1','phone',
-           'payble_amount2','payment_time1','payment_time2','payment_type1','payment_type2')->get();
+           'payble_amount2','payment_time1','payment_time2','payment_type1','payment_type2')->orderBy($data->pdf_order,'asc')->get();
 
            $payment2= Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
            ->whereDate('invoices.payment_time2',$date)
            ->where('invoices.hall_id',$hall_id)->where('payment_status2',$status)
            ->select('invoices.id','name','registration','card','payble_amount1','phone',
-           'payble_amount2','payment_time1','payment_time2','payment_type1','payment_type2')->get();
+           'payble_amount2','payment_time1','payment_time2','payment_type1','payment_type2')->orderBy($data->pdf_order,'asc')->get();
         }
            
        return view('pdf.daily_payment',['type'=>$type,'date1'=>$date1 ,"payment1"=>$payment1, "payment2"=>$payment2]);

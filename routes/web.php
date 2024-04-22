@@ -42,7 +42,7 @@ use App\Http\Controllers\BookingController;
      Route::post('maintain/forget',[MaintainController::class,'forgetemail']); 
      Route::post('maintain/forgetcode',[MaintainController::class,'forgetcode']); 
      Route::post('maintain/confirmpass',[MaintainController::class,'confirmpass']);
-   
+     
    
      Route::middleware('MaintainToken')->group(function(){
           
