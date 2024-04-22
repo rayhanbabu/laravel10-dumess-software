@@ -661,7 +661,7 @@ class MemberController extends Controller
                    'message' => "Time Over",
                 ]);
             }else if($meal_no<=$hallinfo->mealon_without_payment){
-                  $diff=$data->pre_monthdue-($data->pre_refund+$data->pre_refund);
+                  $diff=$data->pre_monthdue-($data->pre_refund+$data->pre_reserve_amount);
                   $payment = $data->payment_status1+$data->payment_status2;         
                   if($diff>0 && $payment==0){    
                       return response()->json([
