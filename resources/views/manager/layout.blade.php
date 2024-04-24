@@ -183,10 +183,8 @@
      @if(bazar_access())
         <a class="nav-link @yield('product')" href="{{url('manager/product')}}">
            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-            Product Details
+              Product Details
          </a>
-
-        
      @else
      @endif
 
@@ -220,7 +218,7 @@
      @endif
 
 
-     @if(payment_access())
+     @if(manager_access_payment())
         <a class="nav-link @yield('payment5')" href="{{url('manager/ex_payment/5')}}">
            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
              Last Invoice
