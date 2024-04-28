@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 use App\Models\Member;
 use App\Models\Feedback;
 use App\Models\Invoice;
+use App\Models\Expayemnt;
 use  DateTime;
 
 class ManagerController extends Controller
@@ -135,10 +136,13 @@ class ManagerController extends Controller
      ->where('bazar_section',$hallinfo->cur_section)->where('bazars.category','bazar')->where('hall_id',$hall_id)->get();
 
 
+     $extra_payment=Expayemnt::where('cur_month',$hallinfo->cur_month)->where('cur_year',$hallinfo->cur_year)->where('hall_id',$hall_id)
+     ->where('cur_section',$hallinfo->cur_section)->orderBy('id','desc')->get();
 
             return view('manager.dashboard',['active_invoice'=>$active_invoice,'invoice'=>$invoice,
             'exinvoice'=>$exinvoice,'payment1'=>$payment1,'payment2'=>$payment2,'hallinfo'=>$hallinfo,
-            'cur_meal'=>$cur_meal,'bazar'=>$bazar,'estimate_bazar'=>$estimate_bazar]);
+            'cur_meal'=>$cur_meal,'bazar'=>$bazar ,'estimate_bazar'=>$estimate_bazar
+            ,'extra_payment'=>$extra_payment]);
         } catch (Exception $e) {
             return  view('errors.error', ['error' => $e]);
         }

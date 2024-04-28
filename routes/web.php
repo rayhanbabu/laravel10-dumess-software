@@ -16,6 +16,7 @@ use App\Http\Controllers\BuildingController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SeatController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ExpayemntController;
 
 /*
 |--------------------------------------------------------------------------
@@ -148,6 +149,16 @@ use App\Http\Controllers\BookingController;
         Route::post('/manager/bazar',[BazarController::class, 'store']);
         Route::get('/manager/bazar/fetch_data', [BazarController::class, 'fetch_data']);
 
+
+       //Extra Payment
+       Route::get('/manager/extra_payment',[ExpayemntController::class, 'index']);
+       Route::post('/manager/extra_payment',[ExpayemntController::class, 'store']);
+       Route::get('/manager/extra_payment_fetch', [ExpayemntController::class, 'fetch']);
+       Route::get('/manager/extra_payment/fetch_data', [ExpayemntController::class, 'fetch_data']);
+       Route::get('/manager/extra_payment_edit/{id}', [ExpayemntController::class, 'edit']);
+       Route::post('/manager/extra_payment_update/{id}', [ExpayemntController::class, 'update']);
+       Route::delete('/manager/extra_payment_delete/{id}', [ExpayemntController::class, 'destroy']);
+
         Route::middleware('AdminToken')->group(function(){
            Route::get('/manager/information_update',[ManagerController::class,'information_update']);
            Route::get('/manager/information_update_view/{id}',[ManagerController::class,'information_update_view']);
@@ -178,8 +189,8 @@ use App\Http\Controllers\BookingController;
             Route::post('/manager/update',[ManagerController::class,'update']);
             Route::delete('/manager/manager_delete',[ManagerController::class,'manager_delete']);
 
-             //Presvous Section  Due , Refund, Reserve Update
-          Route::post('/manager/section_update_id', [InvoiceController::class,'section_update_id']);
+            //Presvous Section  Due , Refund, Reserve Update
+            Route::post('/manager/section_update_id', [InvoiceController::class,'section_update_id']);
 
           });
 
@@ -205,7 +216,6 @@ use App\Http\Controllers\BookingController;
                Route::get('/manager/ex_payment_view/{id}', [InvoiceController::class, 'ex_payment_view_all']);
                Route::get('/manager/ex_payment_fetch/{invoice_status}', [InvoiceController::class, 'ex_payment_fetch']);
                Route::get('/manager/ex_payment/{invoice_status}/fetch_data', [InvoiceController::class, 'ex_payment_fetch_data']);
-
          });   
 
 
@@ -278,7 +288,7 @@ use App\Http\Controllers\BookingController;
           Route::post('/pdf/member_invoice_summary', [HallinfoController::class,'member_invoice_summary']);
           Route::post('/pdf/withdraw_invoice', [HallinfoController::class,'withdraw_invoice']);
           Route::post('/pdf/range_inactive_member', [HallinfoController::class,'range_inactive_member']);
-
+          Route::post('/pdf/extra_payment', [HallinfoController::class,'extra_payment']);
 
           Route::middleware('BookingSeatToken')->group(function(){
                //Building  create

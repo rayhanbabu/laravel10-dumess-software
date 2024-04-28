@@ -922,7 +922,7 @@ class InvoiceController extends Controller
          $manager_username = $request->header('manager_username');
          $hall_id = $request->header('hall_id');
          $id = $request->input('withdraw_id');
-         $data = Invoice::Where('id', $id)->select('payble_amount1','payment_status1' ,'payment_time1' ,'payment_time2'
+         $data = Invoice::Where('id', $id)->select('payble_amount1','payment_status1' ,'payment_time1' ,'payment_time2' ,'invoice_status'
              ,'payble_amount2' ,'payment_status2' ,'withdraw' ,'withdraw_status','withdraw_time','meal_start_date','first_pay_mealon')->first();
 
          $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('section_day','unpaid_day','breakfast_rate','lunch_rate','dinner_rate','first_payment_meal')->first();
@@ -949,7 +949,7 @@ class InvoiceController extends Controller
             'message' => 'You can not refund withdraw beacuse 1st or 2nd payment already paid',
           ]);
 
-       }else if($data->withdraw<=0 && $data->member_status==1){
+       }else if($data->withdraw<=0 && $data->invoice_status==1){
             return response()->json([
                'status' => 200,
                 'message' => 'You can not refund withdraw beacuse withdraw amount negative',

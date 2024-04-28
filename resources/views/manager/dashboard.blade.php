@@ -218,8 +218,8 @@
             <div class="card-body">
               <div class="media d-flex">
                 <div class="media-body text-left">
-                  <h3 class="success">{{ $payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')+$invoice->sum('withdraw') }}TK</h3>
-                  <span> Total Cash(Manager recived+Total Amount+Resign)</span>
+                  <h3 class="success">{{ $payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')+$invoice->sum('withdraw')+$extra_payment->sum('amount') }}TK</h3>
+                  <span> Total Cash(Manager recived+Total Amount+Resign+Extra Payment)</span>
                 </div>
                   <div class="align-self-center">
                     <i class="icon-cup success font-large-2 float-right"></i>
@@ -335,7 +335,7 @@
             <div class="card-body">
               <div class="media d-flex">
                 <div class="media-body text-left">
-                  <h3 class="success">{{ ($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')+$invoice->sum('withdraw'))-$bazar->sum('total')}}TK</h3>
+                  <h3 class="success">{{ ($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')+$invoice->sum('withdraw')+$extra_payment->sum('amount'))-$bazar->sum('total')}}TK</h3>
                   <span> Reserve cash amount </span>
                 </div>
                   <div class="align-self-center">

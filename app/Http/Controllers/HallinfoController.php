@@ -12,6 +12,7 @@ use Exception;
 use App\Models\Invoice;
 use App\Models\Bazar;
 use App\Models\Booking;
+use App\Models\Expayemnt;
 
 class HallinfoController extends Controller
 {
@@ -183,12 +184,16 @@ class HallinfoController extends Controller
 
      $bazar=DB::table('bazars')->where('bazar_year',$year)->where('bazar_month',$month)->where('bazar_section',$section)
       ->where('hall_id',$hall_id)->get();
+
+      $extra_payment=Expayemnt::where('cur_month',$month)->where('cur_year',$year)->where('hall_id',$hall_id)
+      ->where('cur_section',$section)->orderBy('id','desc')->get();
          
             return view('pdf.overall_summary2',[
                         'month1' => $month1 ,'invoice' => $invoice ,'section' => $section 
                         ,'exinvoice' => $exinvoice, 'active_invoice' => $active_invoice
                         ,'payment1' => $payment1,'payment2' => $payment2,'bazar'=>$bazar  
-                        ,'exinvoice_payment'=>$exinvoice_payment,'withdraw' => $withdraw 
+                        ,'exinvoice_payment'=>$exinvoice_payment,'withdraw' => $withdraw
+                        ,'extra_payment'=>$extra_payment 
               ]);
              
              } catch (Exception $e) {
@@ -667,7 +672,7 @@ class HallinfoController extends Controller
    
        $withdraw=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
         ->where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
-        ->where('invoice_section',$section)->where('withdraw_status',$status)->select('invoices.*','name','registration','card','phone')
+        ->where('invoice_section',$section)->where('withdraw_status',$status)->where('invoice_status',1)->select('invoices.*','name','registration','card','phone')
          ->orderBy($hallinfo->pdf_order,'asc')->get();
      return view('pdf.withdraw_invoice',["section"=>$section,"month1"=>$month1,"withdraw"=>$withdraw]);
 
@@ -690,6 +695,24 @@ class HallinfoController extends Controller
         return view('pdf.range_inactive',["date1"=>$date1,"date2"=>$date2,"invoice"=>$invoice]);
 
     }
+
+
+
+    public function extra_payment(Request $request){
+
+        $hall_id = $request->header('hall_id');
+        $month = date('n',strtotime($_POST['month']));
+        $year = date('Y',strtotime($_POST['month']));
+        $section = $_POST['section'];
+        $month1 = date('F-Y',strtotime($_POST['month']));
+        $status=1;
+
+       $extra_payment=Expayemnt::where('cur_month',$month)->where('cur_year',$year)->where('hall_id',$hall_id)
+       ->where('cur_section',$section)->orderBy('id','desc')->get();
+        return view('pdf.extra_payment',["section"=>$section,"month1"=>$month1,"extra_payment"=>$extra_payment]);
+
+    }
+
 
 
 

@@ -209,6 +209,11 @@
           Resign View  
     </a>
 
+    <a class="nav-link @yield('extra_payment')" href="{{url('manager/extra_payment')}}">
+        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+          Extra Payment  
+    </a>
+
     @if(member_access())
         <a class="nav-link @yield('member5')" href="{{url('manager/member/5')}}">
            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
