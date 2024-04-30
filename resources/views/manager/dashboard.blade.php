@@ -340,7 +340,7 @@
             <div class="card-body">
               <div class="media d-flex">
                 <div class="media-body text-left">
-                  <h3 class="success">{{ ($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')+$extra_payment->sum('amount')+$refund+$extra_payment->sum('amount'))-$bazar->sum('total')}}TK</h3>
+                  <h3 class="success">{{ ($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')+$extra_payment->sum('amount')+$refund+$exinvoice_payment->sum('withdraw'))-$bazar->sum('total')}}TK</h3>
                   <span> Reserve cash amount </span>
                 </div>
                   <div class="align-self-center">
