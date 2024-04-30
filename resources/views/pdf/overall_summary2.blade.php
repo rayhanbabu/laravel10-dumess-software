@@ -76,9 +76,9 @@
      @endphp
 
         @php
-            $refund= ($invoice->sum('total_refund')+$invoice->sum('reserve_amount')) - $invoice->sum('total_due');
+          $refund=($invoice->sum('total_refund')+$invoice->sum('reserve_amount'))-$invoice->sum('total_due');
     
-        $total_payment=($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2'))+$exinvoice_payment->sum('withdraw');
+           $total_payment=($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2'))+$exinvoice_payment->sum('withdraw')-($reserve_payment2);
         @endphp
 
            <!-- Table 1:Manager get in -->
@@ -326,14 +326,14 @@
               <tr>
                 <td>6</td>
                 <td>2nd Invoice payment </td>
-                <td align="right">{{ $payment2->sum('payble_amount2') }} TK</td>
+                <td align="right">{{ $payment2->sum('payble_amount2')-$reserve_payment2 }} TK</td>
               </tr>
 
 
               <tr>
                 <td>7</td>
                 <td>Total Invoice Payment</td>
-                <td align="right">{{ $payment1->sum('payble_amount1')+$payment2->sum('payble_amount2') }} TK </td>
+                <td align="right">{{ $payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')-($reserve_payment2) }} TK </td>
               </tr>
 
 
@@ -347,14 +347,14 @@
               <tr>
                 <td>9</td>
                 <td>Total Payment(7+8) </td>
-                <td align="right">{{ ($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2'))+$exinvoice_payment->sum('withdraw') }} TK</td>
+                <td align="right">{{ ($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2'))+$exinvoice_payment->sum('withdraw')-($reserve_payment2) }} TK</td>
               </tr>
 
             </tbody>
             <tfoot>
               <tr>
                 <td class="text" colspan="2" >Invoice due amount(table 3-9)</td>
-                <td align="right">{{$invoice->sum('total_due')}} TK</td>
+                <td align="right">{{$invoice->sum('total_due') }} TK</td>
 
               </tr>
             </tfoot>

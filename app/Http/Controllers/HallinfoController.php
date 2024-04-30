@@ -187,14 +187,18 @@ class HallinfoController extends Controller
 
       $extra_payment=Expayemnt::where('cur_month',$month)->where('cur_year',$year)->where('hall_id',$hall_id)
       ->where('cur_section',$section)->orderBy('id','desc')->get();
-         
-            return view('pdf.overall_summary2',[
-                        'month1' => $month1 ,'invoice' => $invoice ,'section' => $section 
-                        ,'exinvoice' => $exinvoice, 'active_invoice' => $active_invoice
-                        ,'payment1' => $payment1,'payment2' => $payment2,'bazar'=>$bazar  
-                        ,'exinvoice_payment'=>$exinvoice_payment,'withdraw' => $withdraw
-                        ,'extra_payment'=>$extra_payment 
-              ]);
+        
+      $reserve_payment2=DB::table('invoices')->where('invoice_month', $month)->where('hall_id', $hall_id)
+      ->where('invoice_year', $year)->where('invoice_section',$section)->where('invoice_status',1)
+      ->where('payment_status2',1)->where('payble_amount2','<',0)->sum('payble_amount2');
+
+          return view('pdf.overall_summary2',[
+                       'month1' => $month1 ,'invoice' => $invoice ,'section' => $section 
+                       ,'exinvoice' => $exinvoice, 'active_invoice' => $active_invoice
+                       ,'payment1' => $payment1,'payment2' => $payment2,'bazar'=>$bazar  
+                       ,'exinvoice_payment'=>$exinvoice_payment,'withdraw' => $withdraw
+                      ,'extra_payment'=>$extra_payment,'reserve_payment2'=>$reserve_payment2
+           ]);
              
              } catch (Exception $e) {
              return  view('errors.error', ['error' => $e]);
