@@ -575,6 +575,7 @@ class HallinfoController extends Controller
                $invoice = Invoice::leftjoin('members','members.id','=','invoices.member_id')
                   ->where('invoice_month', $month)->where('invoices.hall_id', $hall_id)
                   ->where('invoice_year', $year)->where('invoice_section', $section)
+                  ->where('invoice_status', 1)
                   ->select('name','registration','phone','email','card',
                   'payble_amount1','payble_amount2','payble_amount','total_refund'
                   ,'total_due','reserve_amount','invoice_status')
