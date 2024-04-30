@@ -136,8 +136,14 @@ class ManagerController extends Controller
        ->where('invoice_year', $hallinfo->cur_year)->where('invoice_section', $hallinfo->cur_section)->where('invoice_status',5)
        ->where('withdraw_status',1)->get();
 
-      $bazar=DB::table('bazars')->where('bazar_year',$hallinfo->cur_year)->where('bazar_month',$hallinfo->cur_month)
-      ->where('bazar_section',$hallinfo->cur_section)->where('bazars.category','bazar')->where('hall_id',$hall_id)->get();
+       $reserve_payment2=DB::table('invoices')->where('invoice_month', $hallinfo->cur_month)->where('hall_id', $hall_id)
+       ->where('invoice_year', $hallinfo->cur_year)->where('invoice_section', $hallinfo->cur_section)->where('invoice_status',1)
+       ->where('payment_status2',1)->where('payble_amount2','<',0)->sum('payble_amount2');
+
+      // $reserve_payment=$reserve_payment2->sum('payble_amount2');
+
+       $bazar=DB::table('bazars')->where('bazar_year',$hallinfo->cur_year)->where('bazar_month',$hallinfo->cur_month)
+       ->where('bazar_section',$hallinfo->cur_section)->where('bazars.category','bazar')->where('hall_id',$hall_id)->get();
 
 
      $extra_payment=Expayemnt::where('cur_month',$hallinfo->cur_month)->where('cur_year',$hallinfo->cur_year)->where('hall_id',$hall_id)
@@ -146,7 +152,7 @@ class ManagerController extends Controller
             return view('manager.dashboard',['active_invoice'=>$active_invoice,'invoice'=>$invoice,
             'exinvoice'=>$exinvoice,'payment1'=>$payment1,'payment2'=>$payment2,'hallinfo'=>$hallinfo,
             'cur_meal'=>$cur_meal,'bazar'=>$bazar ,'estimate_bazar'=>$estimate_bazar
-            ,'extra_payment'=>$extra_payment,'exinvoice_payment'=>$exinvoice_payment]);
+            ,'extra_payment'=>$extra_payment,'exinvoice_payment'=>$exinvoice_payment,'reserve_payment2'=>$reserve_payment2]);
         } catch (Exception $e) {
             return  view('errors.error', ['error' => $e]);
         }
