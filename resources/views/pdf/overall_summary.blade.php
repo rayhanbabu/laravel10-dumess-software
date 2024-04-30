@@ -547,8 +547,8 @@
             </tr>
 
             <tr>
-              <th align="left" width="160">Received by Previous manager</th>
-              <th align="right" width="80">{{$manager_get}}TK</th>
+              <th align="left" width="160"> Received by Previous  </th>
+              <th align="right" width="80"> {{$manager_get}}TK </th>
             </tr>
 
 

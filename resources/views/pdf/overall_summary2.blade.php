@@ -380,14 +380,10 @@
                 <td align="right">{{$manager_get}} TK</td>
               </tr>
 
-              <tr>
-                <td>3</td>
-                <td>Reserve Amount </td>
-                <td align="right">{{$invoice->sum('reserve_amount')}} TK</td>
-              </tr>
+          
 
               <tr>
-                <td>4</td>
+                <td>3</td>
                 <td>Extra Payment </td>
                 <td align="right">{{$extra_payment->sum('amount')}} TK</td>
               </tr>
@@ -397,7 +393,7 @@
             <tfoot>
               <tr>
                 <td class="text" colspan="2" >Total Received amount</td>
-                <td align="right">{{$total_payment+$manager_get+$invoice->sum('reserve_amount')+$extra_payment->sum('amount') }} TK</td> 
+                <td align="right">{{$total_payment+$manager_get+$extra_payment->sum('amount') }} TK</td> 
               </tr>
             </tfoot>
           </table>
@@ -557,6 +553,7 @@
                 <td> Refund next manager</td>
                 <td align="right">{{$invoice->sum('total_refund')}} TK</td>
               </tr>
+              
               <tr>
                 <td>2</td>
                 <td>Refund Reserve Amount</td>
@@ -670,7 +667,7 @@
               <tr>
                 <td>15</td>
                 <td>Total Spends(1+...+14)</td>
-                <td align="right">{{ $bazar->sum('total')+$refund +$admin_get+$withdraw->sum('withdraw')+
+                <td align="right">{{ $bazar->sum('total')+$refund+$admin_get+$withdraw->sum('withdraw')+
                 ($invoice->sum('employee')-$invoice->sum('refund_employee'))+$invoice->sum('meeting_penalty')
                 +($invoice->sum('others')-$invoice->sum('refund_others'))+($invoice->sum('gass')-$invoice->sum('refund_gass'))
                 +($invoice->sum('electricity')-$invoice->sum('refund_electricity'))+($invoice->sum('tissue')-$invoice->sum('refund_tissue'))
@@ -686,7 +683,7 @@
             <tfoot class="text">
               <tr>
                 <td colspan="2">(+Reserve)/(-Extra) Spends (table 7-15)</td>
-                <td align="right">{{ ($total_payment+$extra_payment->sum('amount')+$manager_get+$invoice->sum('reserve_amount'))
+                <td align="right">{{ ($total_payment+$extra_payment->sum('amount')+$manager_get)
                  -($bazar->sum('total')+$refund +$admin_get+$withdraw->sum('withdraw')+
                 ($invoice->sum('employee')-$invoice->sum('refund_employee'))+$invoice->sum('meeting_penalty')
                 +($invoice->sum('others')-$invoice->sum('refund_others'))+($invoice->sum('gass')-$invoice->sum('refund_gass'))

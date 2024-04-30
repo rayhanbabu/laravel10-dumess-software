@@ -375,14 +375,11 @@ class InvoiceController extends Controller
                      ELSE 0 END)
 
            , second_payment_due=(CASE 
-                    WHEN payment_status2<=0 THEN payble_amount2 
+                    WHEN payble_amount2<0 AND payment_status2<=0 THEN 0 
+                    WHEN payment_status2<=0 THEN payble_amount2   
                     ELSE 0 END)
 
-          , total_due=(CASE 
-              WHEN payment_status1<=0 AND payment_status2<=0 THEN payble_amount
-              WHEN payment_status1<=0 AND payment_status2>=0 THEN first_payment_due+second_payment_due
-              WHEN payment_status1>=1 AND payment_status2<=0 THEN first_payment_due+second_payment_due
-              ELSE 0 END)
+          , total_due=first_payment_due+second_payment_due
 
           , reserve_amount=(CASE 
                 WHEN payble_amount2<0 THEN -payble_amount2
