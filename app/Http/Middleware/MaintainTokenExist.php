@@ -17,8 +17,8 @@ class MaintainTokenExist
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $token=Cookie::get('token');
-        $result=MaintainJWTToken::ReadToken($token);
+        $token_maintain=Cookie::get('token_maintain');
+        $result=MaintainJWTToken::ReadToken($token_maintain);
         if($result=="unauthorized"){
             return $next($request);
         }else{

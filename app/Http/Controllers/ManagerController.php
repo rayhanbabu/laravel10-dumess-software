@@ -602,9 +602,12 @@ class ManagerController extends Controller
 
 
 
-    public function manager_access()
+    public function manager_access(Request $request)
     {
-        return view('manager.manager_access');
+
+        $hall_id = $request->header('hall_id');
+        $role = $request->header('role');
+        return view('manager.manager_access',['role'=>$role]);
     }
 
 

@@ -83,15 +83,15 @@
                 <p class="text-danger error_password"></p>
             </div>
 
-         
-            <div class="col-lg-6 my-2">
+          @if($role=="admin")
+             <div class="col-lg-6 my-2">
                   <label class=""> Access Type</label>
                   <select class="form-control mb-2" id="access_type" name="access_type" aria-label="Default select example" >
                      <option value="">Manager</option>
                      <option value="auditor">Auditor</option>
                   </select>
-            </div>
-
+              </div>
+          @endif
 
             <div class="col-lg-12 my-2">
              <label for="avatar">Select Image<span style="color:red;"> (Image must be 300*300px) </span></label>
