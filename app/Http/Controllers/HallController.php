@@ -117,6 +117,7 @@ class HallController extends Controller
          $model->level_registration=$request->input('level_registration');
          $model->level_profile_image=$request->input('level_profile_image');
          $model->level_file_name=$request->input('level_file_name');
+         $model->level_email_name=$request->input('level_email_name');
          $model->frontend_link=$request->input('frontend_link');
          $model->meal=$request->input('meal');
          $model->member=$request->input('member'); 

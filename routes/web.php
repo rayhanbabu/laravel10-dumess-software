@@ -172,10 +172,7 @@ use App\Http\Controllers\ExpayemntController;
           
          
           
-          //member and invoice delete
-          Route::get('/manager/member_delete/{id}',[ManagerController::class,'member_delete']);
-          Route::get('/manager/ex_payment_delete/{id}',[InvoiceController::class,'ex_payment_delete']);
-     
+       
          });
 
 
@@ -267,6 +264,11 @@ use App\Http\Controllers\ExpayemntController;
           Route::middleware('ResignToken')->group(function(){
                Route::post('/manager/feedback/{id}',[ManagerController::class,'feedback_delete']);
                Route::post('/manager/resignmember/{id}',[ManagerController::class,'resign_delete']);
+        
+                   //member and invoice delete
+               Route::get('/manager/member_delete/{id}',[ManagerController::class,'member_delete']);
+               Route::get('/manager/ex_payment_delete/{id}',[InvoiceController::class,'ex_payment_delete']);
+     
           });
 
           Route::get('/manager/report', [HallinfoController::class, 'report']);

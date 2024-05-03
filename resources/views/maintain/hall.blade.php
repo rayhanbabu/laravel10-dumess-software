@@ -283,6 +283,11 @@
             </div>
 
             <div class="col-lg-6 my-2">
+                <label for="roll">Level Email name  </span></label>
+                <input type="text" name="level_email_name" id="edit_level_email_name" class="form-control" placeholder="" >
+            </div>
+
+            <div class="col-lg-6 my-2">
                 <label for="roll">FrontEnd Link  </span></label>
                 <input type="text" name="frontend_link" id="edit_frontend_link" class="form-control" placeholder="" >
             </div>
@@ -536,6 +541,7 @@
               $("#edit_level_custom3").val(response.data.level_custom3);
               $("#edit_level_profile_image").val(response.data.level_profile_image);
               $("#edit_level_file_name").val(response.data.level_file_name);
+              $("#edit_level_email_name").val(response.data.level_email_name);
               $("#edit_frontend_link").val(response.data.frontend_link);
               $("#bazar").val(response.data.bazar);
                $("#payment").val(response.data.payment);

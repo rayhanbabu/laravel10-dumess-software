@@ -35,6 +35,7 @@ class MemberController extends Controller
         'level_registration',
         'level_profile_image',
         'level_file_name',
+        'level_email_name',
         'frontend_link'
       )->orderBy('id','asc')->get();
         return response()->json([
