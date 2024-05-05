@@ -6,7 +6,7 @@
   <section id="minimal-statistics">
     <div class="row">
       <div class="col-12 mt-3 mb-1">
-         <h4 class="text-uppercase">Current Section : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}}</h4>
+         <h4 class="">Current Section : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}}.  For any query please contact 01710042765  (polas)</h4>
       </div>
     </div>
 
