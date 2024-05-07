@@ -135,9 +135,13 @@
                           @endforeach
 
                           <tr>
+                             <td conspan="3" align="right"> Current reserve amount:{{-$reserve_payment2}}TK</td>
+                         </tr>
+
+                          <tr>
                                 <td> </td>
                                 <td></td>
-                                <td align="right">Total Payment:{{$sum2}}TK</td>
+                                <td align="right">Total Payment:{{$sum2-$reserve_payment2}}TK</td>
                           </tr>
                     </table>
 

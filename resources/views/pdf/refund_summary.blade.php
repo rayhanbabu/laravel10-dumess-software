@@ -82,12 +82,13 @@
 
         <table>
             <tr>
-               <th align="left" width="100"> Card </th>
-               <th align="left" width="100"> Reg/Seat </th>
-               <th align="left" width="180"> Name </th>
-               <th align="left" width="70"> Previous refund </th>
-               <th align="left" width="70"> Previous due </th>
-               <th align="left" width="70"> Reserve amount </th>
+                <th align="left" width="70"> Card </th>
+                <th align="left" width="80"> Reg/Seat </th>
+                <th align="left" width="180"> Name </th>
+                <th align="left" width="70"> Previous refund </th>
+                <th align="left" width="70"> Previous due </th>
+                <th align="left" width="70"> Reserve amount </th>
+                <th align="left" width="70"> Member Get(+)/ Manager get(-) </th>
                
             </tr>
 
@@ -99,6 +100,7 @@
                <td align="left"> {{ $user->total_refund }} </td>
                <td align="left"> {{ $user->total_due }} </td>
                <td align="left"> {{ $user->reserve_amount }} </td>
+               <td align="left"> {{ ($user->total_refund+$user->reserve_amount)-$user->total_due}} </td>
                
             </tr>
             @endforeach

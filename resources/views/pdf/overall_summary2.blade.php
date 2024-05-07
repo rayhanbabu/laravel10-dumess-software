@@ -340,7 +340,7 @@
               <tr>
                 <td>8</td>
                 <td>Total Resign Payment </td>
-                <td align="right">{{ $exinvoice_payment->sum('withdraw')}} TK</td>
+                <td align="right">{{ $exinvoice_payment->sum('withdraw') }} TK</td>
               </tr>
 
 

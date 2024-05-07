@@ -539,12 +539,12 @@ class ManagerController extends Controller
           $data = Hallinfo::where('hall_id_info', $hall_id)->first();
 
            $invoice1=DB::table('invoices')->where('invoice_month',$data->cur_month)->where('invoice_year',$data->cur_year)
-                   ->where('invoice_section',$data->cur_section)->where('hall_id',$hall_id)->get();
+                   ->where('invoice_section',$data->cur_section)->where('invoice_status',1)->where('hall_id',$hall_id)->get();
          if($invoice1->count()>=1){
                    return back()->with('fail','Invoice already exist');   
          }else{     
                 $pre_invoice=Invoice::where('invoice_month',$data->pre_month)->where('invoice_year',$data->pre_year)
-                ->where('invoice_section',$data->pre_section)->where('hall_id',$hall_id)->get();
+                ->where('invoice_section',$data->pre_section)->where('invoice_status',1)->where('hall_id',$hall_id)->get();
 
                 $hall=DB::table('halls')->where('hall_id',$hall_id)->where('role','admin')->first();
                 if($hall->refund_status=='Yes'){

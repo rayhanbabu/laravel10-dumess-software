@@ -227,10 +227,14 @@ class HallinfoController extends Controller
               DATE_FORMAT(payment_time2,'%d') AS payment_day
               FROM `invoices`  WHERE  invoice_month='$month' AND invoice_year='$year' AND payment_status2='$status' AND 
               invoice_section='$section' AND  hall_id='$hall_id' GROUP BY DATE_FORMAT(payment_time2,'%d')");
-               
+           
+           $reserve_payment2=DB::table('invoices')->where('invoice_month', $month)->where('hall_id', $hall_id)
+              ->where('invoice_year', $year)->where('invoice_section',$section)->where('invoice_status',1)
+              ->where('payment_status2',1)->where('payble_amount2','<',0)->sum('payble_amount2');   
+
                 // return $payment2;
             return view('pdf.monthly_payment',['month1'=>$month1, 'payment1'=>$payment1, 
-            'payment2' => $payment2, 'section' => $section]);
+            'payment2' => $payment2, 'section' => $section,'reserve_payment2'=>$reserve_payment2]);
              
 
                 // } catch (Exception $e) {
