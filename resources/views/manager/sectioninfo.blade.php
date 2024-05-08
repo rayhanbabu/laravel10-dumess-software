@@ -22,8 +22,9 @@
 
                 <div class="col-sm-3 my-2 ">
                    <div class="d-grid gap-3 d-flex justify-content-end">
-                       <a href="{{url('manager/section_update')}}" class="btn btn-warning">Refresh </a>
-                   </div>
+                       <!-- <a href="{{url('manager/section_update')}}" onclick="return confirm('Are you sure you want to create new invoice')" class="btn btn-warning">Daily Update & Refresh </a> -->
+                       <button type="button" id="add_employee_btn" onclick="return confirm('Are you sure you want to Update')" value="" class="daily_update btn btn-info btn-sm">Daily Update & Refresh </button>
+                      </div>
                 </div>
              
 
@@ -36,6 +37,9 @@
                @endif
     </div> 
     
+    <div class="loader">
+            <img src="{{ asset('images/abc.gif') }}" alt="" style="width: 50px;height:50px;">
+          </div><br>
     
     <div class="row my-2">
     <div class="col-md-9">
@@ -315,6 +319,38 @@
 
 
 	
+
+      $(document).on('click', '.daily_update', function(e) {
+      e.preventDefault();
+      var view_id = $(this).val();
+     
+      $.ajax({
+        type: 'GET',
+        url: '/manager/section_update',
+        beforeSend: function() {
+          $('.loader').show();
+          $("#add_employee_btn").prop('disabled', true);
+        },
+        success: function(response) {
+          if (response.status == 200) {
+            $('#success_message').html("");
+            Swal.fire("Success", response.message, "success");
+            location.reload();
+          } else {
+            Swal.fire("Warning", response.message, "warning");
+          } 
+
+          $('.loader').hide();
+          $("#add_employee_btn").prop('disabled', false);
+        }
+
+      });
+
+
+
+    });
+
+
 
 
 

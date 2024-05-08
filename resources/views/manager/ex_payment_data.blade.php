@@ -7,6 +7,7 @@
 		      <td><?php echo $row['card']; ?></td>
               <td> <?php echo $row['invoice_year']; ?> - <?php echo $row['invoice_month']; ?> - <?php echo $row['invoice_section']; ?>  </td>
 		      <td><?php echo $row['name']; ?></td>
+          <td><?php echo $row['phone']; ?></td>
               <td><?php echo $row['registration']; ?></td>
 		      <td><?php echo $row['id']; ?></td>
               <td><?php echo $row['pre_refund']; ?></td>

@@ -32,7 +32,7 @@
               
                   <th width ="10%">Card No</th>
                   <th width ="25%"> Name of Student </th>	
-                  <th width="10%">Present Status </th> 
+                  <th width="10%">Present Status(0), absence status(1) </th> 
                					   
         </tr>
    </thead>

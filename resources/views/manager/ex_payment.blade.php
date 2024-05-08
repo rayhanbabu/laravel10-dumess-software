@@ -40,6 +40,7 @@
           <th width="">Card No</th>
           <th width="">Invoice Month-Section</th>
           <th width="">Name</th>
+          <th width="">Phone</th>
           <th width="">Reg/Seat No</th>
           <th width="">Invoice No</th>  
           <th width="">Pre Refund</th>

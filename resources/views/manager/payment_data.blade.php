@@ -48,10 +48,10 @@
         <td><?php echo $row['withdraw_type']; ?> , <?php echo $row['withdraw_time']; ?></td>
 
 
-       <?php if($row['status2']==1){
-           ?> <td> <button type="button" value="{{ $row->id}}" data-status="0" class="memberblock btn btn-success btn-sm">Runing </button> </td> <?php 
+       <?php if($row['block_status']==1){
+           ?> <td> <button type="button" value="{{ $row->id}}" data-status="0" class="memberblock btn btn-success btn-sm">Blocked </button> </td> <?php 
         }else{
-           ?> <td> <button type="button" value="{{ $row->id}}" data-status="1" class="memberblock btn btn-warning btn-sm">Blocked </button> </td> <?php
+           ?> <td> <button type="button" value="{{ $row->id}}" data-status="1" class="memberblock btn btn-warning btn-sm">Unblock </button> </td> <?php
         } ?>
        
         <td><a  class="btn btn-primary btn-sm" href="{{ url('/manager/invoicepdf/'.$row->id)}}">Print</a></td>

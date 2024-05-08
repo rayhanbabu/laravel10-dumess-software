@@ -660,7 +660,7 @@ class HallinfoController extends Controller
           $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
           $invoice=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
           ->where('invoices.hall_id',$hall_id)->where('members.card',$card)->select('invoices.*','name','registration','card','phone')
-          ->orderBy($hallinfo->pdf_order,'asc')->get();
+          ->orderBy('id','desc')->get();
           return view('manager.member_invoice_summary',["hallinfo"=>$hallinfo,"invoice"=>$invoice,]);
 
       }
@@ -687,7 +687,7 @@ class HallinfoController extends Controller
 
 }
 
-
+ 
   public function range_inactive_member(Request $request){
 
        $hall_id = $request->header('hall_id');
@@ -698,7 +698,7 @@ class HallinfoController extends Controller
        $status=1;
 
        $invoice=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
-          ->whereBetween('invoice_date', [$date1, $date2])->where('onmeal_amount','<=',0)->select('invoices.*','name','registration','card','phone')
+          ->where('invoices.hall_id',$hall_id)->whereBetween('invoice_date', [$date1, $date2])->where('onmeal_amount','<=',0)->select('invoices.*','name','registration','card','phone')
            ->orderBy($hallinfo->pdf_order,'asc')->get();
  
         return view('pdf.range_inactive',["date1"=>$date1,"date2"=>$date2,"invoice"=>$invoice]);

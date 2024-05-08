@@ -322,11 +322,11 @@
        
        $(document).on('click', '.memberblock', function(e){ 
             e.preventDefault(); 
-            var edit_id = $(this).val(); 
-            var status = $(this).data("status");
+            var member_block_id = $(this).val(); 
+          
 
-            $('#member_status').val(status);
-            $('#member_edit_id').val(edit_id);
+         
+            $('#member_block_id').val(member_block_id);
             $('#MemberModal').modal('show');
            
        });
@@ -340,7 +340,7 @@
         let editData=new FormData($('#member_form')[0]);
         $.ajax({
              type:'POST',
-             url:'/manager/member_status_edit',
+             url:'/manager/member_block',
              data:editData,
              contentType: false,
              processData:false,
@@ -484,7 +484,7 @@
         <input type="hidden" name="edit_id" id="edit_id">
          <div class="modal-body p-4 bg-light">
         
-          <input type="hidden" name="member_edit_id" id="member_edit_id" value="" />
+          <input type="hidden" name="member_block_id" id="member_block_id" value="" />
            <input type="hidden" name="member_status" id="member_status" value="" />
           
                	  		  

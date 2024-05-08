@@ -213,7 +213,9 @@ use App\Http\Controllers\ExpayemntController;
                Route::get('/manager/ex_payment_view/{id}', [InvoiceController::class, 'ex_payment_view_all']);
                Route::get('/manager/ex_payment_fetch/{invoice_status}', [InvoiceController::class, 'ex_payment_fetch']);
                Route::get('/manager/ex_payment/{invoice_status}/fetch_data', [InvoiceController::class, 'ex_payment_fetch_data']);
-         });   
+               Route::post('/manager/member_block', [InvoiceController::class, 'member_block']);
+      
+          });   
 
 
        Route::middleware('ApplicationToken')->group(function(){
@@ -291,7 +293,7 @@ use App\Http\Controllers\ExpayemntController;
           Route::post('/pdf/withdraw_invoice', [HallinfoController::class,'withdraw_invoice']);
           Route::post('/pdf/range_inactive_member', [HallinfoController::class,'range_inactive_member']);
           Route::post('/pdf/extra_payment', [HallinfoController::class,'extra_payment']);
-
+          
           Route::middleware('BookingSeatToken')->group(function(){
                //Building  create
                Route::get('/manager/building_view',[BuildingController::class,'building_view']);

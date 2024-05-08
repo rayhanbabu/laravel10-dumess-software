@@ -357,7 +357,10 @@ class InvoiceController extends Controller
            , refund_feast=(CASE WHEN $feast_day<=0 OR $feast_day>=9 THEN $feast ELSE 0 END)
            , refund_friday=fridayt1+fridayt2+fridayt3+fridayt4+fridayt5
            , refund_welfare=(CASE WHEN onmeal_amount<=0 THEN $data->refund_welfare ELSE 0 END)
-           , refund_employee=(CASE WHEN onmeal_amount<=0 THEN $data->refund_employee ELSE 0 END)
+           , refund_employee=(CASE 
+                WHEN block_status=1 THEN $data->employee
+                WHEN onmeal_amount<=0 THEN $data->refund_employee
+                ELSE 0 END)
            , refund_others=(CASE WHEN onmeal_amount<=0 THEN $data->refund_others ELSE 0 END)
 
            , refund_tissue=(CASE WHEN onmeal_amount<=0 THEN $data->refund_tissue ELSE 0 END)
@@ -401,7 +404,10 @@ class InvoiceController extends Controller
          DB::update("update hallinfos set refresh_date='$payment_date', refresh_no='0'  where hall_id_info = '$hall_id' ");
       }   
 
-       return back()->with('success','Update Information');
+      return response()->json([
+          'status'=>200,  
+          'message'=>'Data Updated Successfull',
+      ]);   
      }
 
 
@@ -1069,6 +1075,42 @@ class InvoiceController extends Controller
       }
 
 
+
+
+      public function member_block(Request $request)
+      {
+        $manager_username = $request->header('manager_username');
+        $hall_id = $request->header('hall_id');
+        $id = $request->input('member_block_id');
+        $data = Invoice::Where('id', $id)->select('payble_amount1','payment_status1' ,'payment_time1' ,'payment_time2' ,'invoice_status'
+            ,'payble_amount2' ,'payment_status2' ,'withdraw' ,'withdraw_status','withdraw_time','meal_start_date','first_pay_mealon','block_status')->first();
+
+        $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('section_day','unpaid_day','breakfast_rate','lunch_rate','dinner_rate','first_payment_meal')->first();
+    
+        if($data->block_status == 1) {
+            $status1 = 0;
+          } else {
+            $status1 = 1;
+          }
+    
+     
+    //  if($data->payment_status1==1 || $data->payment_status2==1){
+    //     return response()->json([
+    //        'status' => 200,
+    //        'message' => 'You can not refund withdraw beacuse 1st or 2nd payment already paid',
+    //      ]);
+
+    //   }else{
+          DB::update("update invoices set block_status ='$status1'  where id ='$id'");
+
+            return response()->json([
+              'status' => 200,
+              'message' => 'Data saved successfully',
+            ]);
+
+          // }
+      
+      }
 
    
     
