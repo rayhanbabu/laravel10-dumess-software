@@ -144,6 +144,7 @@
      <th width="10%">Refund wifi</th>
      <th width="10%">Refund dirt</th>
 
+     <th width="10%">Block Status</th>
      <th width="10%">Total refund</th>
 		 <th width="10%">Due amount</th>
      <th width="10%">Reserve amount</th>

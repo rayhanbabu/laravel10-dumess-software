@@ -91,6 +91,7 @@
         <td><?php echo $row['refund_wifi']; ?>TK</td>
         <td><?php echo $row['refund_dirt']; ?>TK</td>
 
+        <td><?php echo $row['block_status']; ?>TK</td>
         <td><?php echo $row['total_refund']; ?>TK</td>
         <td><?php echo $row['total_due']; ?>TK</td>
         <td><?php echo $row['reserve_amount']; ?>TK</td>
