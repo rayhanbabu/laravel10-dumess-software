@@ -90,6 +90,12 @@
           Halls  
     </a>
 
+
+    <a class="nav-link @yield('withdraw')" href="{{url('/maintain/withdraw/')}}">
+        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+        Settlement  
+    </a>
+
     <a class="nav-link @yield('Life_Member_select')  @yield('Member_select')  @yield('Executive_select')
   collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
     <div class="sb-nav-link-icon "><i class="fas fa-columns"></i></div>

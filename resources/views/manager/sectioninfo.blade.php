@@ -4,15 +4,14 @@
 @section('content')
 
       <div class="row mt-3 mb-0 mx-2">
-                <div class="col-sm-3 my-2"> <h5 class="mt-0">Section  Information : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}} </h5></div>                    
+                <div class="col-sm-3 my-2"> <h5 class="mt-0"> Current Module : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}} </h5></div>                    
               @if(manager_info()['role']=='admin')
                  <div class="col-sm-3 my-2">
                     <div class="d-grid gap-2 d-flex justify-content-start"> 
                         <h4>  <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#addEmployeeModalday">Invoice Delete</button> </h4>
                     </div>    
                  </div>
-
-               
+            
                 <div class="col-sm-3 my-2 ">
                    <div class="d-grid gap-3 d-flex justify-content-end">
                          <a href="{{url('manager/new_invoice_create')}}" onclick="return confirm('Are you sure you want to create new invoice')" class="btn btn-info">Invoice Create </a>
@@ -205,14 +204,14 @@
         },
         success: function(response) {
           if (response.status == 200) {
-            $('#success_message').html("");
-            $('#success_message').addClass('alert alert-success');
-            $('#success_message').text(response.message);
-            $("#edit_employee_form")[0].reset();
-            $("#EditModal").modal('hide');
-            $('.edit_err_registration').text('');
-            $('.edit_err_phone').text('');
-            $('.edit_err_email').text('');
+             $('#success_message').html("");
+             $('#success_message').addClass('alert alert-success');
+             $('#success_message').text(response.message);
+             $("#edit_employee_form")[0].reset();
+             $("#EditModal").modal('hide');
+             $('.edit_err_registration').text('');
+             $('.edit_err_phone').text('');
+             $('.edit_err_email').text('');
             fetchAll();
           } else if (response.status == 300) {
             Swal.fire("Warning", response.message, "warning");

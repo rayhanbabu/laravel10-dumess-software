@@ -13,6 +13,7 @@ use App\Models\Invoice;
 use App\Models\Bazar;
 use App\Models\Booking;
 use App\Models\Expayemnt;
+use App\Models\Withdraw;
 
 class HallinfoController extends Controller
 {
@@ -22,10 +23,14 @@ class HallinfoController extends Controller
      {
           try {
                $hall_id = $request->header('hall_id');
-               $hallinfo = Hallinfo::where('hall_id_info', $hall_id)->select('cur_month', 'cur_year', 'cur_section','pdf_order')->first();
-               return view('manager.report',['hallinfo' => $hallinfo]);
+               $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
+            
+               $payment1=Invoice::where('hall_id',$hall_id)->where('payment_status1',1)->where('payment_type1','Online')->select('payble_amount1')->get();
+               $payment2=Invoice::where('hall_id',$hall_id)->where('payment_status2',1)->where('payment_type2','Online')->select('payble_amount2')->get();
+               $withdraw=Withdraw::where('hall_id',$hall_id)->where('withdraw_status',1)->get();
+               return view('manager.report',['hallinfo'=>$hallinfo,'payment1'=>$payment1,'payment2'=>$payment2,'withdraw'=>$withdraw]);
           } catch (Exception $e) {
-               return  view('errors.error', ['error' => $e]);
+               return  view('errors.error',['error'=>$e]);
           }
      }
 
@@ -213,6 +218,7 @@ class HallinfoController extends Controller
                $month = date('n',strtotime($_POST['month']));
                $year = date('Y',strtotime($_POST['month']));
                $section = $_POST['section'];
+               $payment_type = $_POST['payment_type'];
                $month1 = date('F-Y', strtotime($_POST['month']));
                $status=1;
                $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month', 'cur_year', 'cur_section','pdf_order')->first();
@@ -221,19 +227,19 @@ class HallinfoController extends Controller
           $payment1 = DB::select("select  SUM(payble_amount1) AS payble_amount1, COUNT(id) AS id_total,
               DATE_FORMAT(payment_time1,'%d') AS payment_day
               FROM `invoices` WHERE invoice_month='$month'  AND invoice_year='$year' AND payment_status1='$status' AND 
-              invoice_section='$section' AND hall_id='$hall_id' GROUP BY DATE_FORMAT(payment_time1,'%d')");
+              invoice_section='$section' AND payment_type1='$payment_type' AND hall_id='$hall_id' GROUP BY DATE_FORMAT(payment_time1,'%d')");
 
           $payment2 = DB::select("select  SUM(payble_amount2) AS payble_amount2, COUNT(id) AS id_total,
               DATE_FORMAT(payment_time2,'%d') AS payment_day
               FROM `invoices`  WHERE  invoice_month='$month' AND invoice_year='$year' AND payment_status2='$status' AND 
-              invoice_section='$section' AND  hall_id='$hall_id' GROUP BY DATE_FORMAT(payment_time2,'%d')");
+              invoice_section='$section' AND payment_type2='$payment_type' AND  hall_id='$hall_id' GROUP BY DATE_FORMAT(payment_time2,'%d')");
            
            $reserve_payment2=DB::table('invoices')->where('invoice_month', $month)->where('hall_id', $hall_id)
               ->where('invoice_year', $year)->where('invoice_section',$section)->where('invoice_status',1)
               ->where('payment_status2',1)->where('payble_amount2','<',0)->sum('payble_amount2');   
 
                 // return $payment2;
-            return view('pdf.monthly_payment',['month1'=>$month1, 'payment1'=>$payment1, 
+            return view('pdf.monthly_payment',['month1'=>$month1,'payment1'=>$payment1,'payment_type'=>$payment_type,
             'payment2' => $payment2, 'section' => $section,'reserve_payment2'=>$reserve_payment2]);
              
 
@@ -607,25 +613,26 @@ class HallinfoController extends Controller
                $month = date('n',strtotime($_POST['month']));
                $year = date('Y',strtotime($_POST['month']));
                $section = $_POST['section'];
+               $payment_type = $_POST['payment_type'];
                $month1 = date('F-Y',strtotime($_POST['month']));
                $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
           
-            $payment1=array();
-            $payment2=array();
-            $status=1;
+              $payment1=array();
+              $payment2=array();
+              $status=1;
         
      $payment1=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
        ->where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
-       ->where('invoice_section',$section)->where('payment_status1',$status)->select('invoices.*','name','registration','card','phone')
+       ->where('invoice_section',$section)->where('payment_type1',$payment_type)->where('payment_status1',$status)->select('invoices.*','name','registration','card','phone')
        ->orderBy($hallinfo->pdf_order,'asc')->get();
 
      $payment2=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
        ->where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
-       ->where('invoice_section',$section)->where('payment_status2',$status)->select('invoices.*','name','registration','card','phone')
+       ->where('invoice_section',$section)->where('payment_type2',$payment_type)->where('payment_status2',$status)->select('invoices.*','name','registration','card','phone')
        ->orderBy($hallinfo->pdf_order,'asc')->get();
      
       
-      return view('pdf.monthly_payment_invoice',["section"=>$section,"month1"=>$month1,"payment1"=>$payment1, "payment2"=>$payment2]);
+      return view('pdf.monthly_payment_invoice',["section"=>$section,"month1"=>$month1,"payment1"=>$payment1, "payment2"=>$payment2, "payment_type"=>$payment_type]);
   
      }
 

@@ -42,11 +42,9 @@
 
         <td> <button type="button" value="{{$row->id}}" class="view_all btn btn-primary btn-sm">View </button> </td>
 
-
-		<td><?php echo $row['payment_type1']; ?> , <?php echo $row['payment_time1']; ?></td>
-        <td><?php echo $row['payment_type2']; ?> , <?php echo $row['payment_time2']; ?></td>
+		<td><?php echo $row['payment_type1']; ?> , <?php echo $row['payment_time1']; ?>,  <?php echo $row['payment_method1']; ?></td>
+        <td><?php echo $row['payment_type2']; ?> , <?php echo $row['payment_time2']; ?>,  <?php echo $row['payment_method2']; ?></td>
         <td><?php echo $row['withdraw_type']; ?> , <?php echo $row['withdraw_time']; ?></td>
-
 
        <?php if($row['block_status']==1){
            ?> <td> <button type="button" value="{{ $row->id}}" data-status="0" class="memberblock btn btn-success btn-sm">Blocked </button> </td> <?php 

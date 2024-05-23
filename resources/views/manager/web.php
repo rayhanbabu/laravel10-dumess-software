@@ -167,9 +167,9 @@ use App\Http\Controllers\WithdrawController;
         Route::get('/manager/bazar/fetch_data', [BazarController::class, 'fetch_data']);
 
         //withdraw View
-        Route::get('/manager/withdraw/',[WithdrawController::class,'manager_withdraw_index']);
-        Route::get('/manager/withdraw_fetch/',[WithdrawController::class,'manager_withdraw_fetch']);
-        Route::get('/manager/withdraw/fetch_data/',[WithdrawController::class,'manager_withdraw_fetch_data']);
+        Route::get('/manager/withdraw/',[WithdrawController::class,'withdraw_index']);
+        Route::get('/manager/withdraw_fetch/',[WithdrawController::class,'withdraw_fetch']);
+        Route::get('/manager/withdraw/fetch_data/',[WithdrawController::class,'withdraw_fetch_data']);
 
 
        //Extra Payment
