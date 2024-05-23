@@ -14,7 +14,7 @@
   <div class="col-sm-8 p-3 shadow">        
       <div class="card">
           <div class="card-body">
-             <p class="text-end"><a class="btn btn-primary" href="" role="button">Back Home Page</a>  </p>     
+             <p class="text-end"><a class="btn btn-primary" href="{{url($web_link)}}" role="button">Back Home Page</a>  </p>     
               <h2 class="text-center text-success">
                    Congratulations. Your Payment Successfully completed.
              </h2>

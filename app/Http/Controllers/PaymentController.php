@@ -22,8 +22,9 @@ class PaymentController extends Controller
    {
  
     // try {
+      $hall=DB::table('halls')->where('hall_id',$hall_id)->where('role','admin')->first();
       $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('hall_name','cur_year','cur_month'
-      ,'cur_section','gateway_fee','refresh_date','refresh_no')->first();
+      ,'cur_section','refresh_date','refresh_no')->first();
       $invoice = Invoice::leftjoin('members','members.id','=','invoices.member_id')
        ->Where('invoices.hall_id',$hall_id)->Where('invoices.id',$invoice_id)
        ->Where('invoices.invoice_status',1)
@@ -46,7 +47,7 @@ class PaymentController extends Controller
                      "invoice_year" =>$invoice->invoice_year,
                      "invoice_section" =>$invoice->invoice_section,
                      "hall" =>$hallinfo->hall_name,
-                     "gateway_fee" =>$hallinfo->gateway_fee,
+                     "gateway_fee" =>$hall->gateway_fee,
                      "hall_id" =>$hall_id,
                      "invoice_id" =>$invoice_id,
                   ];
@@ -66,7 +67,7 @@ class PaymentController extends Controller
                   "invoice_year" =>$invoice->invoice_year,
                   "invoice_section" =>$invoice->invoice_section,
                   "hall" =>$hallinfo->hall_name,
-                  "gateway_fee" =>$hallinfo->gateway_fee,
+                  "gateway_fee" =>$hall->gateway_fee,
                   "hall_id" =>$hall_id,
                   "invoice_id" =>$invoice_id,
                 ];
@@ -90,7 +91,9 @@ class PaymentController extends Controller
    {
      //try {
         $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('hall_name','cur_year','cur_month'
-         ,'cur_section','gateway_fee','refresh_date','refresh_no')->first();
+         ,'cur_section','refresh_date','refresh_no')->first();
+         $hall=DB::table('halls')->where('hall_id',$hall_id)->where('role','admin')->first();
+         $web_link=$hall->web_link;
          $invoice=Invoice::leftjoin('members','members.id','=','invoices.member_id')
           ->Where('invoices.hall_id',$hall_id)->Where('invoices.id',$invoice_id)
           ->Where('invoices.invoice_status',1)
@@ -176,7 +179,7 @@ class PaymentController extends Controller
           "desc": "' . $desc . '",
           "cus_name": "' . $data["name"] . '",
           "cus_email": "' . $data["email"] . '",
-           "cus_add1": "' . $data["card"] . '",
+          "cus_add1": "' . $data["card"] . '",
           "cus_add2": "' . $data["hall"] . '",
           "cus_city": "Dhaka",
           "cus_state": "Dhaka",
@@ -185,6 +188,7 @@ class PaymentController extends Controller
           "cus_phone": "' . $data["phone"] . '",
           "opt_a": "' . $data["invoice_id"] . '",
           "opt_b": "' . $data["hall_id"] . '",
+          "opt_c": "' . $web_link . '",
           "type": "json"
      }',
          CURLOPT_HTTPHEADER => array(
@@ -257,6 +261,7 @@ class PaymentController extends Controller
         $tran_id=$success['mer_txnid'];
         $invoice_id=$success['opt_a'];
         $hall_id=$success['opt_b'];
+        $web_link=$success['opt_c'];
         $length =Str::length($tran_id);
         $bank_trxid=$success['bank_trxid'];
         $payment_method=$success['payment_type'];
@@ -274,7 +279,7 @@ class PaymentController extends Controller
          }
 
        DB::update("update invoices set payment_status1 ='$status1', payment_time1='$paymenttime', payment_type1='Online' 
-        ,payment_day1='$payment_day',payment_method1='$payment_method' where id ='$invoice_id' ");
+        ,payment_day1='$payment_day',payment_method1='$payment_method' , payment_date1='$payment_date'  where id ='$invoice_id' ");
        $invoice = Invoice::find($invoice_id);
        if($hallinfo->breakfast_status==1){
           for ($x = $fromday; $x <= $today; $x++) {
@@ -337,7 +342,7 @@ class PaymentController extends Controller
         }
 
       DB::update("update invoices set payment_status2 ='$status1',payment_time2='$paymenttime', payment_type2='Online' 
-       ,payment_day2='$payment_day' ,payment_method2='$payment_method' where id ='$invoice_id'");
+       ,payment_day2='$payment_day' ,payment_method2='$payment_method', payment_date2='$payment_date' where id ='$invoice_id'");
 
         $invoice = Invoice::find($invoice_id);
         if($hallinfo->breakfast_status==1){
@@ -402,7 +407,7 @@ class PaymentController extends Controller
 
       
       
-       return view('web.payment_success');
+       return view('web.payment_success',['web_link'=>$web_link]);
     //  } catch (Exception $e) {
     //   return "Something Error. please try again"; }
 
@@ -413,7 +418,7 @@ class PaymentController extends Controller
    {
      try {
           $fail = $request;
-          return view('web.payment_fail',["web_link" => $fail['opt_b']]);
+          return view('web.payment_fail',["web_link" => $fail['opt_c']]);
       } catch (Exception $e) {
           return "Something Error. please try again";
       }

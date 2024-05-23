@@ -676,7 +676,6 @@ class HallinfoController extends Controller
 
  
       public function withdraw_invoice(Request $request){
-
           $hall_id = $request->header('hall_id');
           $month = date('n',strtotime($_POST['month']));
           $year = date('Y',strtotime($_POST['month']));
@@ -728,6 +727,50 @@ class HallinfoController extends Controller
         return view('pdf.extra_payment',["section"=>$section,"month1"=>$month1,"extra_payment"=>$extra_payment]);
 
     }
+
+
+    public function settlement_history(Request $request){
+
+       $hall_id = $request->header('hall_id');
+       $month = date('n',strtotime($_POST['month']));
+       $year = date('Y',strtotime($_POST['month']));
+       $section = $_POST['section'];
+       $month1 = date('F-Y',strtotime($_POST['month']));
+       $status=1;
+
+        $settlement=Withdraw::where('withdraw_month',$month)->where('withdraw_year',$year)->where('hall_id',$hall_id)
+        ->where('withdraw_section',$section)->where('withdraw_status',$status)->orderBy('id','asc')->get();
+        return view('pdf.settlement',["section"=>$section,"month1"=>$month1,"settlement"=>$settlement]);
+      }
+
+
+
+      public function range_wise_payment(Request $request){
+
+           $hall_id = $request->header('hall_id');
+           $date1 = $_POST['date1'];
+           $date2 = $_POST['date2'];
+           $payment_type = $_POST['payment_type'];
+           $status=1;
+   
+           $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
+          
+           $payment1= Invoice::leftjoin('members','members.id','=','invoices.member_id')
+           ->whereBetween('payment_date1', [$date1,$date2])
+           ->where('invoices.hall_id',$hall_id)->where('payment_status1',$status)->where('payment_type1',$payment_type)
+           ->select('invoices.id','name','registration','card','payble_amount1','phone',
+           'payble_amount2','payment_time1','payment_time2','payment_type1','payment_type2','payment_method1','payment_method2')->orderBy($hallinfo->pdf_order,'asc')->get();
+
+     
+           $payment2= Invoice::leftjoin('members','members.id','=','invoices.member_id')
+           ->whereBetween('payment_date2', [$date1,$date2])
+           ->where('invoices.hall_id',$hall_id)->where('payment_status2',$status)->where('payment_type2',$payment_type)
+           ->select('invoices.id','name','registration','card','payble_amount1','phone',
+           'payble_amount2','payment_time1','payment_time2','payment_type1','payment_type2','payment_method1','payment_method2')->orderBy($hallinfo->pdf_order,'asc')->get();
+          
+  
+         return view('pdf.range_wise_payment',["payment1"=>$payment1,"payment2"=>$payment2 ,"date1"=>$date1,"date2"=>$date2,"payment_type"=>$payment_type]);
+      }
 
 
 

@@ -494,7 +494,7 @@ class ManagerController extends Controller
                 $data->lunch_status = $request->input('lunch_status');
                 $data->dinner_status = $request->input('dinner_status');
 
-                $data->gateway_fee = $request->input('gateway_fee');
+             
 
                 $data->friday1 = $request->input('fridaytype1').$request->input('friday1');
                 $data->friday2 = $request->input('fridaytype2').$request->input('friday2');
@@ -548,7 +548,7 @@ class ManagerController extends Controller
                 $pre_invoice=Invoice::where('invoice_month',$data->pre_month)->where('invoice_year',$data->pre_year)
                 ->where('invoice_section',$data->pre_section)->where('invoice_status',1)->where('hall_id',$hall_id)->get();
 
-                $hall=DB::table('halls')->where('hall_id',$hall_id)->where('role','admin')->first();
+         $hall=DB::table('halls')->where('hall_id',$hall_id)->where('role','admin')->first();
                 if($hall->refund_status=='Yes'){             
                     foreach($pre_invoice as $row){
                         $pre_invoice = new Invoice;
@@ -559,7 +559,7 @@ class ManagerController extends Controller
                         $pre_invoice->invoice_year=$data->cur_year;
                         $pre_invoice->meal_start_date=$data->meal_start_date;
                         $pre_invoice->meal_end_date=$data->meal_end_date;
-                        $pre_invoice->gateway_fee=$data->gateway_fee;
+                        $pre_invoice->gateway_fee=$hall->gateway_fee;
                         $pre_invoice->member_id=$row['member_id'];
                         $pre_invoice->tran_id1=Str::random(8);
                         $pre_invoice->tran_id2=Str::random(10);
@@ -571,7 +571,6 @@ class ManagerController extends Controller
                         $pre_invoice->pre_meeting_present=$row['meeting_present'];
                         $pre_invoice->save();  
                      }
-
                          return back()->with('success','Invoice Update And Add Previous Refund Due');   
                     }else{
                         foreach($pre_invoice as $row){
@@ -583,7 +582,7 @@ class ManagerController extends Controller
                             $pre_invoice->invoice_year=$data->cur_year;
                             $pre_invoice->meal_start_date=$data->meal_start_date;
                             $pre_invoice->meal_end_date=$data->meal_end_date;
-                            $pre_invoice->gateway_fee=$data->gateway_fee;
+                            $pre_invoice->gateway_fee=$hall->gateway_fee;
                             $pre_invoice->member_id=$row['member_id'];
                             $pre_invoice->tran_id1=Str::random(8);
                             $pre_invoice->tran_id2=Str::random(10);
@@ -1033,6 +1032,7 @@ class ManagerController extends Controller
     public function memberstatus(Request $request,$operator,$status,$id){
          //try{ 
          $hall_id = $request->header('hall_id');
+         $hall=DB::table('halls')->where('hall_id',$hall_id)->where('role','admin')->first();
          $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->first();
           if($operator=='email'){
                  if($status=='deactive'){
@@ -1174,8 +1174,8 @@ class ManagerController extends Controller
              ,'$hallinfo->date29','$hallinfo->date30','$hallinfo->date31','$hallinfo->meal_start_date','$hallinfo->meal_end_date'
              ,'$cur_others_amount' ,'$cur_total_amount','$hallinfo->first_payment_meal','$first_pay_mealamount','$first_others_amount','$payble_amount1'
              , '$second_pay_mealon','$second_pay_mealamount','$second_others_amount','$payble_amount2','$member->hostel_fee'
-             ,'$hallinfo->breakfast_status' ,'$hallinfo->lunch_status' ,'$hallinfo->dinner_status','$hallinfo->gateway_fee','$tran_id1' ,'$tran_id2'  ,($payble_amount1+$payble_amount1*$hallinfo->gateway_fee/100)
-             ,($payble_amount2+$payble_amount2*$hallinfo->gateway_fee/100)
+             ,'$hallinfo->breakfast_status' ,'$hallinfo->lunch_status' ,'$hallinfo->dinner_status','$hall->gateway_fee','$tran_id1' ,'$tran_id2'  ,($payble_amount1+$payble_amount1*$hall->gateway_fee/100)
+             ,($payble_amount2+$payble_amount2*$hall->gateway_fee/100)
             )");
 
        DB::update( "update members set admin_verify ='$type' ,verify_month='$hallinfo->cur_month'

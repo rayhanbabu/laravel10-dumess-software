@@ -117,9 +117,9 @@ class InvoiceController extends Controller
          $search = str_replace(" ", "%", $search);
 
         $data = Invoice::leftjoin('members','members.id', '=', 'invoices.member_id')
-        ->Where('invoices.hall_id',$hall_id)->Where('invoices.invoice_year', $hallinfo->cur_year)
-        ->Where('invoices.invoice_month', $hallinfo->cur_month)->Where('invoices.invoice_section', $hallinfo->cur_section)
-        ->Where('invoices.invoice_status', 1)
+        ->Where('invoices.hall_id',$hall_id)->Where('invoices.invoice_year',$hallinfo->cur_year)
+        ->Where('invoices.invoice_month',$hallinfo->cur_month)->Where('invoices.invoice_section',$hallinfo->cur_section)
+        ->Where('invoices.invoice_status',1)
         ->where(function ($query) use ($search) {
             $query->where('members.card', 'like', '%' . $search . '%')
               ->orWhere('name', 'like', '%' . $search . '%')
@@ -141,6 +141,7 @@ class InvoiceController extends Controller
     public function section_update(Request $request){
 
        $hall_id = $request->header('hall_id');
+       $hall=DB::table('halls')->where('hall_id',$hall_id)->where('role','admin')->first();
        $data=Hallinfo::where('hall_id_info',$hall_id)->first();
        $friday1=$data->friday1;
        $friday2=$data->friday2;
@@ -385,7 +386,7 @@ class InvoiceController extends Controller
                 WHEN payble_amount2<0 THEN -payble_amount2
              ELSE 0  END)
 
-          ,gateway_fee='$data->gateway_fee'    
+          ,gateway_fee='$hall->gateway_fee'    
           ,amount1=(payble_amount1+payble_amount1*gateway_fee/100)   
           ,amount2=(payble_amount2+payble_amount2*gateway_fee/100)
           

@@ -89,7 +89,7 @@
             <div class="mx-3 my-2">
                  <b class="text-center">Date Wise Payment</b>
             </div>
-            <form action="{{ url('pdf/range_inactive_member') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ url('pdf/range_wise_payment') }}" method="post" enctype="multipart/form-data">
                    {!! csrf_field() !!}
                   <div class="d-grid gap-3 d-flex justify-content-end p-3">
                         <select class="form-control form-control-sm" name="payment_type" id="payment_type" aria-label="Default select example" required>

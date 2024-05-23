@@ -170,7 +170,7 @@ public function withdraw_status(Request $request,$operator,$status,$id){
 function manager_withdraw_fetch_data(Request $request)
   {
    if($request->ajax())
-    {
+     {
      $hall_id = $request->header('hall_id');
      $sort_by = $request->get('sortby');
      $sort_type = $request->get('sorttype'); 
@@ -182,8 +182,8 @@ function manager_withdraw_fetch_data(Request $request)
          $query->orWhere('bank_name','like', '%'.$search.'%');
          })->orderBy($sort_by, $sort_type)->paginate(15);
         return view('maintain.withdraw_data', compact('data'))->render();          
-       }
-    }
+        }
+     }
 
 
 }

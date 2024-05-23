@@ -55,7 +55,7 @@
         <th width="10%">First meal off</th>
         <th width="10%">Meeting panelty</th>
         <th width="10%">Pdf Order</th>
-        <th width="10%">Web Link, Gateway Fee</th>
+        <th width="10%">Web Link </th>
         <th width="10%">E-mail Send</th>
        
       </thead>
@@ -95,7 +95,7 @@
           <td>{{ $row->first_meal_off}}</td>
           <td>{{ $row->meeting_amount}}</td>
           <td>{{ $row->pdf_order}}</td>
-          <td>{{ $row->web_link}} , {{ $row->gateway_fee}}</td>
+          <td>{{ $row->web_link}} </td>
           <td>{{ $row->email_send}}</td>
         </tr>
 
@@ -718,10 +718,7 @@
                   </select>
             </div>
 
-            <div class="col-sm-6 my-2">
-              <label>Gateway Charge </label>
-              <input type="text" pattern="^\d{1,2}\.\d{2}$" id="gateway_fee" name="gateway_fee" class="form-control" required /></div>
-
+          
                 <p1>Friday </p1>
     
             <div class="col-sm-2 my-2">1-5 friday Meal No </div>
