@@ -52,6 +52,7 @@ use App\Http\Controllers\BookingMemberController;
           Route::get('invoice_view', [MemberController::class,'invoice_view']);
           Route::get('cur_invoice_view', [MemberController::class,'cur_invoice_view']);
           Route::post('meal_off_on', [MemberController::class,'meal_off_on']);
+          Route::get('bazar/{date}', [MemberController::class,'bazar_date']);
 
  
     });
