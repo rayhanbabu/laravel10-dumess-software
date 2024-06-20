@@ -136,6 +136,7 @@ class HallController extends Controller
          $model->web_status=$request->input('web_status');
 
          $model->gateway_fee=$request->input('gateway_fee');
+         $model->online_payment=$request->input('online_payment');
          $model->bank_name=$request->input('bank_name');
          $model->bank_account_name=$request->input('bank_account_name');
          $model->bank_account=$request->input('bank_account');

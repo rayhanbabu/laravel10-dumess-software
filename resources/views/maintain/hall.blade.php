@@ -405,10 +405,18 @@
              </div>
 
 
-            <div class="col-sm-12 my-2">
+            <div class="col-sm-6 my-2">
                 <label>Gateway Charge </label>
                 <input type="text" pattern="^\d{1,2}\.\d{2}$" id="edit_gateway_fee" name="gateway_fee" class="form-control" required />
             </div>  
+
+            <div class="col-lg-6 my-2">
+                  <label class=""><b> Online Payment</b></label>
+                   <select class="form-select" name="online_payment" id="edit_online_payment" aria-label="Default select example">
+                      <option value="No">No</option>
+                      <option value="Yes">Yes</option>
+                  </select>
+            </div>
 
             <div class="col-lg-12 my-2">
                 <label for="roll"> Bank Name </label>
@@ -588,6 +596,7 @@
               $("#edit_web_status").val(response.data.web_status);
 
               $("#edit_gateway_fee").val(response.data.gateway_fee);
+              $("#edit_online_payment").val(response.data.online_payment);
               $("#edit_bank_name").val(response.data.bank_name);
               $("#edit_bank_account_name").val(response.data.bank_account_name);
               $("#edit_bank_account").val(response.data.bank_account);
