@@ -6,13 +6,139 @@
   <section id="minimal-statistics">
     <div class="row">
       <div class="col-12 mt-3 mb-1">
-         <h4 class="text-uppercase">Current Section : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}}</h4>
+         <h4 class="text-uppercase">Current Module : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}}</h4>
       </div>
     </div>
 
-<div class="row my-3">
 
 
+    <div class="row">
+
+
+    <div class="col-xl-4 col-sm-6 col-12 p-2">
+          <div class="card shadow">
+           <div class="card-content">
+             <div class="card-body">
+               <div class="media d-flex">
+                <div class="media-body text-left">
+                  <h3 class="success">{{ $payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')}} TK </h3>
+                  <span> Online Amount Collection </span>
+                </div>
+                  <div class="align-self-center">
+                    <i class="icon-cup success font-large-2 float-right"></i>
+                  </div>
+               </div>
+                <div class="progress mt-1 mb-0" style="height: 7px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-xl-4 col-sm-6 col-12 p-2">
+          <div class="card shadow">
+           <div class="card-content">
+             <div class="card-body">
+               <div class="media d-flex">
+                <div class="media-body text-left">
+                  <h3 class="success">{{ $withdraw->sum('withdraw_amount')}} TK</h3>
+                  <span> Online Settled  </span>
+                </div>
+                  <div class="align-self-center">
+                    <i class="icon-cup success font-large-2 float-right"></i>
+                  </div>
+               </div>
+                <div class="progress mt-1 mb-0" style="height: 7px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-xl-4 col-sm-6 col-12 p-2">
+          <div class="card shadow">
+           <div class="card-content">
+             <div class="card-body">
+               <div class="media d-flex">
+                <div class="media-body text-left">
+                  <h3 class="success">{{ ($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')) - $withdraw->sum('withdraw_amount')}} TK </h3>
+                  <span> Available Online Amount  </span>
+                </div>
+                  <div class="align-self-center">
+                    <i class="icon-cup success font-large-2 float-right"></i>
+                  </div>
+               </div>
+                <div class="progress mt-1 mb-0" style="height: 7px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+         
+    
+
+    <div class="col-xl-4 col-md-6 p-2">
+        <div class="card bg-light shadow">
+            <div class="mx-3 my-2">
+                 <b class="text-center">Date Wise Payment</b>
+            </div>
+            <form action="{{ url('pdf/range_wise_payment') }}" method="post" enctype="multipart/form-data">
+                   {!! csrf_field() !!}
+                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
+                        <select class="form-control form-control-sm" name="payment_type" id="payment_type" aria-label="Default select example" required>
+                            <option value=""> Type </option>
+                            <option value="Offline">Offline</option>
+                            <option value="Online">Online</option>
+                        </select>
+
+                       <input type="date" name="date1" class="form-control form-control-sm" value="" >      
+                          To
+                       <input type="date" name="date2" class="form-control form-control-sm" value="" >
+                   </div>
+
+                  <div class="form-group  mx-3 my-3">
+                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                  </div>
+            </form>
+        </div>
+    </div>
+
+
+        
+    <div class="col-xl-4 col-md-6 p-2">
+        <div class="card bg-light shadow">
+              <div class="mx-3 my-2">
+                  <b class="text-center">Online Settlement Payment </b>
+              </div>
+            <form action="{{ url('pdf/settlement_history') }}" method="post" enctype="multipart/form-data">
+                   {!! csrf_field() !!}
+                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
+                    
+                       <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
+                           <option value="">Select Section</option>
+                           <option value="A">A</option>
+                           <option value="B">B</option>
+                       </select>
+                       <input type="month" name="month" class="form-control form-control-sm" value="" >
+                   </div>
+
+                  <div class="form-group  mx-3 my-3">
+                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                  </div>
+            </form>
+        </div>
+    </div>
+
+
+        
+ 
     <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
              <div class="mx-3 my-2">
@@ -78,13 +204,20 @@
     <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
             <div class="mx-3 my-2">
-                <b class="text-center">Monthly Payment  </b>
+                <b class="text-center">Module Wise Payment  </b>
             </div>
             <form action="{{ url('pdf/monthly_payment') }}" method="post" enctype="multipart/form-data">
                 {!! csrf_field() !!}
 
                 <div class="d-grid gap-3 d-flex justify-content-end p-3">
-                    <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
+                    
+                     <select class="form-control form-control-sm" name="payment_type" id="payment_type" aria-label="Default select example" required>
+                           <option value="">Type </option>
+                           <option value="Offline">Offline</option>
+                           <option value="Online">Online</option>
+                       </select>
+
+                   <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
                         <option value="">Select Section </option>
                         <option value="A">A</option>
                         <option value="B">B</option>
@@ -105,7 +238,7 @@
     <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
             <div class="mx-3 my-2">
-                <b class="text-center">Section Wise Invoice </b>
+                <b class="text-center"> Section Wise Invoice </b>
             </div>
             <form action="{{ url('pdf/section_invoice') }}" method="post" enctype="multipart/form-data">
                 {!! csrf_field() !!}
@@ -185,12 +318,17 @@
     <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
             <div class="mx-3 my-2">
-                 <b class="text-center">  Payment Invoice Summary  </b>
+                 <b class="text-center">Module Payment Summary  </b>
             </div>
             <form action="{{ url('pdf/monthly_payment_invoice') }}" method="post" enctype="multipart/form-data">
                    {!! csrf_field() !!}
                   <div class="d-grid gap-3 d-flex justify-content-end p-3">
-                      <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
+                  <select class="form-control form-control-sm" name="payment_type" id="payment_type" aria-label="Default select example" required>
+                           <option value="">Type </option>
+                           <option value="Offline">Offline</option>
+                           <option value="Online">Online</option>
+                       </select>
+                  <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
                           <option value="">Select Section </option>
                           <option value="A">A</option>
                           <option value="B">B</option>
@@ -322,9 +460,6 @@
             </form>
         </div>
     </div>
-
-
-
 
 </div>
 

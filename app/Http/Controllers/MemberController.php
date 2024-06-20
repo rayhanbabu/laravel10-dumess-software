@@ -18,6 +18,7 @@ use App\Models\Hallinfo;
 use App\Models\Hall;
 use App\Models\Invoice;
 use Exception;
+use App\Models\Bazar;
 
 class MemberController extends Controller
 {
@@ -38,15 +39,15 @@ class MemberController extends Controller
         'level_email_name',
         'frontend_link'
       )->orderBy('id','asc')->get();
-        return response()->json([
+         return response()->json([
            'status' => 200,
            'data' => $data,
          ]);
     } catch (Exception $e) {
-      return response()->json([
-        'status' => 900,
-        'message' => 'Somting Error',
-      ]);
+         return response()->json([
+          'status' => 900,
+          'message' => 'Somting Error',
+         ]);
     }
   }
 
@@ -61,8 +62,8 @@ class MemberController extends Controller
          ]);
     } catch (Exception $e) {
       return response()->json([
-        'status' => 900,
-        'message' => 'Somting Error',
+           'status' => 900,
+           'message' => 'Somting Error',
       ]);
     }
   }
@@ -669,14 +670,14 @@ class MemberController extends Controller
                          'status' => 400,
                          'message' => " Please pay the security deposit you have consumed"
                       ]);
-                  }else{
+                    }else{
                         DB::update("update invoices set  $meal_name = $status where id=$data->id");
                         member_meal_update($data);
                         SendEmail($email, $body, $name, $body, "ANCOVA");
-                        return response()->json([
+                         return response()->json([
                            'status' => 200,
                            'message' => " Meal Status updated"
-                        ]);
+                         ]);
                     }
            }else if($hallinfo->mealon_without_payment<=0 && ($section_day-($meal_total_on-$meal_status))>$max_meal){
                return response()->json([
@@ -687,14 +688,36 @@ class MemberController extends Controller
 
            } else{
                 if($data->payment_status2==1){  //2nd Payment Status
-                 
-                    DB::update("update invoices set  $meal_name = $status  where  id= $data->id");
-                       member_meal_update($data);
-                       SendEmail($email, $body, $name, $body, "ANCOVA");
-                      return response()->json([
-                         'status' => 200,
-                          'message' => "Meal Status updated"
-                        ]);
+
+                   $last_meal_off=$hallinfo->last_meal_off;
+                   $section_day=$hallinfo->section_day;
+                   if($section_day>($section_day-$last_meal_off)){
+                      if(($section_day-$last_meal_off)<$meal_no && $meal_status==1){
+                         return response()->json([
+                            'status' => 200,
+                            'message' => "Last ".$last_meal_off." Meal can't Not Off"
+                       ]);
+                      }else{
+                        DB::update("update invoices set  $meal_name = $status  where  id= $data->id");
+                        member_meal_update($data);
+                        SendEmail($email,$body,$name,$body,"ANCOVA");
+                          return response()->json([
+                              'status' => 200,
+                              'message' => "Meal Status updated"
+                          ]);
+                      }
+
+                       
+
+                    }else{
+                         DB::update("update invoices set  $meal_name = $status  where  id= $data->id");
+                         member_meal_update($data);
+                         SendEmail($email,$body,$name,$body,"ANCOVA");
+                          return response()->json([
+                              'status' => 200,
+                              'message' => "Meal Status updated"
+                          ]);
+                     }
 
                  }else if($data->payment_status1==1){  //1st Payment Status
                          if($meal_no<=$data->first_pay_mealon){ //1st Payment Meal Number 
@@ -718,11 +741,29 @@ class MemberController extends Controller
                       ]);
                  }
 
-             }
+           }
        }
 
  
 
+     
+    public function bazar_date(request $request, $date)
+    {
+    try {     
+          $hall_id = $request->header('hall_id');
+          $data = Bazar::where('hall_id', $hall_id)->where('date',$date)->orderBy('id','asc')->get();
+             return response()->json([
+                'status' => 200,
+                'data' => $data,
+                'total' => $data->sum('total'),
+            ]);
+        }catch (Exception $e) {
+            return response()->json([
+             'status' => 900,
+             'message' => 'Somting Error',
+           ]);
+        }
+    }
 
 
 

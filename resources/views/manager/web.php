@@ -167,9 +167,9 @@ use App\Http\Controllers\WithdrawController;
         Route::get('/manager/bazar/fetch_data', [BazarController::class, 'fetch_data']);
 
         //withdraw View
-        Route::get('/manager/withdraw/',[WithdrawController::class,'manager_withdraw_index']);
-        Route::get('/manager/withdraw_fetch/',[WithdrawController::class,'manager_withdraw_fetch']);
-        Route::get('/manager/withdraw/fetch_data/',[WithdrawController::class,'manager_withdraw_fetch_data']);
+        Route::get('/manager/withdraw/',[WithdrawController::class,'withdraw_index']);
+        Route::get('/manager/withdraw_fetch/',[WithdrawController::class,'withdraw_fetch']);
+        Route::get('/manager/withdraw/fetch_data/',[WithdrawController::class,'withdraw_fetch_data']);
 
 
        //Extra Payment
@@ -292,6 +292,7 @@ use App\Http\Controllers\WithdrawController;
                    //member and invoice delete
                Route::get('/manager/member_delete/{id}',[ManagerController::class,'member_delete']);
                Route::get('/manager/ex_payment_delete/{id}',[InvoiceController::class,'ex_payment_delete']);
+     
           });
 
           Route::get('/manager/report', [HallinfoController::class, 'report']);
@@ -314,9 +315,6 @@ use App\Http\Controllers\WithdrawController;
           Route::post('/pdf/withdraw_invoice', [HallinfoController::class,'withdraw_invoice']);
           Route::post('/pdf/range_inactive_member', [HallinfoController::class,'range_inactive_member']);
           Route::post('/pdf/extra_payment', [HallinfoController::class,'extra_payment']);
-          Route::post('/pdf/settlement_history', [HallinfoController::class,'settlement_history']);
-          Route::post('/pdf/range_wise_payment', [HallinfoController::class,'range_wise_payment']);
-          
           
           Route::middleware('BookingSeatToken')->group(function(){
                //Building  create

@@ -404,6 +404,41 @@
                    </select>
              </div>
 
+
+            <div class="col-sm-6 my-2">
+                <label>Gateway Charge </label>
+                <input type="text" pattern="^\d{1,2}\.\d{2}$" id="edit_gateway_fee" name="gateway_fee" class="form-control" required />
+            </div>  
+
+            <div class="col-lg-6 my-2">
+                  <label class=""><b> Online Payment</b></label>
+                   <select class="form-select" name="online_payment" id="edit_online_payment" aria-label="Default select example">
+                      <option value="No">No</option>
+                      <option value="Yes">Yes</option>
+                  </select>
+            </div>
+
+            <div class="col-lg-12 my-2">
+                <label for="roll"> Bank Name </label>
+                <input type="text" name="bank_name" id="edit_bank_name" class="form-control" placeholder="" >
+            </div>
+
+
+            <div class="col-lg-12 my-2">
+                <label for="roll"> A/C Name </label>
+                <input type="text" name="bank_account_name" id="edit_bank_account_name" class="form-control" placeholder="" >
+            </div>
+
+            <div class="col-lg-12 my-2">
+                <label for="roll"> A/C No </label>
+                <input type="text" name="bank_account" id="edit_bank_account" class="form-control" placeholder="" >
+            </div>
+
+            <div class="col-lg-12 my-2">
+                <label for="roll"> Bank Router No </label>
+                <input type="text" name="bank_route" id="edit_bank_route" class="form-control" placeholder="" >
+            </div>
+
          
          
             <ul id="edit_errorlist"> </ul>
@@ -559,6 +594,15 @@
                $("#email_send").val(response.data.email_send);
               $("#edit_id").val(response.data.id);
               $("#edit_web_status").val(response.data.web_status);
+
+              $("#edit_gateway_fee").val(response.data.gateway_fee);
+              $("#edit_online_payment").val(response.data.online_payment);
+              $("#edit_bank_name").val(response.data.bank_name);
+              $("#edit_bank_account_name").val(response.data.bank_account_name);
+              $("#edit_bank_account").val(response.data.bank_account);
+              $("#edit_bank_route").val(response.data.bank_route);
+
+              
           }
         });
       });

@@ -134,6 +134,14 @@ class HallController extends Controller
          $model->email_send=$request->input('email_send');
          $model->web_link=$request->input('web_link');
          $model->web_status=$request->input('web_status');
+
+         $model->gateway_fee=$request->input('gateway_fee');
+         $model->online_payment=$request->input('online_payment');
+         $model->bank_name=$request->input('bank_name');
+         $model->bank_account_name=$request->input('bank_account_name');
+         $model->bank_account=$request->input('bank_account');
+         $model->bank_route=$request->input('bank_route');
+
          $model->update();   
           return response()->json([ 
              'status'=>200,

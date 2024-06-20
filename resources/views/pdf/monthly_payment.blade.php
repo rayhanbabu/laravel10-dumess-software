@@ -77,7 +77,8 @@
          <div class="area">
                <center>
                  <h4> {{ manager_info()['hall_name'] }} <br>
-                       @if($section) {{$month1}} - {{$section}} @else  @endif</h4>
+                          Payment Type : {{$payment_type}} ,
+                     Module: @if($section) {{$month1}} - {{$section}} @else  @endif</h4>
                </center>
                   
                           @php 
@@ -87,7 +88,7 @@
 
                          
                 
-                 <h4>Monthly 1st payment Summary </h4>
+                 <h4> 1st payment Summary </h4>
                  <table>
                         <tr>
                             <th align="left" width="100">Day</th>
@@ -114,7 +115,7 @@
                     </table>
 
 
-                    <h4>Monthly 2nd payment Summary </h4>
+                    <h4> 2nd payment Summary </h4>
                  <table>
                         <tr>
                             <th align="left" width="100">Day</th>
@@ -135,18 +136,18 @@
                           @endforeach
 
                           <tr>
-                             <td colspan="3" align="right"> Current reserve amount:{{-$reserve_payment2}}TK</td>
+                             <td colspan="3" align="right"> Current reserve amount:@if($payment_type=="Offline"){{-$reserve_payment2}} @else 0 @endif TK</td>
                          </tr>
 
                           <tr>
                                 <td> </td>
                                 <td></td>
-                                <td align="right">Total Payment:{{$sum2-$reserve_payment2}}TK</td>
+                                <td align="right">Total Payment: @if($payment_type=="Offline") {{$sum2-$reserve_payment2}} @else {{$sum2}} @endif TK</td>
                           </tr>
                     </table>
+ 
 
-
-                    <h4>Monthly total payment : {{$sum1+$sum2}}TK </h4>
+                    <h4> Total payment : @if($payment_type=="Offline") {{$sum1+$sum2-$reserve_payment2}} @else {{$sum1+$sum2}}  @endif TK </h4>
 
               
 

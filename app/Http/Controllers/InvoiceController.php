@@ -117,9 +117,9 @@ class InvoiceController extends Controller
          $search = str_replace(" ", "%", $search);
 
         $data = Invoice::leftjoin('members','members.id', '=', 'invoices.member_id')
-        ->Where('invoices.hall_id',$hall_id)->Where('invoices.invoice_year', $hallinfo->cur_year)
-        ->Where('invoices.invoice_month', $hallinfo->cur_month)->Where('invoices.invoice_section', $hallinfo->cur_section)
-        ->Where('invoices.invoice_status', 1)
+        ->Where('invoices.hall_id',$hall_id)->Where('invoices.invoice_year',$hallinfo->cur_year)
+        ->Where('invoices.invoice_month',$hallinfo->cur_month)->Where('invoices.invoice_section',$hallinfo->cur_section)
+        ->Where('invoices.invoice_status',1)
         ->where(function ($query) use ($search) {
             $query->where('members.card', 'like', '%' . $search . '%')
               ->orWhere('name', 'like', '%' . $search . '%')
@@ -141,6 +141,7 @@ class InvoiceController extends Controller
     public function section_update(Request $request){
 
        $hall_id = $request->header('hall_id');
+       $hall=DB::table('halls')->where('hall_id',$hall_id)->where('role','admin')->first();
        $data=Hallinfo::where('hall_id_info',$hall_id)->first();
        $friday1=$data->friday1;
        $friday2=$data->friday2;
@@ -244,7 +245,6 @@ class InvoiceController extends Controller
                   }
                 
                 $invoiceupdate->save();
-
             }
         
     if($data->first_payment_meal>0){
@@ -266,9 +266,7 @@ class InvoiceController extends Controller
              $first_others_amount=0;
         }
    
-       
        $cur_meal_amount=($data->section_day*($data->breakfast_rate+$data->lunch_rate+$data->dinner_rate));
-      
       DB::update(
           "update invoices set  
            breakfast_rate='$data->breakfast_rate',
@@ -387,6 +385,10 @@ class InvoiceController extends Controller
           , reserve_amount=(CASE 
                 WHEN payble_amount2<0 THEN -payble_amount2
              ELSE 0  END)
+
+          ,gateway_fee='$hall->gateway_fee'    
+          ,amount1=(payble_amount1+payble_amount1*gateway_fee/100)   
+          ,amount2=(payble_amount2+payble_amount2*gateway_fee/100)
           
           ,date1='$data->date1',date2='$data->date2',date3='$data->date3',date4='$data->date4',date5='$data->date5'
           ,date6='$data->date6',date7='$data->date7',date8='$data->date8',date9='$data->date9',date10='$data->date10'
@@ -416,11 +418,11 @@ class InvoiceController extends Controller
      public function mealsheet_view(Request $request)
      {
        try {
-           $hall_id = $request->header('hall_id');
-           $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->first();
-           return view('manager.mealsheet', ['data' => $hallinfo]);
-          }catch (Exception $e) {  return  view('errors.error', ['error' => $e]);} 
-      }
+            $hall_id = $request->header('hall_id');
+            $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->first();
+            return view('manager.mealsheet',['data' => $hallinfo]);
+           }catch (Exception $e) { return view('errors.error',['error'=>$e]);} 
+       }
 
 
       public function mealsheet_fetch(Request $request)
@@ -488,7 +490,7 @@ class InvoiceController extends Controller
 
       public function mealupdate(Request $request)
       {
-    
+     
           $hall_id = $request->header('hall_id');
           $data=Hallinfo::where('hall_id_info',$hall_id)->first();
 
@@ -687,8 +689,8 @@ class InvoiceController extends Controller
          $manager_username = $request->header('manager_username');
          $hall_id = $request->header('hall_id');
          $id = $request->input('payment1_id');
-         $data = Invoice::Where('invoices.id', $id)->select('payble_amount1','payment_status1' ,'payment_time1' 
-             ,'payble_amount2' ,'payment_status2' ,'withdraw' ,'withdraw_status','meal_start_date','first_pay_mealon')->first();
+      $data = Invoice::Where('invoices.id', $id)->select('payble_amount1','payment_status1' ,'payment_time1','payment_type1','payment_type2'
+         ,'payble_amount2' ,'payment_status2' ,'withdraw' ,'withdraw_status','meal_start_date','first_pay_mealon')->first();
 
        $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('section_day','unpaid_day','breakfast_rate','lunch_rate'
        ,'dinner_rate','breakfast_status','lunch_status','dinner_status')->first();
@@ -696,13 +698,15 @@ class InvoiceController extends Controller
          if ($data->payment_status1 == 1) {
              $status1 = 0;
              $paymenttime = date('2010-10-10 10:10:10');
-             $paymenttype = '';
+             $paymenttype = 'Offline';
+             $payment_method = $manager_username;
              $mealstatus = 0;
              $payment_status = "Unpaid";
            } else {
              $status1 = 1;
              $paymenttime = date('Y-m-d H:i:s');
-             $paymenttype = $manager_username;
+             $paymenttype = 'Offline';
+             $payment_method = $manager_username;
              $mealstatus = 1;
              $payment_status = "paid";
            }
@@ -720,7 +724,7 @@ class InvoiceController extends Controller
                $fromday = $from_day;
            }
      
-          if($data->payment_status1 == 1 && (strtotime($current_time)-strtotime($data->payment_time1)) >= ($unpaid_day*60*60)) {
+          if($data->payment_status1  == 1 && (strtotime($current_time)-strtotime($data->payment_time1)) >= ($unpaid_day*60*60)) {
                return response()->json([
                    'status' => 300,
                    'message' => 'You can not Unpaid this Invoice because time over Or Seccond Payment has already been paid',
@@ -735,12 +739,15 @@ class InvoiceController extends Controller
                    'status' => 400,
                    'message' =>  'You can not Unpaid this Invoice because Seccond Payment has already been paid',
               ]);
-          }
-           else{ 
+          }else if($data->payment_status1==1 && $data->payment_type1=="Online"){
+             return response()->json([
+                  'status' => 400,
+                  'message' =>  'You can not Unpaid this Invoice because Online Payment already Exist',
+             ]);
+           }else{ 
              DB::update("update invoices set payment_status1 ='$status1' , payment_time1='$paymenttime',payment_type1='$paymenttype' 
-                 ,payment_day1='$payment_day' where id ='$id' ");
+                 ,payment_day1='$payment_day' ,payment_method1='$payment_method' where id ='$id' ");
               $invoice = Invoice::find($id);
-     
               if($hallinfo->breakfast_status==1){
                  for ($x = $fromday; $x <= $today; $x++) {
                     $day = "b" . $x;
@@ -763,11 +770,11 @@ class InvoiceController extends Controller
                }
              $invoice->save();
 
-          DB::update("update invoices set 
-             payble_amount1=(CASE 
-               WHEN first_pay_mealon<=0 THEN 0
-               WHEN withdraw_status>=1 THEN  first_pay_mealamount+first_others_amount-inmeal_amount
-               ELSE first_pay_mealamount+first_others_amount-(inmeal_amount+withdraw)  END),
+           DB::update("update invoices set 
+              payble_amount1=(CASE 
+                WHEN first_pay_mealon<=0 THEN 0
+                WHEN withdraw_status>=1 THEN  first_pay_mealamount+first_others_amount-inmeal_amount
+                ELSE first_pay_mealamount+first_others_amount-(inmeal_amount+withdraw)  END),
 
              payble_amount2=(CASE 
                 WHEN payment_status1>=1 THEN second_pay_mealamount+second_others_amount
@@ -776,7 +783,7 @@ class InvoiceController extends Controller
                 where id ='$id'");
 
               $member=Member::where('id',$invoice->member_id)->first();
-              member_meal_update(Invoice::find($id));
+              //member_meal_update(Invoice::find($id));
 
               $subject="Payment 1 Invoice Summary: ".$invoice->invoice_year.'-'.$invoice->invoice_month.'-'.$invoice->invoice_section;
               $details = [
@@ -785,17 +792,16 @@ class InvoiceController extends Controller
                   'payment' => $data->payble_amount1,
                   'payment_status' => $payment_status,
                   'paymenttime' => $paymenttime,
-                  'paymenttype' => $paymenttype,
+                  'paymenttype' =>'Offline',
+                  'payment_method' =>$payment_method,
                   'name' => 'ANCOVA',
                 ];
-               Mail::to($member->email)->send(new \App\Mail\paymentMail($details));   
+              // Mail::to($member->email)->send(new \App\Mail\paymentMail($details));   
            $mess = "Invoice No: " . $id . "Card No: " . $member->card . ".  First Payable Amount  " . $data->payble_amount1 . "TK " . $payment_status;
              return response()->json([
                'status' => 200,
                'message' => $mess,
              ]);
-
-
           }
        
        }
@@ -806,22 +812,24 @@ class InvoiceController extends Controller
          $manager_username = $request->header('manager_username');
          $hall_id = $request->header('hall_id');
          $id = $request->input('payment2_id');
-         $data = Invoice::Where('id', $id)->select('payble_amount1','payment_status1' ,'payment_time1' ,'payment_time2'
-             ,'payble_amount2' ,'payment_status2' ,'withdraw' ,'withdraw_status','withdraw_time','meal_start_date','first_pay_mealon')->first();
+     $data = Invoice::Where('invoices.id', $id)->select('payble_amount1','payment_status1' ,'payment_time1','payment_type1','payment_type2'
+      ,'payble_amount2' ,'payment_status2' ,'withdraw' ,'withdraw_status','meal_start_date','first_pay_mealon','payment_time2')->first();
 
-       $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('section_day','unpaid_day','breakfast_rate','breakfast_status',
-       'lunch_rate','lunch_status','dinner_rate','dinner_status','first_payment_meal')->first();
+        $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('section_day','unpaid_day','breakfast_rate','breakfast_status',
+        'lunch_rate','lunch_status','dinner_rate','dinner_status','first_payment_meal')->first();
      
-         if ($data->payment_status2 == 1) {
+         if($data->payment_status2==1) {
              $status1 = 0;
              $paymenttime = date('2010-10-10 10:10:10');
-             $paymenttype = '';
+             $paymenttype = 'Offline';
+             $payment_method = $manager_username;
              $mealstatus = 0;
              $payment_status = "Unpaid";
            } else {
              $status1 = 1;
              $paymenttime = date('Y-m-d H:i:s');
-             $paymenttype = $manager_username;
+             $paymenttype = 'Offline';
+             $payment_method = $manager_username;
              $mealstatus = 1;
              $payment_status = "Paid";
            }
@@ -839,7 +847,6 @@ class InvoiceController extends Controller
                $fromday = $from_day;
            }
      
-         
           if($data->payment_status2 == 1 && (strtotime($current_time)-strtotime($data->payment_time2)) >= ($unpaid_day*60*60)) {
                 return response()->json([
                     'status' => 300,
@@ -850,32 +857,37 @@ class InvoiceController extends Controller
                     'status' => 400,
                     'message' => 'Second Payment Time Over',
                 ]);
-           }else{ 
+
+           }else if($data->payment_status2==1 && $data->payment_type2=="Online"){
+               return response()->json([
+                  'status' => 400,
+                  'message' =>  'You can not Unpaid this Invoice because Online Payment already Exist',
+               ]);
+           } else{ 
              DB::update("update invoices set payment_status2 ='$status1',payment_time2='$paymenttime',payment_type2='$paymenttype' 
-                ,payment_day2='$payment_day' where id ='$id'");
+                ,payment_day2='$payment_day' ,payment_method2='$payment_method' where id ='$id'");
 
               $invoice = Invoice::find($id);
               if($hallinfo->breakfast_status==1){
                  for ($x = $fromday; $x <= $today; $x++) {
-                    $day = "b" . $x;
+                    $day = "b".$x;
                     $invoice->$day = $mealstatus;
-                 }
+                  }
                 }
                
                if($hallinfo->lunch_status==1){
-                  for ($x = $fromday; $x <= $today; $x++) {
-                     $day = "l" . $x;
+                  for ($x = $fromday; $x <= $today; $x++){
+                     $day = "l".$x;
                      $invoice->$day = $mealstatus;
                    }
                }
 
                if($hallinfo->dinner_status==1){
                   for ($x = $fromday; $x <= $today; $x++) {
-                     $day = "d" . $x;
+                     $day = "d".$x;
                      $invoice->$day = $mealstatus;
                   }
                }
-             
              $invoice->save();
 
           DB::update("update invoices set 
@@ -903,12 +915,13 @@ class InvoiceController extends Controller
                     'otp_code' =>255,
                     'payment' => $data->payble_amount2,
                     'payment_status' => $payment_status,
+                    'paymenttype' =>'Offline',
                     'paymenttime' => $paymenttime,
-                    'paymenttype' => $paymenttype,
+                    'payment_method' =>$payment_method,
                     'name' => 'ANCOVA',
                   ];
-                 Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
-                 member_meal_update(Invoice::find($id));
+                // Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
+                // member_meal_update(Invoice::find($id));
             $mess = " Invoice No : " . $id ." Card No: " . $member->card . ".  Second Payable Amount  " . $data->payble_amount2 . "TK " . $payment_status;
              return response()->json([
                 'status' => 200,
@@ -1109,9 +1122,68 @@ class InvoiceController extends Controller
             ]);
 
           // }
-      
       }
 
+    public function payment_link_view(Request $request)
+     {
+        try {
+              $hall_id = $request->header('hall_id');
+              $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section')->first();
+              return view('manager.payment_link',['hallinfo'=>$hallinfo]);
+          }catch (Exception $e) {  return  view('errors.error', ['error' => $e]);} 
+      }
+
+
+
+      public function payment_link_fetch(Request $request)
+      {
+      
+        $hall_id = $request->header('hall_id');
+        $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section')->first();
+    
+        $data = Invoice::leftjoin('members','members.id','=','invoices.member_id')
+           ->Where('invoices.hall_id',$hall_id)->Where('invoices.invoice_year', $hallinfo->cur_year)
+           ->Where('invoices.invoice_month', $hallinfo->cur_month)->Where('invoices.invoice_section', $hallinfo->cur_section)
+           ->Where('invoices.invoice_status', 1)
+           ->select('members.name','members.phone','members.registration','members.card', 'invoices.*')
+           ->orderBy('card','asc')
+           ->paginate(10);
+    
+           return view('manager.payment_link_data', compact('data'));
+      }
+  
+
+      function payment_link_fetch_data(Request $request)
+      {
+          $hall_id = $request->header('hall_id');
+          $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section')->first();
+        
+        if($request->ajax()) {
+           $sort_by = $request->get('sortby');
+           $sort_type = $request->get('sorttype');
+           $search = $request->get('search');
+           $search = str_replace(" ", "%", $search);
+  
+          $data = Invoice::leftjoin('members','members.id', '=', 'invoices.member_id')
+          ->Where('invoices.hall_id',$hall_id)->Where('invoices.invoice_year', $hallinfo->cur_year)
+          ->Where('invoices.invoice_month', $hallinfo->cur_month)->Where('invoices.invoice_section', $hallinfo->cur_section)
+          ->Where('invoices.invoice_status', 1)
+          ->where(function ($query) use ($search) {
+              $query->where('members.card', 'like', '%' . $search . '%')
+                ->orWhere('name', 'like', '%' . $search . '%')
+                ->orWhere('registration', 'like', '%' . $search . '%')
+                ->orWhere('invoices.id', 'like', '%' . $search . '%')
+                ->orWhere('phone', 'like', '%' . $search . '%');
+            })
+            ->select('members.name', 'members.phone','members.registration','members.card', 'invoices.*')
+            ->orderBy('card','asc')
+            ->paginate(10);
+           return view('manager.payment_link_data', compact('data'))->render();
+        }
+  
+      }
+     
+  
    
     
 }

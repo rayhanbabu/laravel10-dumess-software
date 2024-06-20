@@ -38,11 +38,10 @@
     th,
     td {
       padding: 2px;
-      font-size: 16px;
+      font-size: 14px;
     }
 
     .area {
-
       width: 700px;
     }
 
@@ -72,37 +71,36 @@
     <button class="btn success" onclick="printContent('div1')">Print </button>
     <div id="div1">
 
-        <div class="area">
+      <div class="area">
         <center>
           <h4> {{ manager_info()['hall_name'] }} <br>
-             Payment Summary, Payment Type: {{$payment_type}} , Module : {{$month1}}, Section : {{ $section }} </h4>
+            Date: {{$date1 }} to  {{$date2 }}</h4>
         </center>
-             
+
+
         <h5>First paymnet and Second paymnet: {{$payment2->sum('payble_amount2')+$payment1->sum('payble_amount1')}}TK
-            <br>
-          First Payment </h5>
+          <br>
+               First Payment </h5>
 
         <table>
           <tr>
-            <th align="left" width="60">Invoice Id</th>
-            <th align="left" width="50">Card</th>
-            <th align="left" width="50">Reg/Seat No</th>
-            <th align="left" width="215">Name</th>
-            <th align="left" width="60">Payment</th>
-            <th align="right" width="155">Payment time</th>
-            <th align="right" width="55">Pay type</th>
+             <th align="left" width="60">Invoice Id</th>
+             <th align="left" width="50">Card</th>
+             <th align="left" width="200">Name</th>
+             <th align="left" width="60">Payment</th>
+             <th align="right" width="135">Payment time</th>
+             <th align="right" width="135">Pay type</th>
           </tr>
 
 
           @foreach($payment1 as $user)
           <tr>
-            <td align="left">{{$user->id}}</td>
-            <td align="left">{{$user->card}}</td>
-            <td align="left">{{$user->registration}}</td>
-            <td align="left">{{$user->name}}</td>
-            <td align="left">{{$user->payble_amount1}}</td>
-            <td align="left">{{$user->payment_time1}}</td>
-            <td align="left">{{$user->payment_type1}}</td>
+             <td align="left">{{$user->id}}</td>
+             <td align="left">{{$user->card}}</td>
+             <td align="left">{{$user->name}}</td>
+             <td align="left">{{$user->payble_amount1}}</td>
+             <td align="left">{{$user->payment_time1}}</td>
+             <td align="left">{{$user->payment_type1}}, {{$user->payment_method1}}</td>
 
           </tr>
           @endforeach
@@ -123,11 +121,10 @@
           <tr>
             <th align="left" width="60">Invoice Id</th>
             <th align="left" width="50">Card</th>
-            <th align="left" width="50">Reg/Seat No</th>
-            <th align="left" width="215">Name</th>
+            <th align="left" width="200">Name</th>
             <th align="left" width="60">Payment</th>
-            <th align="right" width="155">Payment time</th>
-            <th align="right" width="55">Pay type</th>
+            <th align="right" width="135">Payment time</th>
+            <th align="right" width="135">Pay type</th>
           </tr>
 
 
@@ -135,11 +132,10 @@
           <tr>
             <td align="left">{{$user->id}}</td>
             <td align="left">{{$user->card}}</td>
-            <td align="left">{{$user->registration}}</td>
             <td align="left">{{$user->name}}</td>
             <td align="left">{{$user->payble_amount2}}</td>
             <td align="left">{{$user->payment_time2}}</td>
-            <td align="left">{{$user->payment_type2}}</td>
+            <td align="left">{{$user->payment_type2}}, {{$user->payment_method2}}</td>
 
           </tr>
           @endforeach
@@ -151,7 +147,6 @@
           </tr>
 
         </table>
-
 
 
       </div>

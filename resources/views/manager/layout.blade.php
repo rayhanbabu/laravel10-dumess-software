@@ -145,6 +145,16 @@
            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                Section Information
         </a>
+
+         <a class="nav-link @yield('payment_link')" href="{{url('manager/payment_link')}}">
+            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+               Payment Link
+         </a>
+
+     <a class="nav-link @yield('withdraw')" href="{{url('manager/withdraw')}}">
+         <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+             Settlement History
+        </a>
   
 					
        @if(manager_access_payment())	
@@ -193,10 +203,10 @@
             Reports   
       </a>
   
-      <a class="nav-link @yield('meeting')" href="{{url('manager/meeting')}}">
-        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-          Meeting Fee   
-    </a>
+       <a class="nav-link @yield('meeting')" href="{{url('manager/meeting')}}">
+         <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+            Meeting Fee   
+       </a>
 
 
     <a class="nav-link @yield('feedback')" href="{{url('manager/feedback')}}">

@@ -9,6 +9,7 @@
 | Payable Amount      | {{$details['payment']}}             |
 | Payment Status      | {{$details['payment_status']}}      |
 | Payment Type        | {{$details['paymenttype']}}         |
+| Payment Method      | {{$details['payment_method']}}      |
 | Payment Time        | {{$details['paymenttime']}}         |
 </x-mail::table>
 
