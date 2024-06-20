@@ -39,15 +39,15 @@ class MemberController extends Controller
         'level_email_name',
         'frontend_link'
       )->orderBy('id','asc')->get();
-        return response()->json([
+         return response()->json([
            'status' => 200,
            'data' => $data,
          ]);
     } catch (Exception $e) {
-      return response()->json([
-        'status' => 900,
-        'message' => 'Somting Error',
-      ]);
+         return response()->json([
+          'status' => 900,
+          'message' => 'Somting Error',
+         ]);
     }
   }
 
@@ -62,8 +62,8 @@ class MemberController extends Controller
          ]);
     } catch (Exception $e) {
       return response()->json([
-        'status' => 900,
-        'message' => 'Somting Error',
+           'status' => 900,
+           'message' => 'Somting Error',
       ]);
     }
   }

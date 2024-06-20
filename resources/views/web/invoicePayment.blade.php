@@ -106,7 +106,7 @@ border-bottom: 1px solid #c8ced3
 </tr>
 </tbody>
 </table>
-<img src="{{ asset('images/successpage.png') }}" alt="" style="width:auto;height:100px;">
+<img src="{{ asset('images/paymentnotice.jpeg') }}" alt="" style="width:auto;height:100px;">
 <div>
 
   @if($payment_status==1)
@@ -116,6 +116,8 @@ border-bottom: 1px solid #c8ced3
                   <label for="required">I Agree  <a href="https://amaderthikana.com/policy">Privacy Policy</a> & 
                     <a href="https://amaderthikana.com/term"> Terms and Conditions</a>  </label>
           </div>
+
+          <br>
 
           <div id="text1" >
                 <a class="btn btn-success disabled" href="#">

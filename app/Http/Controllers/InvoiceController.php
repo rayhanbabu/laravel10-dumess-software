@@ -783,7 +783,7 @@ class InvoiceController extends Controller
                 where id ='$id'");
 
               $member=Member::where('id',$invoice->member_id)->first();
-              member_meal_update(Invoice::find($id));
+              //member_meal_update(Invoice::find($id));
 
               $subject="Payment 1 Invoice Summary: ".$invoice->invoice_year.'-'.$invoice->invoice_month.'-'.$invoice->invoice_section;
               $details = [
@@ -796,7 +796,7 @@ class InvoiceController extends Controller
                   'payment_method' =>$payment_method,
                   'name' => 'ANCOVA',
                 ];
-               Mail::to($member->email)->send(new \App\Mail\paymentMail($details));   
+              // Mail::to($member->email)->send(new \App\Mail\paymentMail($details));   
            $mess = "Invoice No: " . $id . "Card No: " . $member->card . ".  First Payable Amount  " . $data->payble_amount1 . "TK " . $payment_status;
              return response()->json([
                'status' => 200,
@@ -920,8 +920,8 @@ class InvoiceController extends Controller
                     'payment_method' =>$payment_method,
                     'name' => 'ANCOVA',
                   ];
-                 Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
-                 member_meal_update(Invoice::find($id));
+                // Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
+                // member_meal_update(Invoice::find($id));
             $mess = " Invoice No : " . $id ." Card No: " . $member->card . ".  Second Payable Amount  " . $data->payble_amount2 . "TK " . $payment_status;
              return response()->json([
                 'status' => 200,

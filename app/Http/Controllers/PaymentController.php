@@ -142,9 +142,9 @@ class PaymentController extends Controller
          }
  
        if($data["payble_amount"]<=10){
-              return "You can not paid this Invoice amount must be geater than 10";
+              return "You cannot pay this invoice. The amount must be greater than 10.";
        }else if($data["payment_status"]==1){
-              return "Already paid this Invoice";
+              return "This invoice has already been paid.";
        }else{              
        $tran_id = $data["tran_id"];  //unique transection id for every transection 
        $currency = "BDT"; //aamarPay support Two type of currency USD & BDT  
@@ -328,7 +328,7 @@ class PaymentController extends Controller
           'payment_method' =>$payment_method,
           'name' => 'ANCOVA',
         ];
-       Mail::to($member->email)->send(new \App\Mail\paymentMail($details));   
+       //Mail::to($member->email)->send(new \App\Mail\paymentMail($details));   
    
         }else if($length==10){
 
@@ -398,7 +398,7 @@ class PaymentController extends Controller
               'payment_method' =>$payment_method,
               'name' => 'ANCOVA',
             ];
-           Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
+          // Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
     
 
 
