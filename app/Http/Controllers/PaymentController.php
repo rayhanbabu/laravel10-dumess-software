@@ -98,7 +98,7 @@ class PaymentController extends Controller
           ->Where('invoices.hall_id',$hall_id)->Where('invoices.id',$invoice_id)
           ->Where('invoices.invoice_status',1)
           ->select('members.email','members.name','members.phone','members.registration','members.card', 'invoices.*')->first();
-       if($hall->online_payment=='No' || $invoice->online_payment==''){
+       if($hall->online_payment=='No' || $hall->online_payment==''){
            return "No access to the online payment gateway. For installation, please contact the authority.";
        }else if($invoice && $hallinfo->cur_year==$invoice->invoice_year &&  $hallinfo->cur_month==$invoice->invoice_month 
        && $hallinfo->cur_section==$invoice->invoice_section && ($invoice->tran_id1==$tran_id || $invoice->tran_id2==$tran_id)){
