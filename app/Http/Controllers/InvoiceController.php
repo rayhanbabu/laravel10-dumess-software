@@ -934,7 +934,7 @@ class InvoiceController extends Controller
 
 
        public function withdraw_update(Request $request)
-       {
+       { 
          $manager_username = $request->header('manager_username');
          $hall_id = $request->header('hall_id');
          $id = $request->input('withdraw_id');
@@ -1105,8 +1105,7 @@ class InvoiceController extends Controller
           } else {
             $status1 = 1;
           }
-    
-     
+
     //  if($data->payment_status1==1 || $data->payment_status2==1){
     //     return response()->json([
     //        'status' => 200,
@@ -1144,7 +1143,7 @@ class InvoiceController extends Controller
         $data = Invoice::leftjoin('members','members.id','=','invoices.member_id')
            ->Where('invoices.hall_id',$hall_id)->Where('invoices.invoice_year', $hallinfo->cur_year)
            ->Where('invoices.invoice_month', $hallinfo->cur_month)->Where('invoices.invoice_section', $hallinfo->cur_section)
-           ->Where('invoices.invoice_status', 1)
+           ->Where('invoices.invoice_status',1)
            ->select('members.name','members.phone','members.registration','members.card', 'invoices.*')
            ->orderBy('card','asc')
            ->paginate(10);
@@ -1184,6 +1183,34 @@ class InvoiceController extends Controller
       }
      
   
+
+      public function module_summary_view(Request $request)
+      {
+       // try {
+
+        $hall_id = $request->header('hall_id');
+         
+        $data = Invoice::Where('invoices.hall_id',$hall_id)->Where('invoices.invoice_status',1)
+        ->select('meal_start_date',DB::raw('count(id) as id_total'),DB::raw('sum(pre_refund) as pre_refund')
+        ,DB::raw('max(invoice_month) as invoice_month') ,DB::raw('max(invoice_year) as invoice_year')
+        ,DB::raw('max(invoice_section) as invoice_section'),DB::raw('sum(pre_monthdue) as pre_monthdue')
+        ,DB::raw('sum(pre_refund) as pre_refund')
+        ,DB::raw('sum(pre_reserve_amount) as pre_reserve_amount') ,DB::raw('max(section_day) as section_day')
+        ,DB::raw('sum(case when payment_status1 > 0 and payble_amount1 > 0 then payble_amount1 else 0 end) as payble_amount1')
+        ,DB::raw('sum(case when payment_status2 > 0 and payble_amount2 > 0 then payble_amount2 else 0 end) as payble_amount2')
+        ,DB::raw('sum(total_due) as total_due')
+        ,DB::raw('sum(reserve_amount) as reserve_amount')
+        ,DB::raw('sum(total_refund) as total_refund')
+        ,DB::raw('max(meal_end_date) as meal_end_date') 
+        ,DB::raw('max(hall_id) as hall_id') 
+        )->orderBy('meal_start_date','desc')->groupBy('meal_start_date')->get();
+
+      
+          return view('manager.module_summary',['data'=>$data]);
+          // }catch (Exception $e) {  return  view('errors.error', ['error' => $e]);} 
+          }
+ 
+ 
    
     
 }

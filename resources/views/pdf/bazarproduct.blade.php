@@ -99,7 +99,8 @@
 
           <tr>
             <td></td>
-            <td colspan=2"">Total Bazar</td>
+            <td colspan="1"> {{$product->sum('qty')}}</td>
+            <td colspan="1"> </td>
             <td align="right">{{$product->sum('total')}}TK</td>
           </tr>
 

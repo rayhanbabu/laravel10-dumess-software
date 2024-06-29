@@ -288,6 +288,26 @@
 
           }
 
+
+          function resign_amount($hall_id,$year,$month,$section){
+              $resign_amount=DB::table('invoices')->where('invoice_month',$month)->where('hall_id', $hall_id)
+              ->where('invoice_year',$year)->where('invoice_section',$section)->where('invoice_status',5)
+              ->where('withdraw_status',1)->sum('withdraw');
+              return $resign_amount;
+          }
+
+        function resign_info($hall_id,$year,$month,$section){
+           $resign_info=DB::table('invoices')->where('invoice_month',$month)->where('hall_id', $hall_id)
+           ->where('invoice_year',$year)->where('invoice_section',$section)->where('invoice_status',5)->get();
+           return $resign_info;
+        }
+
+        function extra_payment($hall_id,$year,$month,$section){
+            $extra_payment=DB::table('expayemnts')->where('cur_month',$month)->where('hall_id', $hall_id)
+            ->where('cur_year',$year)->where('cur_section',$section)->sum('amount');
+            return $extra_payment;
+         }
+
           
 
 

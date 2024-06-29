@@ -1,4 +1,3 @@
-
 @extends('manager.layout')
 @section('title','Manager Panel')
 @section('payment_link','active')
@@ -28,12 +27,12 @@
          <th width="10%">Payble 1 Tran ID</th>
          <th width="10%">Payble 1</th>
          <th width="10%">Payble 1 Status</th>
-         <th width="10%">Payble 1 (2.59%)</th>
+         <th width="10%">Payble 1 with (2.50%)</th>
          <th width="10%">Payble 1 Link</th>
          <th width="10%">Payble 2 Tran ID</th>
          <th width="10%">Payble 2</th>
          <th width="10%">Payble 2 Status</th>
-         <th width="10%">Payble 2 (2.59%)</th>
+         <th width="10%">Payble 2 with (2.50%)</th>
          <th width="10%">Payble 2 Link</th>
        
 
