@@ -3,10 +3,9 @@
 @section('feedback','active')
 @section('content')
 
-
 <div class="row mt-3 mb-0 mx-2">
   <div class="col-sm-3 my-2">
-      <h4 class="mt-0">Feedback  View </h4>
+      <h4 class="mt-0"> Feedback  View </h4>
   </div>
 
   <div class="col-sm-3 my-2">
@@ -22,11 +21,11 @@
   </div>
 
   @if(Session::has('success'))
-  <div class="alert alert-success"> {{Session::get('success')}}</div>
+      <div class="alert alert-success"> {{Session::get('success')}}</div>
   @endif
 
   @if(Session::has('fail'))
-  <div class="alert alert-danger"> {{Session::get('fail')}}</div>
+      <div class="alert alert-danger"> {{Session::get('fail')}}</div>
   @endif
 </div>
 

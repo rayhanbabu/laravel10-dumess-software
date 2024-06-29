@@ -202,6 +202,11 @@
          <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
             Reports   
       </a>
+
+       <a class="nav-link @yield('module_summary')" href="{{url('manager/module_summary')}}">
+          <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+             Module Summary   
+       </a>
   
        <a class="nav-link @yield('meeting')" href="{{url('manager/meeting')}}">
          <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
