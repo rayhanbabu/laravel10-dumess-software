@@ -746,7 +746,7 @@ class InvoiceController extends Controller
              ]);
            }else{ 
              DB::update("update invoices set payment_status1 ='$status1' , payment_time1='$paymenttime',payment_type1='$paymenttype' 
-                 ,payment_day1='$payment_day' ,payment_method1='$payment_method' where id ='$id' ");
+                 ,payment_day1='$payment_day',payment_date1='$payment_date' ,payment_method1='$payment_method' where id ='$id' ");
               $invoice = Invoice::find($id);
               if($hallinfo->breakfast_status==1){
                  for ($x = $fromday; $x <= $today; $x++) {
@@ -796,7 +796,7 @@ class InvoiceController extends Controller
                   'payment_method' =>$payment_method,
                   'name' => 'ANCOVA',
                 ];
-              // Mail::to($member->email)->send(new \App\Mail\paymentMail($details));   
+               Mail::to($member->email)->send(new \App\Mail\paymentMail($details));   
            $mess = "Invoice No: " . $id . "Card No: " . $member->card . ".  First Payable Amount  " . $data->payble_amount1 . "TK " . $payment_status;
              return response()->json([
                'status' => 200,
@@ -865,7 +865,7 @@ class InvoiceController extends Controller
                ]);
            } else{ 
              DB::update("update invoices set payment_status2 ='$status1',payment_time2='$paymenttime',payment_type2='$paymenttype' 
-                ,payment_day2='$payment_day' ,payment_method2='$payment_method' where id ='$id'");
+                ,payment_day2='$payment_day' ,payment_date2='$payment_date' ,payment_method2='$payment_method' where id ='$id'");
 
               $invoice = Invoice::find($id);
               if($hallinfo->breakfast_status==1){
@@ -920,7 +920,7 @@ class InvoiceController extends Controller
                     'payment_method' =>$payment_method,
                     'name' => 'ANCOVA',
                   ];
-                // Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
+                 Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
                 // member_meal_update(Invoice::find($id));
             $mess = " Invoice No : " . $id ." Card No: " . $member->card . ".  Second Payable Amount  " . $data->payble_amount2 . "TK " . $payment_status;
              return response()->json([
