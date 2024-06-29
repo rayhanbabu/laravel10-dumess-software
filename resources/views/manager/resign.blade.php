@@ -54,7 +54,12 @@
                     <td>{{$item->subject}}</td>
                     <td>{{$item->text}}</td>
                     <td>
-                       
+                    @if(empty($item->member_status==1))
+                        <span class='btn btn-success btn-sm'>Removed</span>     
+                   @else
+                       <span class='btn btn-danger btn-sm'>Waiting for Remove</span>    
+                   @endif
+
                         <form method="POST" action="{{ url('manager/resignmember/'.$item->id) }}" accept-charset="UTF-8" style="display:inline">
                             {{ csrf_field() }}
                             <button type="submit" class="btn btn-danger btn-sm" title="Delete Contact" onclick="return confirm('Are you sure detele item ??')"><i class="fa fa-trash-o" aria-hidden="true"></i> Removed </button>
@@ -71,7 +76,7 @@
             $(document).ready(function() {
                 $('#employee_data').DataTable({
                     "order": [
-                        [0, "asc"]
+                        [5, "desc"]
                     ],
                     "lengthMenu": [
                         [10, 50, 100, -1],

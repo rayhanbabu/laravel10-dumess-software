@@ -1223,8 +1223,7 @@ class ManagerController extends Controller
                $hall_id = $request->header('hall_id');
                $data = Feedback::leftjoin('members', 'members.id', '=', 'feedback.member_id')
                  ->where('category','Resign')->where('feedback.hall_id',$hall_id)
-                 ->where('members.member_status',1)
-                 ->select('members.card','members.name','feedback.*')->get();
+                  ->select('members.card','members.name','members.member_status','feedback.*')->get();
                   return view('manager.resign', ['data' => $data]);
             }
         
