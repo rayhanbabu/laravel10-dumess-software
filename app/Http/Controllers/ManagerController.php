@@ -639,7 +639,7 @@ class ManagerController extends Controller
                 'message' => $validator->messages(),
             ]);
         } else {
-            $data = Hallinfo::where('role','admin')->where('hall_id',$hall_id)->first();
+            $data = Hall::where('role','admin')->where('hall_id',$hall_id)->first();
             $model = new Hall;
             $model->role = 'manager';
             if($role=='admin'){
