@@ -140,6 +140,7 @@ class InvoiceController extends Controller
 
     public function section_update(Request $request){
 
+      try {
        $hall_id = $request->header('hall_id');
        $hall=DB::table('halls')->where('hall_id',$hall_id)->where('role','admin')->first();
        $data=Hallinfo::where('hall_id_info',$hall_id)->first();
@@ -157,6 +158,8 @@ class InvoiceController extends Controller
        $friday5t=$data->friday5t;
        $feast=$data->feast;
 
+       $section_day=$data->section_day;
+
        $invoice = Invoice::where('invoice_month',$data->cur_month)->where('invoice_year',$data->cur_year)
           ->where('invoice_section',$data->cur_section)->where('invoice_status',1)->where('hall_id',$hall_id)->get();
 
@@ -168,84 +171,89 @@ class InvoiceController extends Controller
              $inactive_day=31;
         }
 
-       foreach($invoice as $row){
-               $lunch_off=0;
-               $dinner_off=0;
-               $breakfast_off=0;
-               $lunch_on=0;
-               $dinner_on=0;
-               $breakfast_on=0;
-
-                  for($y = 1; $y <= $data->section_day; $y++) {
-                       $l_off=Invoice::where('id',$row->id)->where('l'.$y,0)->count(); 
-                       $lunch_off+=$l_off;
-    
-                       $l_on=Invoice::where('id',$row->id)->where('l'.$y,1)->count(); 
-                       $lunch_on+=$l_on;
-                    }
-
-                   for($y = 1; $y <= $data->section_day; $y++) {
-                          $d=Invoice::where('id',$row->id)->where('d'.$y,0)->count(); 
-                          $dinner_off+=$d;
-        
-                          $d_on=Invoice::where('id',$row->id)->where('d'.$y,1)->count(); 
-                          $dinner_on+=$d_on;
+        foreach ($invoice as $row) {
+          $lunch_off = $lunch_on = $dinner_off = $dinner_on = $breakfast_off = $breakfast_on = 0;
+      
+          // Loop for lunch, dinner, and breakfast
+          for ($y = 1; $y <= $data->section_day; $y++) {
+              $l_off = Invoice::where('id', $row->id)->where('l'.$y, 0)->count();
+              $l_on = Invoice::where('id', $row->id)->where('l'.$y, 1)->count();
+              $d_off = Invoice::where('id', $row->id)->where('d'.$y, 0)->count();
+              $d_on = Invoice::where('id', $row->id)->where('d'.$y, 1)->count();
+              $b_off = Invoice::where('id', $row->id)->where('b'.$y, 0)->count();
+              $b_on = Invoice::where('id', $row->id)->where('b'.$y, 1)->count();
+      
+              $lunch_off += $l_off;
+              $lunch_on += $l_on;
+              $dinner_off += $d_off;
+              $dinner_on += $d_on;
+              $breakfast_off += $b_off;
+              $breakfast_on += $b_on;
+          }
+      
+          $invoiceupdate = Invoice::find($row->id);
+          $invoiceupdate->lunch_offmeal = $lunch_off;
+          $invoiceupdate->lunch_onmeal = $lunch_on;
+          $invoiceupdate->lunch_inmeal = $data->section_day - ($lunch_off + $lunch_on);
+          $invoiceupdate->dinner_offmeal = $dinner_off;
+          $invoiceupdate->dinner_onmeal = $dinner_on;
+          $invoiceupdate->dinner_inmeal = $data->section_day - ($dinner_off + $dinner_on);
+          $invoiceupdate->breakfast_offmeal = $breakfast_off;
+          $invoiceupdate->breakfast_onmeal = $breakfast_on;
+          $invoiceupdate->breakfast_inmeal = $data->section_day - ($breakfast_off + $breakfast_on);
+      
+          if ($invoiceupdate->payment_status1 == 1 || $invoiceupdate->payment_status2 == 1 || $invoiceupdate->onmeal_amount > 1) {
+              // Do nothing if payment status conditions are met
+          } else {
+              // // Process breakfast
+              if ($invoiceupdate->breakfast_rate > 0) {
+                  if ($inactive_day <= 0) {
+                      for ($y =1; $y <= $section_day; $y++) {
+                          $day = "b" . $y;
+                          $invoiceupdate->$day = 0;
                       }
-
-
-                      for($y = 1; $y <= $data->section_day; $y++) {
-                            $b=Invoice::where('id',$row->id)->where('b'.$y,0)->count(); 
-                            $breakfast_off+=$b;
-
-                            $b_on=Invoice::where('id',$row->id)->where('b'.$y,1)->count(); 
-                            $breakfast_on+=$b_on;
-                       }
-
-
-                $invoiceupdate = Invoice::find($row->id);
-                $invoiceupdate->lunch_offmeal = $lunch_off;
-                $invoiceupdate->lunch_onmeal = $lunch_on;
-                $invoiceupdate->lunch_inmeal = $data->section_day-($lunch_off+$lunch_on);
-                $invoiceupdate->dinner_offmeal = $dinner_off;
-                $invoiceupdate->dinner_onmeal = $dinner_on;
-                $invoiceupdate->dinner_inmeal = $data->section_day-($dinner_off+$dinner_on);
-                $invoiceupdate->breakfast_offmeal = $breakfast_off;
-                $invoiceupdate->breakfast_onmeal = $breakfast_on;
-                $invoiceupdate->breakfast_inmeal = $data->section_day-($breakfast_off+$breakfast_on);
-            if($invoiceupdate->payment_status1==1 || $invoiceupdate->payment_status2==1 || $invoiceupdate->onmeal_amount>1){
-
-             }else{ 
-                
-                      for($y=$inactive_day;$y>=1; $y--){ 
-                           $day = "b" . $y;
-                        if($invoiceupdate->breakfast_rate>0){
-                              $invoiceupdate->$day = 9;
-                            }else{
-                              $invoiceupdate->$day = 0;
-                            }
-                         }
-
-                       for($y=$inactive_day;$y>=1; $y--){ 
-                             $day = "l" . $y;
-                           if($invoiceupdate->lunch_rate>0){
-                               $invoiceupdate->$day = 9;
-                            }else{
-                               $invoiceupdate->$day = 0;
-                            }
-                        } 
-                         
-                    for($y=$inactive_day;$y>=1; $y--){ 
-                        $day = "d" . $y;
-                          if($invoiceupdate->dinner_rate>0){
-                              $invoiceupdate->$day = 9;
-                          }else{
-                             $invoiceupdate->$day = 0;
-                          }
-                     }
+                  } else {
+                      for ($y = $inactive_day; $y >= 1; $y--) {
+                          $day = "b" . $y;
+                          $invoiceupdate->$day = 9;
+                      }
                   }
-                
-                $invoiceupdate->save();
-            }
+              }
+      
+              // Process lunch
+              if ($invoiceupdate->lunch_rate > 0) {
+                  if ($inactive_day <= 0) {
+                      for ($y =1; $y <= $section_day; $y++) {
+                          $day = "l" . $y;
+                          $invoiceupdate->$day = 0;
+                      }
+                  } else {
+                  
+                      for ($y = $inactive_day; $y >= 1; $y--) {
+                          $day = "l" . $y;
+                          $invoiceupdate->$day = 9;
+                      }
+                   }
+              }
+      
+              // // Process dinner
+              if ($invoiceupdate->dinner_rate > 0) {
+                  if ($inactive_day <= 0) {
+                      for ($y =1; $y <= $section_day; $y++) {
+                          $day = "d" . $y;
+                          $invoiceupdate->$day = 0;
+                      }
+                  } else {
+                      for ($y = $inactive_day; $y >= 1; $y--) {
+                          $day = "d" . $y;
+                          $invoiceupdate->$day = 9;
+                      }
+                  }
+              }
+      
+              $invoiceupdate->save();
+          }
+      }
         
     if($data->first_payment_meal>0){
               if($data->fridayf==1){$friday_value=$data->friday;}else{$friday_value=0;}
@@ -409,7 +417,9 @@ class InvoiceController extends Controller
       return response()->json([
           'status'=>200,  
           'message'=>'Data Updated Successfull',
-      ]);   
+          'inactive_day'=>$inactive_day, 
+      ]); 
+    }catch (Exception $e) { return view('errors.error',['error'=>$e]);}   
      }
 
 
