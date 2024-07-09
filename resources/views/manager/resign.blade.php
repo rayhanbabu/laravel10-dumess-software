@@ -60,7 +60,10 @@
                             <button type="submit" class="btn btn-danger btn-sm" title="Delete Contact" onclick="return confirm('Are you sure detele item ??')"><i class="fa fa-trash-o" aria-hidden="true"></i> Removed </button>
                         </form>  
                    @else
-                       <span class='btn btn-warning btn-sm'>Waiting for Remove</span>    
+                       <form method="POST" action="{{ url('manager/resignmember/'.$item->id) }}" accept-charset="UTF-8" style="display:inline">
+                            {{ csrf_field() }}
+                            <button type="submit" class="btn btn-warning btn-sm" title="Delete Contact" onclick="return confirm('Are you sure detele item ??')"><i class="fa fa-trash-o" aria-hidden="true"></i> Waiting for Remove </button>
+                        </form>     
                    @endif
 
                         
