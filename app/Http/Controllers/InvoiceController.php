@@ -173,31 +173,42 @@ class InvoiceController extends Controller
 
         foreach ($invoice as $row) {
 
-          
+
           $lunch_off=0;
           $dinner_off=0;
           $breakfast_off=0;
           $lunch_on=0;
           $dinner_on=0;
           $breakfast_on=0;
-      
-          // Loop for lunch, dinner, and breakfast
-          for ($y = 1; $y <= $data->section_day; $y++) {
-              $l_off = Invoice::where('id', $row->id)->where('l'.$y, 0)->count();
-              $l_on = Invoice::where('id', $row->id)->where('l'.$y, 1)->count();
-              $d_off = Invoice::where('id', $row->id)->where('d'.$y, 0)->count();
-              $d_on = Invoice::where('id', $row->id)->where('d'.$y, 1)->count();
-              $b_off = Invoice::where('id', $row->id)->where('b'.$y, 0)->count();
-              $b_on = Invoice::where('id', $row->id)->where('b'.$y, 1)->count();
-      
-              $lunch_off += $l_off;
-              $lunch_on += $l_on;
-              $dinner_off += $d_off;
-              $dinner_on += $d_on;
-              $breakfast_off += $b_off;
-              $breakfast_on += $b_on;
+
+
+          for($y = 1; $y <= $data->section_day; $y++) {
+             $l_off=Invoice::where('id',$row->id)->where('l'.$y,0)->count(); 
+             $lunch_off+=$l_off;
+
+             $l_on=Invoice::where('id',$row->id)->where('l'.$y,1)->count(); 
+             $lunch_on+=$l_on;
+         }
+
+
+         for($y = 1; $y <= $data->section_day; $y++) {
+             $d=Invoice::where('id',$row->id)->where('d'.$y,0)->count(); 
+             $dinner_off+=$d;
+
+            $d_on=Invoice::where('id',$row->id)->where('d'.$y,1)->count(); 
+            $dinner_on+=$d_on;
+          }
+
+
+        for($y = 1; $y <= $data->section_day; $y++) {
+             $b=Invoice::where('id',$row->id)->where('b'.$y,0)->count(); 
+             $breakfast_off+=$b;
+
+             $b_on=Invoice::where('id',$row->id)->where('b'.$y,1)->count(); 
+             $breakfast_on+=$b_on;
           }
       
+         
           $invoiceupdate = Invoice::find($row->id);
           $invoiceupdate->lunch_offmeal = $lunch_off;
           $invoiceupdate->lunch_onmeal = $lunch_on;
