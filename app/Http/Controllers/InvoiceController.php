@@ -172,7 +172,14 @@ class InvoiceController extends Controller
         }
 
         foreach ($invoice as $row) {
-          $lunch_off = $lunch_on = $dinner_off = $dinner_on = $breakfast_off = $breakfast_on = 0;
+
+          
+          $lunch_off=0;
+          $dinner_off=0;
+          $breakfast_off=0;
+          $lunch_on=0;
+          $dinner_on=0;
+          $breakfast_on=0;
       
           // Loop for lunch, dinner, and breakfast
           for ($y = 1; $y <= $data->section_day; $y++) {
