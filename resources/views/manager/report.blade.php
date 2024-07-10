@@ -6,7 +6,7 @@
   <section id="minimal-statistics">
     <div class="row">
       <div class="col-12 mt-3 mb-1">
-         <h4 class="text-uppercase">Current Module : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}}</h4>
+         <h4 class="text-uppercase"> Reports/ Current Module : {{$hallinfo->cur_year}} - {{$hallinfo->cur_month}} - {{$hallinfo->cur_section}} </h4>
       </div>
     </div>
 
@@ -81,68 +81,10 @@
       </div>
 
 
-         
-    
-
-    <div class="col-xl-4 col-md-6 p-2">
-        <div class="card bg-light shadow">
-            <div class="mx-3 my-2">
-                 <b class="text-center">Date Wise Payment</b>
-            </div>
-            <form action="{{ url('pdf/range_wise_payment') }}" method="post" enctype="multipart/form-data">
-                   {!! csrf_field() !!}
-                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
-                        <select class="form-control form-control-sm" name="payment_type" id="payment_type" aria-label="Default select example" required>
-                            <option value=""> Type </option>
-                            <option value="Offline">Offline</option>
-                            <option value="Online">Online</option>
-                        </select>
-
-                       <input type="date" name="date1" class="form-control form-control-sm" value="" >      
-                          To
-                       <input type="date" name="date2" class="form-control form-control-sm" value="" >
-                   </div>
-
-                  <div class="form-group  mx-3 my-3">
-                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
-                  </div>
-            </form>
-        </div>
-    </div>
-
-
-        
-    <div class="col-xl-4 col-md-6 p-2">
-        <div class="card bg-light shadow">
-              <div class="mx-3 my-2">
-                  <b class="text-center">Online Settlement Payment </b>
-              </div>
-            <form action="{{ url('pdf/settlement_history') }}" method="post" enctype="multipart/form-data">
-                   {!! csrf_field() !!}
-                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
-                    
-                       <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
-                           <option value="">Select Section</option>
-                           <option value="A">A</option>
-                           <option value="B">B</option>
-                       </select>
-                       <input type="month" name="month" class="form-control form-control-sm" value="" >
-                   </div>
-
-                  <div class="form-group  mx-3 my-3">
-                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
-                  </div>
-            </form>
-        </div>
-    </div>
-
-
-        
- 
-    <div class="col-xl-4 col-md-6 p-2">
+      <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
              <div class="mx-3 my-2">
-                 <b class="text-center">Member List </b>
+                 <b class="text-center">Table:1 Member List </b>
             </div>
             <form action="{{ url('pdf/memberlist_with_section') }}" method="post" enctype="multipart/form-data">
                 {!! csrf_field() !!}
@@ -170,14 +112,12 @@
 
             </form>
         </div>
-    </div>
-
-
-
+    </div>  
+    
     <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
             <div class="mx-3 my-2">
-                <b class="text-center">Active member </b>
+                <b class="text-center">Table:2 Active member </b>
             </div>
             <form action="{{ url('pdf/active_member') }}" method="post" enctype="multipart/form-data">
                 {!! csrf_field() !!}
@@ -198,13 +138,94 @@
             </form>
         </div>
     </div>
+     
+    <div class="col-xl-4 col-md-6 p-2">
+        <div class="card bg-light shadow">
+            <div class="mx-3 my-2">
+                <b class="text-center">Table:3 Module Wise Invoice </b>
+            </div>
+            <form action="{{ url('pdf/section_invoice') }}" method="post" enctype="multipart/form-data">
+                {!! csrf_field() !!}
 
+                <div class="d-grid gap-3 d-flex justify-content-end p-3">
+                    <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
+                        <option value="">Select Section </option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                    </select>
+
+                    <input type="month" name="month" class="form-control form-control-sm" value="" >
+                </div>
+
+                <div class="form-group  mx-3 my-3">
+                    <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                </div>
+            </form>
+        </div>
+    </div>
 
 
     <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
             <div class="mx-3 my-2">
-                <b class="text-center">Module Wise Payment  </b>
+                 <b class="text-center">Table:4 Date Wise Payment</b>
+            </div>
+            <form action="{{ url('pdf/range_wise_payment') }}" method="post" enctype="multipart/form-data">
+                   {!! csrf_field() !!}
+                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
+                        <select class="form-control form-control-sm" name="payment_type" id="payment_type" aria-label="Default select example" required>
+                            <option value=""> Type </option>
+                            <option value="Offline">Offline</option>
+                            <option value="Online">Online</option>
+                        </select>
+
+                       <input type="date" name="date1" class="form-control form-control-sm" value="" >      
+                          To
+                       <input type="date" name="date2" class="form-control form-control-sm" value="" >
+                   </div>
+
+                  <div class="form-group  mx-3 my-3">
+                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                  </div>
+            </form>
+        </div>
+     </div>
+
+
+     <div class="col-xl-4 col-md-6 p-2">
+        <div class="card bg-light shadow">
+            <div class="mx-3 my-2">
+                 <b class="text-center">Table:5 Module wise Payment </b>
+            </div>
+            <form action="{{ url('pdf/monthly_payment_invoice') }}" method="post" enctype="multipart/form-data">
+                   {!! csrf_field() !!}
+                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
+                     <select class="form-control form-control-sm" name="payment_type" id="payment_type" aria-label="Default select example" required>
+                           <option value="">Type </option>
+                           <option value="Offline">Offline</option>
+                           <option value="Online">Online</option>
+                       </select>
+                      <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
+                          <option value="">Select Section </option>
+                          <option value="A">A</option>
+                          <option value="B">B</option>
+                      </select>
+
+                       <input type="month" name="month" class="form-control form-control-sm" value="" >
+                   </div>
+
+                  <div class="form-group  mx-3 my-3">
+                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                  </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="col-xl-4 col-md-6 p-2">
+        <div class="card bg-light shadow">
+            <div class="mx-3 my-2">
+                <b class="text-center">Table:6 Module Wise Payment Summary </b>
             </div>
             <form action="{{ url('pdf/monthly_payment') }}" method="post" enctype="multipart/form-data">
                 {!! csrf_field() !!}
@@ -234,65 +255,60 @@
     </div>
 
 
-
     <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
-            <div class="mx-3 my-2">
-                <b class="text-center"> Section Wise Invoice </b>
-            </div>
-            <form action="{{ url('pdf/section_invoice') }}" method="post" enctype="multipart/form-data">
-                {!! csrf_field() !!}
+              <div class="mx-3 my-2">
+                  <b class="text-center">Table:7 Online Settlement Payment </b>
+              </div>
+            <form action="{{ url('pdf/settlement_history') }}" method="post" enctype="multipart/form-data">
+                   {!! csrf_field() !!}
+                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
+                    
+                       <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
+                           <option value="">Select Section</option>
+                           <option value="A">A</option>
+                           <option value="B">B</option>
+                       </select>
+                       <input type="month" name="month" class="form-control form-control-sm" value="" >
+                   </div>
 
-                <div class="d-grid gap-3 d-flex justify-content-end p-3">
-                    <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
-                        <option value="">Select Section </option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                    </select>
-
-                    <input type="month" name="month" class="form-control form-control-sm" value="" >
-                </div>
-
-                <div class="form-group  mx-3 my-3">
-                    <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
-                </div>
+                  <div class="form-group  mx-3 my-3">
+                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                  </div>
             </form>
         </div>
     </div>
 
 
-
     <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
             <div class="mx-3 my-2">
-                <b class="text-center">Overall Summary </b>
+                 <b class="text-center"> Table:8 Due Invoice Summary  </b>
             </div>
-            <form action="{{ url('pdf/overall_summary') }}" method="post" enctype="multipart/form-data">
-                {!! csrf_field() !!}
+            <form action="{{ url('pdf/due_invoice') }}" method="post" enctype="multipart/form-data">
+                   {!! csrf_field() !!}
+                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
+                      <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
+                          <option value="">Select Section </option>
+                          <option value="A">A</option>
+                          <option value="B">B</option>
+                      </select>
 
-                <div class="d-grid gap-3 d-flex justify-content-end p-3">
-                    <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
-                        <option value="">Select Section </option>
-                        <option value="A">A</option>
-                        <option value="B">B</option>
-                    </select>
+                       <input type="month" name="month" class="form-control form-control-sm" value="" >
+                   </div>
 
-                    <input type="month" name="month" class="form-control form-control-sm" value="" >
-                </div>
-
-                <div class="form-group  mx-3 my-3">
-                    <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
-                </div>
+                  <div class="form-group  mx-3 my-3">
+                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                  </div>
             </form>
         </div>
     </div>
 
 
-
     <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
             <div class="mx-3 my-2">
-                <b class="text-center">Rufund Summary </b>
+                <b class="text-center">Table:9 Rufund Summary </b>
             </div>
             <form action="{{ url('pdf/refund_summary') }}" method="post" enctype="multipart/form-data">
                 {!! csrf_field() !!}
@@ -318,83 +334,7 @@
     <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
             <div class="mx-3 my-2">
-                 <b class="text-center">Module Payment Summary  </b>
-            </div>
-            <form action="{{ url('pdf/monthly_payment_invoice') }}" method="post" enctype="multipart/form-data">
-                   {!! csrf_field() !!}
-                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
-                  <select class="form-control form-control-sm" name="payment_type" id="payment_type" aria-label="Default select example" required>
-                           <option value="">Type </option>
-                           <option value="Offline">Offline</option>
-                           <option value="Online">Online</option>
-                       </select>
-                  <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
-                          <option value="">Select Section </option>
-                          <option value="A">A</option>
-                          <option value="B">B</option>
-                      </select>
-
-                       <input type="month" name="month" class="form-control form-control-sm" value="" >
-                   </div>
-
-                  <div class="form-group  mx-3 my-3">
-                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
-                  </div>
-            </form>
-        </div>
-    </div>
-
-
-    <div class="col-xl-4 col-md-6 p-2">
-        <div class="card bg-light shadow">
-            <div class="mx-3 my-2">
-                 <b class="text-center">  Due Invoice Summary  </b>
-            </div>
-            <form action="{{ url('pdf/due_invoice') }}" method="post" enctype="multipart/form-data">
-                   {!! csrf_field() !!}
-                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
-                      <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
-                          <option value="">Select Section </option>
-                          <option value="A">A</option>
-                          <option value="B">B</option>
-                      </select>
-
-                       <input type="month" name="month" class="form-control form-control-sm" value="" >
-                   </div>
-
-                  <div class="form-group  mx-3 my-3">
-                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
-                  </div>
-            </form>
-        </div>
-    </div>
-
-
-    <div class="col-xl-4 col-md-6 p-2">
-        <div class="card bg-light shadow">
-            <div class="mx-3 my-2">
-                 <b class="text-center"> Member Invoice Summary  </b>
-            </div>
-            <form action="{{ url('pdf/member_invoice_summary') }}" method="post" enctype="multipart/form-data">
-                   {!! csrf_field() !!}         
-                      <div class="d-grid gap-3 d-flex justify-content-end p-3">
-                         <label>Card </label>
-                         <input type="text" name="card" class="form-control form-control-sm" value="" >
-                      </div>
-
-                     <div class="form-group  mx-3 my-3">
-                         <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
-                     </div>
-            </form>
-        </div>
-    </div>
-
-
-
-    <div class="col-xl-4 col-md-6 p-2">
-        <div class="card bg-light shadow">
-            <div class="mx-3 my-2">
-                 <b class="text-center">  Withdraw Invoice Summary  </b>
+                 <b class="text-center">Table:10 Withdraw Invoice Summary  </b>
             </div>
             <form action="{{ url('pdf/withdraw_invoice') }}" method="post" enctype="multipart/form-data">
                    {!! csrf_field() !!}
@@ -419,7 +359,27 @@
     <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
             <div class="mx-3 my-2">
-                 <b class="text-center"> Range wise Inactive Member </b>
+                 <b class="text-center">Table:11 Member Invoice Summary  </b>
+            </div>
+            <form action="{{ url('pdf/member_invoice_summary') }}" method="post" enctype="multipart/form-data">
+                   {!! csrf_field() !!}         
+                      <div class="d-grid gap-3 d-flex justify-content-end p-3">
+                         <label>Card </label>
+                         <input type="text" name="card" class="form-control form-control-sm" value="" >
+                      </div>
+
+                     <div class="form-group  mx-3 my-3">
+                         <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                     </div>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="col-xl-4 col-md-6 p-2">
+        <div class="card bg-light shadow">
+            <div class="mx-3 my-2">
+                 <b class="text-center">Table:12 Range wise Inactive Member </b>
             </div>
             <form action="{{ url('pdf/range_inactive_member') }}" method="post" enctype="multipart/form-data">
                    {!! csrf_field() !!}
@@ -437,11 +397,11 @@
     </div>
 
 
-        
+
     <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
               <div class="mx-3 my-2">
-                  <b class="text-center"> Extra Payment Summary </b>
+                  <b class="text-center">Table:13 Extra Payment Summary </b>
               </div>
             <form action="{{ url('pdf/extra_payment') }}" method="post" enctype="multipart/form-data">
                    {!! csrf_field() !!}
@@ -460,6 +420,41 @@
             </form>
         </div>
     </div>
+
+
+    <div class="col-xl-4 col-md-6 p-2">
+        <div class="card bg-light shadow">
+            <div class="mx-3 my-2">
+                <b class="text-center">Table:14 Overall Summary </b>
+            </div>
+            <form action="{{ url('pdf/overall_summary') }}" method="post" enctype="multipart/form-data">
+                {!! csrf_field() !!}
+
+                <div class="d-grid gap-3 d-flex justify-content-end p-3">
+                    <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
+                        <option value="">Select Section </option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                    </select>
+
+                    <input type="month" name="month" class="form-control form-control-sm" value="" >
+                </div>
+
+                <div class="form-group  mx-3 my-3">
+                    <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    
+
+   
+
+   
+
 
 </div>
 
