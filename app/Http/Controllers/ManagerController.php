@@ -1219,13 +1219,13 @@ class ManagerController extends Controller
         
         
            public function resignview(Request $request)
-           {
+            {
                $hall_id = $request->header('hall_id');
                $data = Feedback::leftjoin('members', 'members.id', '=', 'feedback.member_id')
-                 ->where('category','Resign')->where('feedback.hall_id',$hall_id)
-                  ->select('members.card','members.name','members.member_status','feedback.*')->get();
-                  return view('manager.resign', ['data' => $data]);
-            }
+                  ->where('category','Resign')->where('feedback.hall_id',$hall_id)
+                  ->select('members.card','members.phone','members.name','members.member_status','feedback.*')->get();
+                   return view('manager.resign', ['data' => $data]);
+             }
         
             public function resign_delete(Request $request , $id){
               $data = Feedback::find($id);

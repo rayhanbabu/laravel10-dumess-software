@@ -38,6 +38,7 @@
                 <tr>
                     <th width="10%">Card No</th>
                     <th width="10%">Name</th>
+                    <th width="10%">Phone </th>
                     <th width="15%">Submited Date</th>
                     <th width="15%">Subject </th>
                     <th width="30%">Message </th>
@@ -50,6 +51,7 @@
                 <tr>
                     <td>{{$item->card}}</td>
                     <td>{{$item->name}}</td>
+                    <td>{{$item->phone}}</td>
                     <td> <?php echo date('d-m-Y ,l', strtotime($item->submited_time)); ?> </td>
                     <td>{{$item->subject}}</td>
                     <td>{{$item->text}}</td>
