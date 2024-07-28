@@ -751,7 +751,8 @@ class MemberController extends Controller
     {
     try {     
           $hall_id = $request->header('hall_id');
-          $data = Bazar::where('hall_id', $hall_id)->where('date',$date)->orderBy('id','asc')->get();
+          $data =Bazar::leftjoin('products','products.id','=','bazars.product_id')
+          ->Where('bazars.hall_id',$hall_id)->select('products.product','bazars.*')->where('bazars.date',$date)->orderBy('bazars.id','asc')->get();
              return response()->json([
                 'status' => 200,
                 'data' => $data,
