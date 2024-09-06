@@ -676,7 +676,7 @@
           
             <div class="row">
               <div class="col-sm-8">
-                <b>Previous Reserve </b>
+                <b>Previous Reserve Amount </b>
               </div>
               <div class="col-sm-4" id="view_pre_reserve_amount">
 
@@ -686,7 +686,7 @@
 
             <div class="row">
               <div class="col-sm-8">
-                <b> Previous Refund</b>
+                <b> Previous Refund Amount</b>
               </div>
               <div class="col-sm-4" id="view_pre_refund">
 
@@ -696,7 +696,7 @@
 
             <div class="row">
               <div class="col-sm-8">
-                <b>Previous Due</b>
+                <b>Previous Due Amount</b>
               </div>
               <div class="col-sm-4" id="view_pre_monthdue">
 
@@ -706,7 +706,7 @@
 
             <div class="row">
               <div class="col-sm-8">
-                <b> Total Budget</b>
+                <b> Total Budget Amount </b>
               </div>
               <div class="col-sm-4" id="view_cur_total_amount">
 
@@ -737,7 +737,7 @@
 
             <div class="row">
               <div class="col-sm-8">
-                <b>1st Payable</b>
+                <b>1st Payable Amount</b>
               </div>
               <div class="col-sm-4" id="view_payble_amount1">
 
@@ -747,7 +747,7 @@
 
             <div class="row">
               <div class="col-sm-8">
-                <b>2nd Payable</b>
+                <b>2nd Payable Amount</b>
               </div>
               <div class="col-sm-4" id="view_payble_amount2">
 
@@ -757,7 +757,7 @@
 
             <div class="row">
               <div class="col-sm-8">
-                <b>withdraw </b>
+                <b>withdraw Amount</b>
               </div>
               <div class="col-sm-4" id="view_pre_refund">
 
