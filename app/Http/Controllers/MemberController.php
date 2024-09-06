@@ -387,7 +387,7 @@ class MemberController extends Controller
               if ($member->admin_verify == $status) {
               $token = MemberJWTToken::CreateToken($member->name, $member->email, $member->id, $member->hall_id, $member->role);
             
-              $hall = Hall::leftjoin('univers','univers.id','=','halls.university_id')
+              $hall=Hall::leftjoin('univers','univers.id','=','halls.university_id')
               ->where('role','admin')->where('hall_id',$member->hall_id)
               ->select('univers.university','halls.hall')->first();
               $memberinfo = Member::where('registration',$request->registration)->select('name','email','hall_id','card','registration','profile_image')->first();
