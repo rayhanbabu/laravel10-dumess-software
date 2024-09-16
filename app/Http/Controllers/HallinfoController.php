@@ -197,12 +197,17 @@ class HallinfoController extends Controller
       ->where('invoice_year', $year)->where('invoice_section',$section)->where('invoice_status',1)
       ->where('payment_status2',1)->where('payble_amount2','<',0)->sum('payble_amount2');
 
+      $reserve_payment1=DB::table('invoices')->where('invoice_month', $month)->where('hall_id', $hall_id)
+      ->where('invoice_year', $year)->where('invoice_section',$section)->where('invoice_status',1)
+      ->where('payment_status1',1)->where('payble_amount1','<',0)->sum('payble_amount1');
+
           return view('pdf.overall_summary2',[
                        'month1' => $month1 ,'invoice' => $invoice ,'section' => $section 
                        ,'exinvoice' => $exinvoice, 'active_invoice' => $active_invoice
                        ,'payment1' => $payment1,'payment2' => $payment2,'bazar'=>$bazar  
                        ,'exinvoice_payment'=>$exinvoice_payment,'withdraw' => $withdraw
                       ,'extra_payment'=>$extra_payment,'reserve_payment2'=>$reserve_payment2
+                      ,'reserve_payment1'=>$reserve_payment1
            ]);
              
              } catch (Exception $e) {
@@ -236,11 +241,16 @@ class HallinfoController extends Controller
            
            $reserve_payment2=DB::table('invoices')->where('invoice_month', $month)->where('hall_id', $hall_id)
               ->where('invoice_year', $year)->where('invoice_section',$section)->where('invoice_status',1)
-              ->where('payment_status2',1)->where('payble_amount2','<',0)->sum('payble_amount2');   
+              ->where('payment_status2',1)->where('payble_amount2','<',0)->sum('payble_amount2'); 
+              
+              
+        $reserve_payment1=DB::table('invoices')->where('invoice_month', $month)->where('hall_id', $hall_id)
+              ->where('invoice_year', $year)->where('invoice_section',$section)->where('invoice_status',1)
+              ->where('payment_status1',1)->where('payble_amount1','<',0)->sum('payble_amount1');        
 
                 // return $payment2;
             return view('pdf.monthly_payment',['month1'=>$month1,'payment1'=>$payment1,'payment_type'=>$payment_type,
-            'payment2' => $payment2, 'section' => $section,'reserve_payment2'=>$reserve_payment2]);
+            'payment2' => $payment2, 'section' => $section,'reserve_payment2'=>$reserve_payment2,'reserve_payment1'=>$reserve_payment1]);
              
 
                 // } catch (Exception $e) {

@@ -393,6 +393,7 @@ class InvoiceController extends Controller
 
           , reserve_amount=(CASE 
                 WHEN payble_amount2<0 THEN -payble_amount2
+                WHEN payble_amount1<0 THEN -payble_amount1
              ELSE 0  END)
 
           ,gateway_fee='$hall->gateway_fee'    
