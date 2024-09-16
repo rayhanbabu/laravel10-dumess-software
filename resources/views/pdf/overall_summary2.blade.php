@@ -78,7 +78,7 @@
         @php
           $refund=($invoice->sum('total_refund')+$invoice->sum('reserve_amount'))-$invoice->sum('total_due');
     
-           $total_payment=($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2'))+$exinvoice_payment->sum('withdraw')-($reserve_payment2);
+           $total_payment=($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2'))+$exinvoice_payment->sum('withdraw')-($reserve_payment2+$reserve_payment1);
         @endphp
 
            <!-- Table 1:Manager get in -->
@@ -320,7 +320,7 @@
               <tr>
                 <td>5</td>
                 <td>1st Invoice payment </td>
-                <td align="right">{{ $payment1->sum('payble_amount1') }} TK</td>
+                <td align="right">{{ $payment1->sum('payble_amount1')-$reserve_payment1 }} TK</td>
               </tr>
 
               <tr>
@@ -333,7 +333,7 @@
               <tr>
                 <td>7</td>
                 <td>Total Invoice Payment</td>
-                <td align="right">{{ $payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')-($reserve_payment2) }} TK </td>
+                <td align="right">{{ $payment1->sum('payble_amount1')+$payment2->sum('payble_amount2')-($reserve_payment2+$reserve_payment1) }} TK </td>
               </tr>
 
 
@@ -347,7 +347,7 @@
               <tr>
                 <td>9</td>
                 <td>Total Payment(7+8) </td>
-                <td align="right">{{ ($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2'))+$exinvoice_payment->sum('withdraw')-($reserve_payment2) }} TK</td>
+                <td align="right">{{ ($payment1->sum('payble_amount1')+$payment2->sum('payble_amount2'))+$exinvoice_payment->sum('withdraw')-($reserve_payment2+$reserve_payment1) }} TK</td>
               </tr>
 
             </tbody>

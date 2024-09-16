@@ -107,10 +107,14 @@
                            </tr>
                          @endforeach
 
+                         <tr>
+                             <td colspan="3" align="right"> Current reserve 1st Payment : @if($payment_type=="Offline"){{-$reserve_payment1}} @else 0 @endif TK</td>
+                         </tr>
+
                           <tr>
                                 <td> </td>
                                 <td></td>
-                                <td align="right">Total Payment:{{$sum1}} TK</td>
+                                <td align="right">Total Payment: @if($payment_type=="Offline") {{$sum1-$reserve_payment1}} @else {{$sum1}} @endif TK</td>
                           </tr>
                     </table>
 
@@ -147,7 +151,7 @@
                     </table>
  
 
-                    <h4> Total payment : @if($payment_type=="Offline") {{$sum1+$sum2-$reserve_payment2}} @else {{$sum1+$sum2}}  @endif TK </h4>
+                    <h4> Total payment : @if($payment_type=="Offline") {{$sum1+$sum2-($reserve_payment2+$reserve_payment1)}} @else {{$sum1+$sum2}}  @endif TK </h4>
 
               
 
