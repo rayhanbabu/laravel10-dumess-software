@@ -105,7 +105,7 @@ class InvoiceController extends Controller
 
 
     function section_fetch_data(Request $request)
-    {
+     {
   
         $hall_id = $request->header('hall_id');
         $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section')->first();
