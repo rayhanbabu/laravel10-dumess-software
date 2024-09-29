@@ -320,6 +320,7 @@ use App\Http\Controllers\WithdrawController;
           Route::post('/pdf/extra_payment', [HallinfoController::class,'extra_payment']);
           Route::post('/pdf/settlement_history', [HallinfoController::class,'settlement_history']);
           Route::post('/pdf/range_wise_payment', [HallinfoController::class,'range_wise_payment']);
+          Route::post('/pdf/last_payment_invoice', [HallinfoController::class,'last_payment_invoice']);
           
           
           Route::middleware('BookingSeatToken')->group(function(){

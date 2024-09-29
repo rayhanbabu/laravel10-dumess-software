@@ -425,6 +425,40 @@
     <div class="col-xl-4 col-md-6 p-2">
         <div class="card bg-light shadow">
             <div class="mx-3 my-2">
+                 <b class="text-center">Table:5 Last Payment Status  </b>
+            </div>
+            <form action="{{ url('pdf/last_payment_invoice') }}" method="post" enctype="multipart/form-data">
+                   {!! csrf_field() !!}
+                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
+                     
+                       <select class="form-control form-control-sm" name="payment_status" id="payment_status" aria-label="Default select example" required>
+                              <option value="">Type </option>
+                              <option value="1">Paid</option>
+                              <option value="0">Uppaid</option>
+                       </select>
+
+                        <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
+                             <option value="">Select Section </option>
+                             <option value="A">A</option>
+                             <option value="B">B</option>
+                        </select>
+
+                        <input type="month" name="month" class="form-control form-control-sm" value="" >
+                  
+                    </div>
+
+                  <div class="form-group  mx-3 my-3">
+                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                  </div>
+            </form>
+        </div>
+    </div>
+
+
+
+    <div class="col-xl-4 col-md-6 p-2">
+        <div class="card bg-light shadow">
+            <div class="mx-3 my-2">
                 <b class="text-center">Table:14 Overall Summary </b>
             </div>
             <form action="{{ url('pdf/overall_summary') }}" method="post" enctype="multipart/form-data">
