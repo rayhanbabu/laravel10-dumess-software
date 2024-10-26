@@ -140,6 +140,7 @@ class InvoiceController extends Controller
 
     public function section_update(Request $request){
 
+      DB::beginTransaction();
       try {
        $hall_id = $request->header('hall_id');
        $hall=DB::table('halls')->where('hall_id',$hall_id)->where('role','admin')->first();
@@ -416,15 +417,23 @@ class InvoiceController extends Controller
          DB::update("update hallinfos set refresh_date='$payment_date', refresh_no='0'  where hall_id_info = '$hall_id' ");
       }   
 
+      DB::commit();  
       return response()->json([
           'status'=>200,  
           'message'=>'Data Updated Successfull',
           'inactive_day'=>$inactive_day, 
       ]); 
-    }catch (Exception $e) { return view('errors.error',['error'=>$e]);}   
-     }
-
-
+      
+       } catch (\Exception $e) {
+          DB::rollback();
+          return response()->json([
+           'status' => 'fail',
+            'message' => 'Some error occurred. Please try again',
+           ],200);
+        }
+    
+        
+   }
 
 
      public function mealsheet_view(Request $request)
@@ -698,6 +707,10 @@ class InvoiceController extends Controller
 
        public function payment1_update(Request $request)
        {
+
+        DB::beginTransaction();
+          try {
+
          $manager_username = $request->header('manager_username');
          $hall_id = $request->header('hall_id');
          $id = $request->input('payment1_id');
@@ -810,17 +823,32 @@ class InvoiceController extends Controller
                 ];
                Mail::to($member->email)->send(new \App\Mail\paymentMail($details));   
            $mess = "Invoice No: " . $id . "Card No: " . $member->card . ".  First Payable Amount  " . $data->payble_amount1 . "TK " . $payment_status;
-             return response()->json([
+           
+           DB::commit();  
+           return response()->json([
                'status' => 200,
                'message' => $mess,
              ]);
           }
+
+      
+        } catch (\Exception $e) {
+          DB::rollback();
+          return response()->json([
+            'status' => 'fail',
+          'message' => 'Some error occurred. Please try again',
+        ],200);
+     }  
        
        }
 
 
        public function payment2_update(Request $request)
        {
+
+        DB::beginTransaction();
+          try {
+
          $manager_username = $request->header('manager_username');
          $hall_id = $request->header('hall_id');
          $id = $request->input('payment2_id');
@@ -935,18 +963,29 @@ class InvoiceController extends Controller
                  Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
                 // member_meal_update(Invoice::find($id));
             $mess = " Invoice No : " . $id ." Card No: " . $member->card . ".  Second Payable Amount  " . $data->payble_amount2 . "TK " . $payment_status;
-             return response()->json([
+             
+            DB::commit();  
+            return response()->json([
                 'status' => 200,
                 'message' => $mess,
              ]);
- 
+
           }
-       
+
+        } catch (\Exception $e) {
+          DB::rollback();
+          return response()->json([
+            'status' => 'fail',
+          'message' => 'Some error occurred. Please try again',
+        ],200);
+
+           }
        }
 
 
-       public function withdraw_update(Request $request)
-       { 
+       public function withdraw_update(Request $request) { 
+        DB::beginTransaction();
+        try {
          $manager_username = $request->header('manager_username');
          $hall_id = $request->header('hall_id');
          $id = $request->input('withdraw_id');
@@ -1011,12 +1050,22 @@ class InvoiceController extends Controller
                 where id ='$id'");
 
              $mess = " Invoice No: " . $id . ".  Withdraw Amount  " . $data->withdraw . "TK " . $payment_status;
+            
+             DB::commit();  
              return response()->json([
                'status' => 200,
                'message' => $mess,
              ]);
 
             }
+
+           } catch (\Exception $e) {
+             DB::rollback();
+             return response()->json([
+               'status' => 'fail',
+              'message' => 'Some error occurred. Please try again',
+           ],200);
+        }
        
        }
 
