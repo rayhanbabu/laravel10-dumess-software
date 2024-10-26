@@ -240,12 +240,12 @@ class HallinfoController extends Controller
               invoice_section='$section' AND payment_type2='$payment_type' AND  hall_id='$hall_id' GROUP BY DATE_FORMAT(payment_time2,'%d')");
            
            $reserve_payment2=DB::table('invoices')->where('invoice_month', $month)->where('hall_id', $hall_id)
-              ->where('invoice_year', $year)->where('invoice_section',$section)->where('invoice_status',1)
+              ->where('invoice_year',$year)->where('invoice_section',$section)->where('invoice_status',1)
               ->where('payment_status2',1)->where('payble_amount2','<',0)->sum('payble_amount2'); 
               
               
         $reserve_payment1=DB::table('invoices')->where('invoice_month', $month)->where('hall_id', $hall_id)
-              ->where('invoice_year', $year)->where('invoice_section',$section)->where('invoice_status',1)
+              ->where('invoice_year',$year)->where('invoice_section',$section)->where('invoice_status',1)
               ->where('payment_status1',1)->where('payble_amount1','<',0)->sum('payble_amount1');        
 
                 // return $payment2;
