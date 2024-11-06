@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\validator;
@@ -9,7 +8,6 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\ForgetJWTToken;
 use App\Helpers\MemberJWTToken;
-
 
 use App\Models\Member;
 use Illuminate\Http\Request;
@@ -71,7 +69,7 @@ class MemberController extends Controller
 
   public function application_memebr(Request $request)
   {
-    try { 
+    // try { 
       $validator = \Validator::make(
       $request->all(),
        [
@@ -119,12 +117,14 @@ class MemberController extends Controller
       $count_session=Member::where('hall_id',$request->hall_id)->where('session',$session)->count('id');
 
       if($count_session>=1){
-           $data_max=Member::where('hall_id',$request->hall_id)->where('session',$session)->max('card');
+           $data_max=Member::where('hall_id',$request->hall_id)->where('member_status',1)->where('session',$session)->max('card');
+           
            $max=substr($data_max,4,3);
            $card=$session*1000+1+$max;
        }else{
            $card=$session*1000+1;
         }
+
     
     if ($validator->fails()) {
       return response()->json([
@@ -211,12 +211,13 @@ class MemberController extends Controller
       ]);
     }
 
-  } catch (Exception $e) {
-    return response()->json([
-      'status' => $e,
-      'message' => 'Somting Error',
-    ],501);
-  }
+    //  } catch (Exception $e) {
+    //    return response()->json([
+    //     'status' => $e,
+    //      'message' => 'Somting Error',
+    //   ],501);
+    // }
+
   }
 
 
