@@ -148,7 +148,7 @@
           <tr>
             <td align="left"></td>
             <td colspan="3" align="left">Second Payment Number : {{$payment2->count('id')}} </td>
-            <td colspan="3" align="left">Second Payment Amount : {{$payment2->sum('payble_amount1')}}TK</td>
+            <td colspan="3" align="left">Second Payment Amount : {{$payment2->sum('payble_amount2')}}TK</td>
           </tr>
 
         </table>
@@ -156,7 +156,7 @@
 
         @else
              
-        <h5>First paymnet and Second paymnet: {{$payment2->sum('payble_amount2')+$payment1->sum('payble_amount1')}}TK
+        <h5> First paymnet and Second paymnet: {{$payment2->sum('payble_amount2')+$payment1->sum('payble_amount1')}}TK
           <br>
           First Payment </h5>
 

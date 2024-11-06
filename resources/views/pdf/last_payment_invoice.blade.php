@@ -74,9 +74,11 @@
 
         <div class="area">
         <center>
+
           <h4> {{ manager_info()['hall_name'] }} <br>
              Payment Summary, Payment Status: {{$payment_status}} , Module : {{$month1}}, Section : {{ $section }} </h4>
-        </center>
+      
+            </center>
              
   
         <h5> Last Invoice Payment Summary </h5>
@@ -89,10 +91,11 @@
             <th align="left" width="215">Name</th>
             <th align="left" width="215">Phone</th>
             <th align="left" width="60">Refund</th>
-            <th align="right" width="155">Reserve</th>
+            <th align="right" width="100">Reserve</th>
             <th align="right" width="55">Security</th>
             <th align="right" width="55">Due</th>
             <th align="right" width="55">Payment(+hall get, -Member get)</th>
+            <th align="right" width="55">Payment Time</th>
           </tr>
 
 
@@ -108,7 +111,7 @@
             <td align="left">{{$user->security}}</td>
             <td align="left">{{$user->pre_monthdue}}</td>
             <td align="left">{{$user->withdraw}}</td>
-
+            <td align="left">{{$user->withdraw_time}}</td>
           </tr>
           @endforeach
 
