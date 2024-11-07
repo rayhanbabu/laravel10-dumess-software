@@ -125,7 +125,7 @@ public function withdraw_status(Request $request,$operator,$status,$id){
 
  public function withdraw_update(Request $request)
  {
-     $maintain_id = $request->header('maintain_id');
+      $maintain_id = $request->header('maintain_id');
       $validated = $request->validate([
           'image' =>'image|mimes:jpeg,png,jpg|max:512000',
           'withdraw_info'=>'required',
@@ -154,9 +154,8 @@ public function withdraw_status(Request $request,$operator,$status,$id){
 
 
 
-
    public function manager_withdraw_index(){ 
-      return view('manager.withdraw');
+        return view('manager.withdraw');
     }
 
     public function manager_withdraw_fetch(Request $request){

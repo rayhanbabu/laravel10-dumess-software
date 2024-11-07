@@ -783,31 +783,24 @@ class HallinfoController extends Controller
       }
 
 
-
-
-
      public function last_payment_invoice(Request $request){
 
-      $hall_id = $request->header('hall_id');
-      $month = date('n',strtotime($_POST['month']));
-      $year = date('Y',strtotime($_POST['month']));
-      $section = $_POST['section'];
-      $payment_status = $_POST['payment_status'];
-      $month1 = date('F-Y',strtotime($_POST['month']));
-      $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
+         $hall_id = $request->header('hall_id');
+         $month = date('n',strtotime($_POST['month']));
+         $year = date('Y',strtotime($_POST['month']));
+         $section = $_POST['section'];
+         $payment_status = $_POST['payment_status'];
+         $month1 = date('F-Y',strtotime($_POST['month']));
+         $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
      
-      $payment1=array();
-      $payment2=array();
+         $payment1=array();
+         $payment2=array();
          
-   
+         $withdraw=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
+          ->where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
+          ->where('invoice_section',$section)->where('invoice_status',5)->where('withdraw_status',$payment_status)->select('invoices.*','name','registration','card','phone')
+          ->orderBy($hallinfo->pdf_order,'asc')->get();
 
-     $withdraw=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
-     ->where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
-     ->where('invoice_section',$section)->where('invoice_status',5)->where('withdraw_status',$payment_status)->select('invoices.*','name','registration','card','phone')
-     ->orderBy($hallinfo->pdf_order,'asc')->get();
-
- 
-       
      return view('pdf.last_payment_invoice',["payment_status"=>$payment_status,"section"=>$section,"month1"=>$month1,"withdraw"=>$withdraw ]);
 
      }

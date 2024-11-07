@@ -98,8 +98,8 @@ class MemberController extends Controller
             ->where('phone', $request->input('phone'))->count('id'); 
       }else{
            $application=12;
+           
       }
-     
      if(empty($request->registration)){
          $member=Member::where('hall_id',$request->hall_id)->get();
          if($member){
@@ -124,6 +124,7 @@ class MemberController extends Controller
        }else{
            $card=$session*1000+1;
         }
+
 
     
     if ($validator->fails()) {

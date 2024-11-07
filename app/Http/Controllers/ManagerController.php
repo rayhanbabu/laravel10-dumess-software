@@ -56,7 +56,7 @@ class ManagerController extends Controller
         $fri3=0;
         $fri4=0;
         $fri5=0;
-         $feast=0; 
+        $feast=0; 
       if(substr($hallinfo->friday1,1,2)<=$from_day){
             $fri1=Invoice::where('hall_id',$hall_id)->where('invoice_month',$hallinfo->cur_month)->where('invoice_year',$hallinfo->cur_year)
             ->where('invoice_section',$hallinfo->cur_section)->where('invoice_status',1)->where($hallinfo->friday1,1)->count();
