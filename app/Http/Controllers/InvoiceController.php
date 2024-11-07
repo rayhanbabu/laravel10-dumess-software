@@ -848,7 +848,6 @@ class InvoiceController extends Controller
 
         DB::beginTransaction();
           try {
-
          $manager_username = $request->header('manager_username');
          $hall_id = $request->header('hall_id');
          $id = $request->input('payment2_id');
@@ -988,11 +987,13 @@ class InvoiceController extends Controller
         try {
          $manager_username = $request->header('manager_username');
          $hall_id = $request->header('hall_id');
+        
          $id = $request->input('withdraw_id');
          $data = Invoice::Where('id', $id)->select('payble_amount1','payment_status1' ,'payment_time1' ,'payment_time2' ,'invoice_status'
-             ,'payble_amount2' ,'payment_status2' ,'withdraw' ,'withdraw_status','withdraw_time','meal_start_date','first_pay_mealon')->first();
+             ,'payble_amount2' ,'payment_status2' ,'withdraw' ,'withdraw_status','withdraw_time','meal_start_date'
+             ,'first_pay_mealon','invoice_year','invoice_month','invoice_section')->first();
 
-         $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('section_day','unpaid_day','breakfast_rate','lunch_rate','dinner_rate','first_payment_meal')->first();
+         $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','section_day','unpaid_day','breakfast_rate','lunch_rate','dinner_rate','first_payment_meal')->first();
      
          if($data->withdraw_status == 1) {
              $status1 = 0;
@@ -1018,46 +1019,54 @@ class InvoiceController extends Controller
 
        }else if($data->withdraw<=0 && $data->invoice_status==1){
             return response()->json([
-               'status' => 200,
+                'status' => 200,
                 'message' => 'You can not refund withdraw beacuse withdraw amount negative',
             ]);
+         }else if($hallinfo->cur_section==$data->invoice_section && 
+                  $hallinfo->cur_year==$data->invoice_year &&
+                  $hallinfo->cur_month==$data->invoice_month){
 
-       }else{
-           DB::update("update invoices set withdraw_status ='$status1' , withdraw_time='$paymenttime',withdraw_type='$paymenttype' 
-                ,withdraw_day='$payment_day' where id ='$id'");
 
-  
-          DB::update("update invoices set 
-          payble_amount=(CASE 
-          WHEN withdraw_status>=1 THEN cur_total_amount-inmeal_amount 
-          ELSE cur_total_amount-(inmeal_amount+withdraw)  END),
-
-          first_pay_mealon=(CASE 
-             WHEN  $hallinfo->first_payment_meal<=0 THEN 0 
-             WHEN  $hallinfo->first_payment_meal<=breakfast_inmeal THEN 0 
-             WHEN  payment_status1<=0 && payment_status2>=1 THEN 0   
-             ELSE  $hallinfo->first_payment_meal  END),
-
-             payble_amount1=(CASE 
-               WHEN first_pay_mealon<=0 THEN 0
-               WHEN withdraw_status>=1 THEN  first_pay_mealamount+first_others_amount-inmeal_amount
-               ELSE first_pay_mealamount+first_others_amount-(inmeal_amount+withdraw)  END),
-
-             payble_amount2=(CASE 
-                WHEN payment_status1>=1 THEN second_pay_mealamount+second_others_amount
-                WHEN withdraw_status>=1 THEN cur_total_amount-inmeal_amount
-                ELSE cur_total_amount-(inmeal_amount+withdraw)  END)
-                where id ='$id'");
-
-             $mess = " Invoice No: " . $id . ".  Withdraw Amount  " . $data->withdraw . "TK " . $payment_status;
-            
-             DB::commit();  
-             return response()->json([
-               'status' => 200,
-               'message' => $mess,
-             ]);
-
-            }
+              DB::update("update invoices set withdraw_status ='$status1' , withdraw_time='$paymenttime',withdraw_type='$paymenttype' 
+              ,withdraw_day='$payment_day' where id ='$id'");
+    
+      
+              DB::update("update invoices set 
+              payble_amount=(CASE 
+              WHEN withdraw_status>=1 THEN cur_total_amount-inmeal_amount 
+              ELSE cur_total_amount-(inmeal_amount+withdraw)  END),
+    
+              first_pay_mealon=(CASE 
+                 WHEN  $hallinfo->first_payment_meal<=0 THEN 0 
+                 WHEN  $hallinfo->first_payment_meal<=breakfast_inmeal THEN 0 
+                 WHEN  payment_status1<=0 && payment_status2>=1 THEN 0   
+                 ELSE  $hallinfo->first_payment_meal  END),
+    
+                 payble_amount1=(CASE 
+                   WHEN first_pay_mealon<=0 THEN 0
+                   WHEN withdraw_status>=1 THEN  first_pay_mealamount+first_others_amount-inmeal_amount
+                   ELSE first_pay_mealamount+first_others_amount-(inmeal_amount+withdraw)  END),
+    
+                 payble_amount2=(CASE 
+                    WHEN payment_status1>=1 THEN second_pay_mealamount+second_others_amount
+                    WHEN withdraw_status>=1 THEN cur_total_amount-inmeal_amount
+                    ELSE cur_total_amount-(inmeal_amount+withdraw)  END)
+                    where id ='$id'");
+    
+                  $mess = " Invoice No: " . $id . ".  Withdraw Amount  " . $data->withdraw . "TK " . $payment_status;
+                
+                  DB::commit();  
+                  return response()->json([
+                    'status' => 200,
+                    'message' => $mess,
+                  ]);
+      
+         } else {
+              return response()->json([
+                   'status' => 200,
+                   'message' => 'Current Module Does Not Match',
+                 ]);
+           }
 
            } catch (\Exception $e) {
              DB::rollback();
