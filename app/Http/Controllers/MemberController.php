@@ -171,10 +171,10 @@ class MemberController extends Controller
       $model->status = 1;
 
       if ($request->hasfile('profile_image')) {
-          $file = $_FILES['profile_image']['tmp_name'];
-          $hw = getimagesize($file);
-          $w = $hw[0];
-          $h = $hw[1];
+          // $file = $_FILES['profile_image']['tmp_name'];
+          // $hw = getimagesize($file);
+          // $w = $hw[0];
+          // $h = $hw[1];
        // if ($w < 310 && $h < 310) {
            $image = $request->file('profile_image');
            $file_name = 'profile' . rand() . '.' . $image->getClientOriginalExtension();
