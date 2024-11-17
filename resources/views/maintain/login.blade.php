@@ -171,7 +171,7 @@ $(document).ready(function(){
                   $("#add_verify_btn").prop('disabled',true);
               },
              success:function(response){ 
-                  //console.log(response);
+                  console.log(response);
 			     $("#add_verify_btn").prop('disabled', false);
 				      if(response.status == 200){
 						    $('.error_otp').text("");

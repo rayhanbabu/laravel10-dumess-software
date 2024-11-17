@@ -9,7 +9,8 @@ class ManagerJWTToken
 {
     public static function CreateToken($id,$name,$email,$hall_id,$role,$role2)
     {
-        $key =env('JWT_KEY');
+        
+        $key = "qomNRPiHjkS173qIm3BgIvNLQvnUpsmPfdAVbYryytr76675sdrgrk";
         $payload=[
             'iss'=>'rayhan-token',
             'iat'=>time(),
@@ -31,7 +32,7 @@ class ManagerJWTToken
                 return 'unauthorized';
             }
             else{
-                $key =env('JWT_KEY');
+                $key = "qomNRPiHjkS173qIm3BgIvNLQvnUpsmPfdAVbYryytr76675sdrgrk";
                 return JWT::decode($token,new Key($key,'HS256'));
             }
         }

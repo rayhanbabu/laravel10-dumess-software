@@ -320,61 +320,7 @@
 
 
        
-       $(document).on('click', '.memberblock', function(e){ 
-            e.preventDefault(); 
-            var member_block_id = $(this).val(); 
-          
-
-         
-            $('#member_block_id').val(member_block_id);
-            $('#MemberModal').modal('show');
-           
-       });
-
-
-
-       $(document).on('submit', '#member_form', function(e){ 
-        e.preventDefault(); 
-        //var invoice_id=$('#invoice_id').val();
-
-        let editData=new FormData($('#member_form')[0]);
-        $.ajax({
-             type:'POST',
-             url:'/manager/member_block',
-             data:editData,
-             contentType: false,
-             processData:false,
-             beforeSend : function()
-               {
-               $('.loader').show();
-               $("#member_btn").prop('disabled', true)
-               },
-             success:function(response){
-                 console.log(response);
-                  if(response.status == 400){
-                    $('.edit_err_dureg').text(response.validate_err.dureg);
-                  }else{
-                    $('#edit_form_errlist').html("");
-                    $('#edit_form_errlist').addClass('d-none');
-                    $('#success_message').html("");
-                    $('#success_message').addClass('alert alert-success');
-                    $('#success_message').text(response.message)
-                    $('#MemberModal').modal('hide');
-                    fetch();
-                  }
-                  $("#member_btn").prop('disabled', false) 
-                  $('.loader').hide();
-             }
-          });
-       });
-    
-
-
-
-
-
-
-
+     
 
     $(document).on('click', '.view_all', function(e) {
       e.preventDefault();
@@ -465,51 +411,8 @@
     });
 
 
-
-
   });
 </script>
-
-
-{{-- withdraw start --}}
-<div class="modal fade" id="MemberModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-  data-bs-backdrop="static" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Block Member </h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form method="post" id="member_form" enctype="multipart/form-data" >
-        <input type="hidden" name="edit_id" id="edit_id">
-         <div class="modal-body p-4 bg-light">
-        
-          <input type="hidden" name="member_block_id" id="member_block_id" value="" />
-           <input type="hidden" name="member_status" id="member_status" value="" />
-          
-               	  		  
-			          <h3>Are you sure change status ??</h3>   
-               
-         <br><br>
-
-         <button type="submit" id="member_btn" class="btn btn-success">Update </button>
-	  
-         <div class="loader">
-                 <img src="{{ asset('images/abc.gif') }}" alt="" style="width: 50px;height:50px;">
-			 </div><br>
-
-       
-      </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-         
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-{{-- withdraw modal end --}}
 
 
 

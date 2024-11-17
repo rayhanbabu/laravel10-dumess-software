@@ -478,7 +478,7 @@ class ManagerController extends Controller
                 $data->feast = $request->input('feast');
                 $data->feast_day = $request->input('feast_daytype').$request->input('feast_day');
                 $data->unpaid_day = $request->input('unpaid_day');
-
+                $data->salary_penalty_module = $request->input('salary_penalty_module');
 
                 $data->first_payment_meal = $request->input('first_payment_meal');
                 $data->feastf = $request->input('feastf');
