@@ -9,7 +9,7 @@ class MemberJWTToken
 {
     public static function CreateToken($name,$email,$member_id,$hall_id,$role)
     {
-        $key =env('JWT_KEY');
+        $key = "qomNRPiHjkS173qIm3BgIvNLQvnUpsmPfdAVbYryytr76675sdrgrk56";
         $payload=[
             'iss'=>'rayhan-token',
             'iat'=>time(),
@@ -30,7 +30,7 @@ class MemberJWTToken
                 return 'unauthorized';
             }
             else{
-                $key =env('JWT_KEY');
+                $key = "qomNRPiHjkS173qIm3BgIvNLQvnUpsmPfdAVbYryytr76675sdrgrk56";
                 return JWT::decode($token,new Key($key,'HS256'));
             }
 

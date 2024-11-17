@@ -55,8 +55,8 @@
         <th width="10%">First meal off</th>
         <th width="10%">Meeting panelty</th>
         <th width="10%">Pdf Order</th>
-        <th width="10%">Web Link </th>
-        <th width="10%">E-mail Send</th>
+        <th width="10%">Auto Section Update Count </th>
+        <th width="10%">E-mail Send, Salary Panelty Module</th>
        
       </thead>
       <tbody>
@@ -95,8 +95,8 @@
           <td>{{ $row->first_meal_off}}</td>
           <td>{{ $row->meeting_amount}}</td>
           <td>{{ $row->pdf_order}}</td>
-          <td>{{ $row->web_link}} </td>
-          <td>{{ $row->email_send}}</td>
+          <td>{{ $row->refresh_no}} </td>
+          <td>{{ $row->email_send}} , {{ $row->salary_penalty_module}}</td>
         </tr>
 
         <tr>
@@ -295,6 +295,7 @@
             $('#web_link').val(response.value.web_link);
             $('#gateway_fee').val(response.value.gateway_fee);
             $('#email_send').val(response.value.email_send);
+            $('#salary_penalty_module').val(response.value.salary_penalty_module);
             $('#mealon_without_payment').val(response.value.mealon_without_payment);
            
 
@@ -617,6 +618,13 @@
                       <option value="card">Card</option>
                   </select>
             </div>
+
+
+            <div class="col-sm-6 my-2">
+                  <label> No of Salary Penalty Module  </label>
+                  <input type="number" min="1" max="5" name="salary_penalty_module" id="salary_penalty_module" class="form-control" required />
+             </div>
+
 
            
 

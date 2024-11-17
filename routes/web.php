@@ -137,7 +137,6 @@ use App\Http\Controllers\WithdrawController;
          //Module Summary Info
          Route::get('/manager/module_summary', [InvoiceController::class,'module_summary_view']);
        
-        
         //Route::post('/manager/invoice_create', [InvoiceController::class,'invoice_create']);
         Route::get('/manager/section_view/{id}', [InvoiceController::class,'section_view_id']);
         Route::get('/manager/section_update', [InvoiceController::class,'section_update']);
@@ -378,19 +377,6 @@ use App\Http\Controllers\WithdrawController;
      Route::get('payment',[PaymentController::class,'payment'])->name('payment');
  
      Route::post('admin/amarpay_search',[PaymentController::class,'amarpay_search']);
-
-
-
-
-
-
-
-
-
-
-
-
-  
 
 
      Route::get('/', function (){

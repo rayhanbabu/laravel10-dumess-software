@@ -9,7 +9,7 @@ class MaintainJWTToken
 {
     public static function CreateToken($name,$email,$maintain_id,$role)
     {
-        $key =env('JWT_KEY');
+        $key = "qomNRPiHjkS173qIm3BgIvNLQvnUpsmPfdAVbYryytr76675";
         $payload=[
             'iss'=>'rayhan-token',
             'iat'=>time(),
@@ -24,13 +24,14 @@ class MaintainJWTToken
 
     public static function ReadToken($token)
     {
+       
         try {
             if($token==null){
                 return 'unauthorized';
             }
             else{
-                $key =env('JWT_KEY');
-                return JWT::decode($token,new Key($key,'HS256'));
+                $key = "qomNRPiHjkS173qIm3BgIvNLQvnUpsmPfdAVbYryytr76675";
+                return JWT::decode($token, new Key($key, 'HS256'));
             }
         }
         catch (Exception $e){

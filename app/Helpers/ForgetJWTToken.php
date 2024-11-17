@@ -9,7 +9,7 @@ class ForgetJWTToken
 {
     public static function CreateToken($email)
     {
-        $key =env('JWT_KEY');
+         $key = "qomNRPiHjkS173qIm3BgIvNLQvnUpsmPfdAVbYryytr76675trgh";
          $payload=[
              'iss'=>'forget-token',
              'iat'=>time(),
@@ -26,7 +26,7 @@ class ForgetJWTToken
                 return 'unauthorized';
             }
             else{
-                $key =env('JWT_KEY');
+                $key = "qomNRPiHjkS173qIm3BgIvNLQvnUpsmPfdAVbYryytr76675trgh";
                 return JWT::decode($token,new Key($key,'HS256'));
             }
         }

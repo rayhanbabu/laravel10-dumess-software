@@ -332,8 +332,10 @@
           $("#add_employee_btn").prop('disabled', true);
         },
         success: function(response) {
+          console.log(response);
           if (response.status == 200) {
             $('#success_message').html("");
+           
             Swal.fire("Success", response.message, "success");
             location.reload();
           } else {

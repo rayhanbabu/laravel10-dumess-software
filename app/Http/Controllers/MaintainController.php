@@ -21,6 +21,11 @@ class MaintainController extends Controller
      public function login(Request $request)
      {
         try{
+            //   $token_maintain=Cookie::get('token_maintain');
+            //   $result=MaintainJWTToken::ReadToken($token_maintain);
+            //   return $result;
+            //  die();
+          
             return view('maintain.login'); 
           }catch (Exception $e) { return  view('errors.error',['error'=>$e]);}
      }
@@ -114,6 +119,7 @@ class MaintainController extends Controller
             return response()->json([
                 'status'=>200,
                 'message'=> 'success',
+                'value'=>$token_maintain,
             ]);   
           }else{
              return response()->json([

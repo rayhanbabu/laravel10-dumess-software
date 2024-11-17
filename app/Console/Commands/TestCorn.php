@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Feedback;
+use App\Models\Hallinfo;
 
 class TestCorn extends Command
 {
@@ -26,16 +26,9 @@ class TestCorn extends Command
      */
     public function handle()
     {
-        $time=date('Y-m-d H:i:s');
-        $model= new Feedback;
-        $model->hall_id="34345";
-        $model->member_id=122;
-        $model->submited_time=$time; 
-        $model->category="Resign"; 
-        $model->subject="Subject";
-        $model->text="Text";
-        $model->resign_month="Month";
-        $model->save();
+
+     $model= section_update('AZDTYX19');
+
          \Log::info($model);
     }
 }
