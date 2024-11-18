@@ -607,8 +607,9 @@
            $operation_date = getDaysBetween2Dates(new DateTime($data->meal_end_date), new DateTime($current_date), false) + 1;
            $salary_penalty_module=$data->salary_penalty_module;
 
+         if($salary_penalty_module>0){
            $current_invoice=Invoice::where('invoice_status',1)->where('id',$invoice_id)->where('hall_id',$data->hall_id_info)->where('member_id',$member_id)->first();
-           
+
             if($operation_date<=2 && $current_invoice->onmeal_amount<=0){
              $invoice=Invoice::where('invoice_status',1)->where('id','!=',$invoice_id)->where('hall_id',$data->hall_id_info)
              ->where('member_id',$member_id)
@@ -628,6 +629,9 @@
             }else{
                   return 0;
             }
+        }else{
+             return 0;
+        }
 
          }
 
