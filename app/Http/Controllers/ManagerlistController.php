@@ -14,15 +14,14 @@ class ManagerlistController extends Controller
     
     public function index(Request $request)
     {
-       
+        $hall_id = $request->header('hall_id');
         if ($request->ajax()) {
-            $data = Managerlist::latest()->get();
-            return Datatables::of($data)
-               ->addIndexColumn()
-               ->addColumn('status', function($row){
-                  
-                    return $row->invoice_year.'-'.$row->invoice_month.'-'.$row->invoice_section;
-                })
+            $data = Managerlist::where('hall_id',$hall_id)->latest()->get();
+             return Datatables::of($data)
+                 ->addIndexColumn()
+                 ->addColumn('status', function($row){
+                     return $row->invoice_year.'-'.$row->invoice_month.'-'.$row->invoice_section;
+                 })
                 ->addColumn('edit', function($row){
                  $btn = '<a href="javascript:void(0);" data-id="' . $row->id . '" class="edit btn btn-primary btn-sm"> Edit </a>';
                  return $btn;
