@@ -606,6 +606,7 @@
             </div>
 
 
+
             <div class="col-sm-3 my-2">
                <label>Paid Status change hour</label>
                <input type="number" name="unpaid_day" id="unpaid_day" class="form-control" required />
@@ -622,7 +623,8 @@
 
             <div class="col-sm-6 my-2">
                   <label> No of Salary Penalty Module  </label>
-                  <input type="number" min="1" max="5" name="salary_penalty_module" id="salary_penalty_module" class="form-control" required />
+
+                  <input type="number" min="0" max="5" name="salary_penalty_module" id="salary_penalty_module" class="form-control" required />
              </div>
 
 
@@ -630,7 +632,6 @@
 
 
             <p>First Pay Include</p>
-
             <div class="col-sm-2 my-2">
                <label>Meal No </label>
                <input type="number" name="first_payment_meal" id="first_payment_meal" class="form-control" required />
