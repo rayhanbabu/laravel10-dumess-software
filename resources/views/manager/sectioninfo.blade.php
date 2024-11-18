@@ -3,7 +3,7 @@
 @section('section','active')
 @section('content')
 
-      <div class="row mt-3 mb-0 mx-2">
+        <div class="row mt-3 mb-0 mx-2">
                 <div class="col-sm-3 my-2"> <h5 class="mt-0"> Current Module : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}} </h5></div>                    
               @if(manager_info()['role']=='admin')
                  <div class="col-sm-3 my-2">

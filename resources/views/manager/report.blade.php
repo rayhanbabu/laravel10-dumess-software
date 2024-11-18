@@ -483,7 +483,26 @@
 
 
 
-    
+    <div class="col-xl-4 col-md-6 p-2">
+        <div class="card bg-light shadow">
+            <div class="mx-3 my-2">
+                 <b class="text-center">Table:15 Manager List</b>
+            </div>
+            <form action="{{ url('pdf/managerlist') }}" method="post" enctype="multipart/form-data">
+                   {!! csrf_field() !!}
+                  <div class="d-grid gap-3 d-flex justify-content-end p-3">
+
+                       <input type="date" name="date1" class="form-control form-control-sm" value="" >      
+                          To
+                       <input type="date" name="date2" class="form-control form-control-sm" value="" >
+                   </div>
+
+                  <div class="form-group  mx-3 my-3">
+                       <input type="submit" value="Submit" class="btn btn-primary waves-effect waves-light btn-sm">
+                  </div>
+            </form>
+        </div>
+     </div>
 
    
 

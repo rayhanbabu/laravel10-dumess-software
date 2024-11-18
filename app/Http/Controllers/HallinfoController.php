@@ -14,6 +14,7 @@ use App\Models\Bazar;
 use App\Models\Booking;
 use App\Models\Expayemnt;
 use App\Models\Withdraw;
+use App\Models\Managerlist;
 
 class HallinfoController extends Controller
 {
@@ -805,6 +806,33 @@ class HallinfoController extends Controller
 
      }
        
+
+
+     public function managerlist(Request $request){
+
+          $hall_id = $request->header('hall_id');
+          $date1 = $_POST['date1'];
+          $date2 = $_POST['date2'];
+        
+
+          $month1 = date('n',strtotime($_POST['date1']));
+          $year1 = date('Y',strtotime($_POST['date1']));
+
+          $month2 = date('n',strtotime($_POST['date2']));
+          $year2 = date('Y',strtotime($_POST['date2']));
+        
+          $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','pdf_order')->first();
+         
+          $data= Managerlist::whereBetween('invoice_year', [$year1,$year2])
+          ->whereBetween('invoice_month', [$month1,$month2])
+          ->where('hall_id',$hall_id)->get();
+
+     
+        return view('pdf.managerlist',["data"=>$data ,"date1"=>$date1,"date2"=>$date2]);
+     }
+
+
+
      
 
 }
