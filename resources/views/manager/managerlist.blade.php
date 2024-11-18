@@ -102,7 +102,7 @@
 
     $(document).on('click', '.delete', function(e) {
       e.preventDefault();
-      var delete_id = $(this).data();
+      var delete_id = $(this).data('id');
       if (confirm("Are you sure you want to delete this?")) {
         $.ajax({
           type: 'DELETE',

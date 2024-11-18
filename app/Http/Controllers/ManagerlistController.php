@@ -139,7 +139,7 @@ class ManagerlistController extends Controller
     }
 
 
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         $id = $id;
         DB::delete("delete  from managerlists  where id ='$id'");
