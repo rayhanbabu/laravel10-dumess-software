@@ -19,6 +19,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ExpayemntController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\WithdrawController;
+use App\Http\Controllers\ManagerlistController;
 
 /*
 |--------------------------------------------------------------------------
@@ -184,7 +185,7 @@ use App\Http\Controllers\WithdrawController;
        Route::post('/manager/extra_payment_update/{id}', [ExpayemntController::class, 'update']);
        Route::delete('/manager/extra_payment_delete/{id}', [ExpayemntController::class, 'destroy']);
 
-        Route::middleware('AdminToken')->group(function(){
+       Route::middleware('AdminToken')->group(function(){
            Route::get('/manager/information_update',[ManagerController::class,'information_update']);
            Route::get('/manager/information_update_view/{id}',[ManagerController::class,'information_update_view']);
            Route::post('/manager/information_update_submit',[ManagerController::class,'information_update_submit']);
@@ -320,6 +321,7 @@ use App\Http\Controllers\WithdrawController;
           Route::post('/pdf/settlement_history', [HallinfoController::class,'settlement_history']);
           Route::post('/pdf/range_wise_payment', [HallinfoController::class,'range_wise_payment']);
           Route::post('/pdf/last_payment_invoice', [HallinfoController::class,'last_payment_invoice']);
+          Route::post('/pdf/managerlist', [HallinfoController::class,'managerlist']);
           
           
           Route::middleware('BookingSeatToken')->group(function(){
@@ -360,6 +362,14 @@ use App\Http\Controllers\WithdrawController;
                  Route::post('/manager/payment_update/{id}', [BookingController::class, 'payment_update']);
                  
          });
+
+
+
+         Route::get('/manager/managerlist', [ManagerlistController::class, 'index']);
+         Route::post('/manager/managerlist', [ManagerlistController::class, 'store']);
+         Route::get('/manager/managerlist_edit/{id}', [ManagerlistController::class, 'edit']);
+         Route::post('/manager/managerlist_update/{id}', [ManagerlistController::class, 'update']);
+         Route::delete('/manager/managerlist_delete/{id}', [ManagerlistController::class, 'destroy']);
  
 
 

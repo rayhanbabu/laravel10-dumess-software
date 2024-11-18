@@ -6,7 +6,7 @@
     use Illuminate\Support\Facades\Cookie;
     use App\Models\Invoice;
     use App\Models\Hallinfo;
-    
+
        function prx($arr){
            echo "<pre>";
            print_r($arr);
@@ -213,7 +213,7 @@
 
 
 
-           function payment_access(){               
+           function payment_access() {               
                   if(admin_access_info()->payment=="Yes"){
                        if(manager_access_info()->payment=="Yes"){
                           if(manager_access_payment()){

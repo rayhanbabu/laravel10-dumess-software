@@ -161,6 +161,8 @@ return [
          */
        
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
+
       
         
         
@@ -190,7 +192,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
          'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-         
+         'Datatables' => Yajra\DataTables\Facades\DataTables::class,
          
          
     ])->toArray(),
