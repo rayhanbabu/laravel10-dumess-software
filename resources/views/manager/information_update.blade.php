@@ -3,14 +3,10 @@
 @section('information_update','active')
 @section('content')
 
-
 <div class="p-2"> 
    <h4>Information Update</h4>
 </div>
 
-
-
-   
 @if(session('status'))
 <h5 class="alert alert-success">{{ session('status')}} </h5>
 @endif

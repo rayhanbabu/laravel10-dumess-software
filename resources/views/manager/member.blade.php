@@ -197,7 +197,7 @@
             $('#view_village').text(response.value.village);
             $('#view_religion').text(response.value.religion);
             $('#view_dept').text(response.value.dept);
-            $('#view_old_card').text(response.value.old_card);
+            $('#view_old_card').text(response.value.custom3);
             $('#view_birth_date').text(response.value.birth_date);
             $('#view_upazila').text(response.value.upazila);
             $('#view_postcode').text(response.value.postcode);
