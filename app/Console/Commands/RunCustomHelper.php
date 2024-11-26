@@ -3,16 +3,15 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Models\Hallinfo;
 
-class TestCorn extends Command
+class RunCustomHelper extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'test:corn';
+    protected $signature = 'app:run-custom-helper';
 
     /**
      * The console command description.
@@ -20,14 +19,16 @@ class TestCorn extends Command
      * @var string
      */
     protected $description = 'Command description';
+
     /**
      * Execute the console command.
      */
     public function handle()
     {
-
-       $data= rayhan();
-      
-       \Log::info($data);
+        
+         myCustomHelperFunction();
+        
+        // Provide feedback if needed
+        $this->info('Helper function executed successfully.');
     }
 }

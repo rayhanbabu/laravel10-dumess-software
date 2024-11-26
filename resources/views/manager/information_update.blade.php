@@ -8,7 +8,7 @@
 </div>
 
 @if(session('status'))
-<h5 class="alert alert-success">{{ session('status')}} </h5>
+<h5 class="alert alert-success"> {{ session('status') }} </h5>
 @endif
 
 @if(session('fail'))
