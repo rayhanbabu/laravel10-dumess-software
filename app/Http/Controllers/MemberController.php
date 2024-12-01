@@ -79,8 +79,8 @@ class MemberController extends Controller
         'phone' => 'required|min:8|unique:members,phone',
         'registration' => 'required|numeric|min:8|unique:members,registration',
         'email' => 'required|unique:members,email',
-        'profile_image' => 'image|mimes:jpeg,png,jpg|max:400',
-        'file_name' => 'mimes:jpeg,png,jpg,pdf|max:500',      
+        'profile_image' => 'image|mimes:jpeg,png,jpg|max:5000',
+        'file_name' => 'mimes:jpeg,png,jpg,pdf|max:5000',      
         ],
 
         [
@@ -171,21 +171,21 @@ class MemberController extends Controller
       $model->status = 1;
 
       if ($request->hasfile('profile_image')) {
-          $file = $_FILES['profile_image']['tmp_name'];
-          $hw = getimagesize($file);
-          $w = $hw[0];
-          $h = $hw[1];
-       if ($w < 310 && $h < 310) {
+          // $file = $_FILES['profile_image']['tmp_name'];
+          // $hw = getimagesize($file);
+          // $w = $hw[0];
+          // $h = $hw[1];
+       // if ($w < 310 && $h < 310) {
            $image = $request->file('profile_image');
            $file_name = 'profile' . rand() . '.' . $image->getClientOriginalExtension();
            $image->move(public_path('uploads/profile'), $file_name);
            $model->profile_image = $file_name;
-        } else {
-           return response()->json([
-              'status' => 300,
-              'message' => 'Profile Image size must be 300*300px ',
-            ]);
-         }
+        // } else {
+        //    return response()->json([
+        //       'status' => 300,
+        //       'message' => 'Profile Image size must be 300*300px ',
+        //     ]);
+        //  }
       }
 
  
