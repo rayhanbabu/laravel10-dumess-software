@@ -637,15 +637,12 @@
 
           
 
-        // function hall_information(){
-        //      $hall=Hallinfo::get();   
-        //         // foreach($hall as $row){
-        //         //     //section_update($row->hall_id_info);
-        //         //      $row->hall_id_info;
-        //         // }
-        //         return $hall;
-             
-        // }
+        function hall_information(){
+             $hall=Hallinfo::get();   
+                foreach($hall as $row){
+                    section_update($row->hall_id_info);
+                }  
+        }
 
       
 

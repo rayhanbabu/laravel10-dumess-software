@@ -144,7 +144,6 @@ class BazarController extends Controller
     }  
 
     public function destroy($id){
-
        $notice=Bazar::find($id);
        $notice->delete();
        return response()->json([

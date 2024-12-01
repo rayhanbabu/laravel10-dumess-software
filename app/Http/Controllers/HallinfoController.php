@@ -282,7 +282,7 @@ class HallinfoController extends Controller
           $d_meal = 'd' . $daymeal;
           if ($daymeal > 0) {
                $sum = 0;
-               for ($x = 1; $x < 5; $x++) {
+               for ($x = 1; $x <= 5; $x++) {
                     $breakfast_meal = Invoice::where('friday' . $x, $b_meal)->where('invoice_month', $cur_month)->where('hall_id', $hall_id)
                          ->where('invoice_year', $cur_year)->where('invoice_section', $section)->where($b_meal, 1)->count('id');
 
@@ -300,6 +300,10 @@ class HallinfoController extends Controller
           } else {
                $sum = 0;
           }
+
+          // if($data->feast_day==$daymeal){
+
+          // }
 
 
           if ($daymeal > 0) {

@@ -25,7 +25,10 @@ class HelloWorldCommand extends Command
      */
     public function handle()
      {
-        info('Hello World');
+        
+      //section_update("AZDTYX19");
+      hall_information();
+      \Log::info('Helper function ran successfully!');
 
         
       }
