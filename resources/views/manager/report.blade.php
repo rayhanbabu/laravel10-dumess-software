@@ -7,7 +7,8 @@
     <div class="row">
       <div class="col-12 mt-3 mb-1">
          <h4 class="text-uppercase"> Reports/ Current Module : {{$hallinfo->cur_year}} - {{$hallinfo->cur_month}} - {{$hallinfo->cur_section}} </h4>
-      </div>
+         <a href="https://youtu.be/OsLo20KXg8o?t=1136" target="_blank">  Tutorial</a>
+        </div>
     </div>
 
 

@@ -15,7 +15,7 @@
 
                 <div class="col-sm-6 my-2 ">
                  <div class="d-grid gap-3 d-flex justify-content-end">
-                   
+                     <a href="https://youtu.be/OsLo20KXg8o?t=292" target="_blank"> Manager Access Tutorial</a>
                  </div>
                 </div>
 

@@ -6,7 +6,7 @@
   <section id="minimal-statistics">
     <div class="row">
       <div class="col-12 mt-3 mb-1">
-         <h4 class=""> Current Module : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}}.  For any query please contact 01710042765  (palash)    <a href="https://www.youtube.com/watch?v=uOUav1AzENE" target="_blank"> Vedio Tutorial</a></h4>
+         <h4 class=""> Current Module : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}}.  For any query please contact 01710042765  (palash)    <a href="https://youtu.be/OsLo20KXg8o?t=1" target="_blank"> Dashboard Tutorial</a></h4>
       </div>
     </div>
 
