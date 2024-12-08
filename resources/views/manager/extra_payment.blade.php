@@ -8,7 +8,7 @@
   <div class="col-sm-4 my-2">
     <div class="d-grid gap-2 d-flex justify-content-start">
       <h4> Extra Payment View </h4>
-    
+      <a href="https://youtu.be/OsLo20KXg8o?t=2218" target="_blank">  Tutorial</a>
     </div>
   </div>
 
