@@ -9,7 +9,8 @@
        <h5 class="mt-0">Payment Info : {{$hallinfo->cur_year}}-{{$hallinfo->cur_month}}-{{$hallinfo->cur_section}} </h5>
        <a href="https://youtu.be/OsLo20KXg8o?t=627" target="_blank">  Tutorial</a>
       </div>
-
+ 
+      
   @if($invoice_status=='1')
   <div class="col-sm-6 my-2">
   <form action="{{url('pdf/daily_payment')}}" method="POST" enctype="multipart/form-data">
