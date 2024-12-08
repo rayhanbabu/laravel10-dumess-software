@@ -56,7 +56,6 @@
       <td> <a href="{{ url('manager/member_delete/'.$row->id) }}" onclick="return confirm('Are you sure you want to delete this Member')" class="btn btn-danger btn-sm">Delete<a>  </td>  
   @endif
 
-
   <td>{{ $row->email}} </td>
   
   <td>{{ $row->password}}</td>

@@ -17,6 +17,7 @@
         Verified:<span class="text-success">{{$verify}}</span>,
         E-mail Verify Pending:<span class="text-danger">{{$email_verify}}</span>,
         Hall Verify Pending:<span class="text-danger">{{$not_verify}}</span>
+        <a href="https://youtu.be/OsLo20KXg8o?t=177" target="_blank"> Member Tutorial</a>
     </div>
   </div>
 
@@ -201,6 +202,8 @@
             $('#view_birth_date').text(response.value.birth_date);
             $('#view_upazila').text(response.value.upazila);
             $('#view_postcode').text(response.value.postcode);
+            $('#view_custom2').text(response.value.custom2);
+            $('#view_custom3').text(response.value.custom3);
             if (response.value.image) {
               $("#avatar").html(
                 `<img src="/uploads/student/${response.value.image}" width="100" class="img-fluid img-thumbnail">`);
@@ -386,6 +389,8 @@
               <p class="text-danger edit_err_phone"></p>
             </div>
 
+           
+
 
             <div class="col-lg-12 my-1">
               <label>E-mail</label>
@@ -502,6 +507,25 @@
                 <b>Phone Number</b>
               </div>
               <div class="col-sm-8" id="view_phone">
+              </div>
+              <hr>
+            </div>
+
+
+            <div class="row">
+              <div class="col-sm-4">
+                <b>Custom Field 2 </b>
+              </div>
+              <div class="col-sm-8" id="view_custom2">
+              </div>
+              <hr>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <b>Custom Field 3 </b>
+              </div>
+              <div class="col-sm-8" id="view_custom3">
               </div>
               <hr>
             </div>

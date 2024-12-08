@@ -114,11 +114,12 @@ class BazarController extends Controller
               'message'=>$validator->messages(),
             ]);
       }else{     
-
+           $manager_username = $request->header('manager_username');
            $bazar=Bazar::find($id);
            if($bazar){
               $bazar->date=$request->input('date');
               $bazar->bazar_day=date('d',strtotime($request->input('date')));
+              $bazar->updated_by=$manager_username;
               $bazar->bazar_month=$request->input('bazar_month');
               $bazar->bazar_year=$request->input('bazar_year');
               $bazar->bazar_section=$request->input('bazar_section');

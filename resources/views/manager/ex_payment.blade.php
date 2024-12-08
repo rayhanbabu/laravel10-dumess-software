@@ -8,6 +8,7 @@
   <div class="row mt-3 mb-0 mx-2">
       <div class="col-sm-3 my-2">
              <h5 class="mt-0"> Ex member Payment Info</h5>
+             <a href="https://youtu.be/OsLo20KXg8o?t=2256" target="_blank">  Tutorial</a>
       </div>
 
  
