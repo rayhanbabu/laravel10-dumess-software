@@ -8,7 +8,7 @@
   <div class="col-sm-2 my-2">
     <div class="d-grid gap-2 d-flex justify-content-start">
       <h4> Bazar  View </h4>
-    
+      <a href="https://youtu.be/OsLo20KXg8o?t=995" target="_blank"> Tutorial</a>
     </div>
   </div>
 
@@ -182,7 +182,8 @@
           <th width="20%">Total price</th>
           <th width="10%"></th>
           <th width="10%"></th>
-          <th width="10%">Bazar Type</th>
+          <th width="10%">Created By</th>
+          <th width="10%">Updated By</th>
           <th width="10%">Created_at</th>
           <th width="10%">Updated_at</th>
         </tr>

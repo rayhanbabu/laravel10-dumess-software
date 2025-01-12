@@ -10,7 +10,7 @@
 
   <div class="col-sm-3 my-2">
     <div class="d-grid gap-2 d-flex justify-content-end">
-     
+    <a href="https://youtu.be/OsLo20KXg8o?t=2156" target="_blank">  Tutorial</a>
     </div>
   </div>
 

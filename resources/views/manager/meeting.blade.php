@@ -3,7 +3,7 @@
 @section('feedback','active')
 @section('content')
 
-<h3>  Meeting Info View </h3>
+<h3>  Meeting Info View  <a href="https://youtu.be/OsLo20KXg8o?t=2111" target="_blank">  Tutorial</a></h3>
 <form  method="get">
 	  <div class="row">
          <div class="col-sm-4">

@@ -9,6 +9,7 @@
                   <td> <button type="button" value="{{ $row->id}}" class="edit_id btn btn-primary btn-sm">Edit</button> </td>
                   <td> <button type="button" value="{{ $row->id}}" class="delete_id btn btn-danger btn-sm">Delete</button> </td>
                   <td>{{ $row->bazar_type}}</td>
+                  <td>{{ $row->updated_by}}</td>
                   <td>{{ date($row->created_at)}}</td>
                   <td>{{ date($row->updated_at)}}</td>
       </tr>
