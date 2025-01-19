@@ -14,8 +14,11 @@ class BazarController extends Controller
    
     public function index(Request $request){
         $hall_id = $request->header('hall_id');
+        $date=date('Y-m-d');
+        // return $date;
+        // die();
         $product=DB::table('products')->where('hall_id',$hall_id)->orderBy('product','asc')->get();
-        return view('manager.bazar',['product'=>$product]);
+        return view('manager.bazar',['product'=>$product,'date'=>$date]);
     }
 
 
@@ -129,7 +132,7 @@ class BazarController extends Controller
               $bazar->unit=$request->input('unit');
               $bazar->price=$request->input('price');
               $bazar->total=$request->input('price')*$request->input('qty');
-             $bazar->update();   
+              $bazar->update();   
             return response()->json([
                  'status'=>200,
                  'message'=>'Data Updated'

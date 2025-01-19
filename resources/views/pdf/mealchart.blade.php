@@ -51,15 +51,40 @@ function Footer()
 		$pdf->Cell(15,7,'Invoice',1,0,'C');
 		$pdf->Cell(10,7,'',1,0,'L');
         $pdf->Cell(17,7,'Card',1,0,'L');
-		$meal_start= date('d',strtotime($meal_start_date));
-	for($x=$meal_start; $x<$meal_start+$cur_day; $x++){
-		$pdf->Cell(7,7,$x,1,0 ,'L');
-	}
-
-	for($x=1; $x<=31-($cur_day); $x++){
-		$pdf->Cell(7,7,'',1,0 ,'L');
-	}
 	
+	    $pdf->Cell(7,7,substr($invoice_date->date1,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date2,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date3,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date4,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date5,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date6,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date7,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date8,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date9,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date10,8),1,0 ,'L');
+	    $pdf->Cell(7,7,substr($invoice_date->date11,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date12,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date13,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date14,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date15,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date16,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date17,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date18,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date19,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date20,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date21,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date22,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date23,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date24,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date25,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date26,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date27,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date28,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date29,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date30,8),1,0 ,'L');
+		$pdf->Cell(7,7,substr($invoice_date->date31,8),1,0 ,'L');
+		
+
         $pdf->Cell(10,7,'ON',1,0,'L');
 		$pdf->Cell(10,7,'OFF',1,1,'L');
 	
