@@ -355,7 +355,7 @@ class HallinfoController extends Controller
      
           return view('pdf.bazarday', [
                      'day1' => $day1, 'bazar' => $bazar, 
-                     'sum' => $sum, 'meal_amount' => $meal_amount, 'feast_amount' => $feast_amount, 
+                     'friday_amount' => $sum, 'meal_amount' => $meal_amount, 'feast_amount' => $feast_amount, 
                      'b_meal_no' => $b_meal_no ,'l_meal_no' => $l_meal_no,'d_meal_no' => $d_meal_no
             ]);
           

@@ -114,12 +114,12 @@
 
           <tr>
               <td align="left"></td>
-               <td colspan="3" align="left"> Meal: {{$meal_amount}}TK, Friday: {{$sum}}TK, Feast: {{$feast_amount}}TK, 
-                  Total Estimate Bazar: {{ $meal_amount+$sum+$feast_amount }}TK </td>
+               <td colspan="3" align="left"> Meal: {{$meal_amount}}TK, Friday: {{$friday_amount}}TK, Feast: {{$feast_amount}}TK, 
+                  Total Estimate Bazar: {{ $meal_amount+$friday_amount+$feast_amount }}TK </td>
                <td colspan="1" align="left"> 
                  @if($meal_amount>=$bazar->sum('total'))
                     Reserve bazar   @else Extra bazar  @endif
-                 :{{ abs($bazar->sum('total')-$meal_amount)}}</td>
+                 :{{ abs($bazar->sum('total')-($meal_amount+$friday_amount+$feast_amount))}}</td>
           </tr>
 
         </table>
