@@ -482,6 +482,7 @@
                 cur_meal_amount='$cur_meal_amount',
                 meal_start_date='$data->meal_start_date',
                 meeting_amount='$data->meeting_amount',
+                feast_day='$feast_day',
                 cur_others_amount=friday+employee+feast+welfare+others+water+electricity
                 +tissue+dirt+gass+wifi+card_fee+service_charge+security+hostel_fee+meeting_penalty,
      

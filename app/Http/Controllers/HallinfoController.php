@@ -264,25 +264,33 @@ class HallinfoController extends Controller
 
      public function bazarday(Request $request)
      {
-          $hall_id = $request->header('hall_id');
-          $data = Hallinfo::where('hall_id_info', $hall_id)->first();
+           $hall_id = $request->header('hall_id');
+        
+           $day = date('Y-m-d',strtotime($_POST['bazardate']));
+           $day1 = date('d-F-Y',strtotime($_POST['bazardate']));
 
-          $cur_month = $data->cur_month;
-          $cur_year = $data->cur_year;
-          $section = $data->cur_section;
+           $cur_month = date('m',strtotime($_POST['bazardate']));
+           $cur_year = date('Y',strtotime($_POST['bazardate']));
+           $section = $request->section;
 
-          $day = date('Y-m-d', strtotime($_POST['bazardate']));
-          $day1 = date('d-F-Y', strtotime($_POST['bazardate']));
-          $file = 'Bazar_' . $day1 . '.pdf';
 
+           $file = 'Bazar_' . $day1 . '.pdf';
+
+          $data=DB::table('invoices')->where('invoice_month', $cur_month)->where('hall_id', $hall_id)
+           ->where('invoice_year', $cur_year)->where('invoice_section', $section)->where('invoice_status',1)->first();
+
+         
+           
           $daymeal = (getDaysBetween2Dates(new DateTime($_POST['bazardate']), new DateTime($data->meal_start_date), false) + 1);
 
+      
           $b_meal = 'b' . $daymeal;
           $l_meal = 'l' . $daymeal;
           $d_meal = 'd' . $daymeal;
           if ($daymeal > 0) {
                $sum = 0;
                for ($x = 1; $x <= 5; $x++) {
+
                     $breakfast_meal = Invoice::where('friday' . $x, $b_meal)->where('invoice_month', $cur_month)->where('hall_id', $hall_id)
                          ->where('invoice_year', $cur_year)->where('invoice_section', $section)->where($b_meal, 1)->count('id');
 
@@ -292,14 +300,17 @@ class HallinfoController extends Controller
                     $dinner_meal = Invoice::where('friday' . $x, $d_meal)->where('invoice_month', $cur_month)->where('hall_id', $hall_id)
                          ->where('invoice_year', $cur_year)->where('invoice_section', $section)->where($d_meal, 1)->count('id');
 
-                    $fridaytaka = 'friday' . $x . 't';
+                    $fridaytaka = 'fridayt' . $x;
 
                     $sum1 = $breakfast_meal * $data->$fridaytaka + $lunch_meal * $data->$fridaytaka + $dinner_meal * $data->$fridaytaka;
+                    
                     $sum += $sum1;
                }
           } else {
                $sum = 0;
           }
+
+      
 
           // if($data->feast_day==$daymeal){
 
@@ -313,10 +324,10 @@ class HallinfoController extends Controller
                $l_meal_no = Invoice::where($l_meal, 1)->where('invoice_month', $cur_month)->where('hall_id', $hall_id)
                     ->where('invoice_year', $cur_year)->where('invoice_section', $section)->count('id');
 
-               $d_meal_no = Invoice::where($l_meal, 1)->where('invoice_month', $cur_month)->where('hall_id', $hall_id)
+               $d_meal_no = Invoice::where($d_meal, 1)->where('invoice_month', $cur_month)->where('hall_id', $hall_id)
                     ->where('invoice_year', $cur_year)->where('invoice_section', $section)->count('id');
 
-               $meal_amount = ($b_meal_no * $data->breakfast_rate + $l_meal_no * $data->lunch_rate + $d_meal_no * $data->dinner_rate) + $sum;
+               $meal_amount = ($b_meal_no * $data->breakfast_rate + $l_meal_no * $data->lunch_rate + $d_meal_no * $data->dinner_rate) ;
           } else {
                $meal_amount = 0;
                $b_meal_no = 0;
@@ -324,21 +335,24 @@ class HallinfoController extends Controller
                $d_meal_no = 0;
           }
 
+         
+          $feast_day = Invoice::where($data->feast_day,1)->where('invoice_month',$cur_month)->where('hall_id',$hall_id)
+          ->where('invoice_year',$cur_year)->where('invoice_section',$section)->count('id');
+
+          $feast_amount=$feast_day*$data->feast;
 
           $bazar = Bazar::leftjoin('products', 'products.id', '=', 'bazars.product_id')->where('date', $day)
                ->where('bazars.category', 'bazar')->where('bazars.hall_id', $hall_id)->orderBy('bazars.id', 'DESC')->get();
+       
+      
 
-
-
-          if ($bazar->count()>0) {
-                return view('pdf.bazarday', [
+     
+          return view('pdf.bazarday', [
                      'day1' => $day1, 'bazar' => $bazar, 
-                     'sum' => $sum, 'meal_amount' => $meal_amount, 
+                     'sum' => $sum, 'meal_amount' => $meal_amount, 'feast_amount' => $feast_amount, 
                      'b_meal_no' => $b_meal_no ,'l_meal_no' => $l_meal_no,'d_meal_no' => $d_meal_no
-                ]);
-           } else {
-                return back()->with('fail', 'Bazar not found this date ');
-           }
+            ]);
+          
      }
 
 
@@ -470,8 +484,8 @@ class HallinfoController extends Controller
           ->where('invoice_section',$section)->first();
 
        if($meal){
-          $meal_start_date=$meal->meal_start_date;
-          $cur_day=$meal->section_day;
+           $meal_start_date=$meal->meal_start_date;
+           $cur_day=$meal->section_day;
       
            $t_invoice=00;
            $t_meal=00;
@@ -482,10 +496,15 @@ class HallinfoController extends Controller
             ->where('invoice_month',$month)->where('invoice_year',$year)->where('invoices.hall_id',$hall_id)
             ->where('invoice_section',$section)->where('onmeal_amount','>=',1)->select('invoices.*','name','registration','card')
             ->orderBy($data->pdf_order,'asc')->get();
-       
+
+          $invoice_date=$invoice->first();
+          // return $invoice_date;
+          // die();
+        
            return view('pdf.mealchart',['invoice'=>$invoice,'month1'=>$month1 ,'file'=>$file,
              't_invoice'=>$t_invoice,'t_meal'=>$t_meal ,'refund_meal'=>$refund_meal 
-             ,'ddue_meal'=>$ddue_meal ,'cur_day'=>$cur_day,'meal_start_date'=>$meal_start_date,'section'=>$section ]);
+             ,'ddue_meal'=>$ddue_meal ,'cur_day'=>$cur_day,'meal_start_date'=>$meal_start_date,'section'=>$section
+             ,'invoice_date'=>$invoice_date ]);
 
          }else{
                return back()->with('fail', 'Data not found');          

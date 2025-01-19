@@ -60,7 +60,7 @@
     <div class="row">
       <div class="col-sm-4">
         <label>Date</label>
-        <input type="date" name="date" id="date" class="form-control form-control-sm" required>
+        <input type="date" name="date"  value="{{ $date }}" class="form-control form-control-sm" required>
       </div>
       <div class="col-sm-4">
         <label>Product name</label><br>
@@ -118,7 +118,12 @@
   <div class="col-sm-4 my-2">
     <form action="{{url('pdf/bazarday')}}" method="POST" enctype="multipart/form-data">
       <div class="d-grid gap-2 d-flex justify-content-end">
-           {!! csrf_field() !!}
+         {!! csrf_field() !!}
+        <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
+        <option value="">Select Section</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+    </select>
            <input type="date" name="bazardate" class="form-control form-control-sm"  required>
            <button type="submit" name="search" class="btn btn-primary btn-sm">Daily_bazar </button>
      </form>
