@@ -343,18 +343,16 @@ class HallinfoController extends Controller
 
           $bazar = Bazar::leftjoin('products', 'products.id', '=', 'bazars.product_id')->where('date', $day)
                ->where('bazars.category', 'bazar')->where('bazars.hall_id', $hall_id)->orderBy('bazars.id', 'DESC')->get();
+       
+      
 
-
-
-          if ($bazar->count()>0) {
-                return view('pdf.bazarday', [
+     
+          return view('pdf.bazarday', [
                      'day1' => $day1, 'bazar' => $bazar, 
                      'sum' => $sum, 'meal_amount' => $meal_amount, 'feast_amount' => $feast_amount, 
                      'b_meal_no' => $b_meal_no ,'l_meal_no' => $l_meal_no,'d_meal_no' => $d_meal_no
-                ]);
-           } else {
-                return back()->with('fail', 'Bazar not found this date ');
-           }
+            ]);
+          
      }
 
 

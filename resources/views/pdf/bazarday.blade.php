@@ -88,7 +88,11 @@
             <th align="left" width="140">Per unit price</th>
             <th align="right" width="130">Total Price</th>
           </tr>
-
+          @if($bazar->isEmpty())
+          <tr>
+              <td colspan="5" align="center"> No items found in the bazar list. </td>
+          </tr>
+         @else
 
           @foreach($bazar as $user)
           <tr>
@@ -99,6 +103,7 @@
              <td align="right">{{ $user->total }}TK</td>
           </tr>
           @endforeach
+          @endif
           <tr>
                <td align="left"></td>
                <td align="left"> Breakfast meal: {{$b_meal_no}}</td>
