@@ -335,11 +335,17 @@ class HallinfoController extends Controller
                $d_meal_no = 0;
           }
 
-         
+       
+       
+          if($data->feast_day==$l_meal){
           $feast_day = Invoice::where($data->feast_day,1)->where('invoice_month',$cur_month)->where('hall_id',$hall_id)
           ->where('invoice_year',$cur_year)->where('invoice_section',$section)->count('id');
-
-          $feast_amount=$feast_day*$data->feast;
+        
+          }else{
+               $feast_day=0;
+          }
+          //return $feast_day;
+           $feast_amount=$feast_day*$data->feast;
 
           $bazar = Bazar::leftjoin('products', 'products.id', '=', 'bazars.product_id')->where('date', $day)
                ->where('bazars.category', 'bazar')->where('bazars.hall_id', $hall_id)->orderBy('bazars.id', 'DESC')->get();
