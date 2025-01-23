@@ -142,6 +142,8 @@ use App\Http\Controllers\ManagerlistController;
         Route::get('/manager/section_view/{id}', [InvoiceController::class,'section_view_id']);
         Route::get('/manager/section_update', [InvoiceController::class,'section_update']);
 
+
+        
          //members
          Route::get('/manager/member/{member_status}', [ManagerController::class, 'member']);
          Route::get('/manager/member_fetch/{member_status}', [ManagerController::class, 'member_fetch']);
