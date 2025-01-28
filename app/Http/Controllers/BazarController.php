@@ -15,10 +15,12 @@ class BazarController extends Controller
     public function index(Request $request){
         $hall_id = $request->header('hall_id');
         $date=date('Y-m-d');
+        $hall_id = $request->header('hall_id');
+        $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->first();
         // return $date;
         // die();
         $product=DB::table('products')->where('hall_id',$hall_id)->orderBy('product','asc')->get();
-        return view('manager.bazar',['product'=>$product,'date'=>$date]);
+        return view('manager.bazar',['product'=>$product,'date'=>$date,'data'=>$hallinfo]);
     }
 
 

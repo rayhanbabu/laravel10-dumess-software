@@ -269,21 +269,22 @@ class HallinfoController extends Controller
            $day = date('Y-m-d',strtotime($_POST['bazardate']));
            $day1 = date('d-F-Y',strtotime($_POST['bazardate']));
 
-           $cur_month = date('m',strtotime($_POST['bazardate']));
-           $cur_year = date('Y',strtotime($_POST['bazardate']));
+           $cur_month=date('n',strtotime($_POST['month']));
+           $cur_year=date('Y',strtotime($_POST['month']));
+
            $section = $request->section;
 
 
            $file = 'Bazar_' . $day1 . '.pdf';
 
-          $data=DB::table('invoices')->where('invoice_month', $cur_month)->where('hall_id', $hall_id)
+          $data=Invoice::where('invoice_month', $cur_month)->where('hall_id', $hall_id)
            ->where('invoice_year', $cur_year)->where('invoice_section', $section)->where('invoice_status',1)->first();
 
          
            
-          $daymeal = (getDaysBetween2Dates(new DateTime($_POST['bazardate']), new DateTime($data->meal_start_date), false) + 1);
+          $daymeal = (getDaysBetween2Dates(new DateTime($_POST['bazardate']), new DateTime($data->meal_start_date), false)+1);
 
-      
+          
           $b_meal = 'b' . $daymeal;
           $l_meal = 'l' . $daymeal;
           $d_meal = 'd' . $daymeal;
@@ -303,7 +304,7 @@ class HallinfoController extends Controller
                     $fridaytaka = 'fridayt' . $x;
 
                     $sum1 = $breakfast_meal * $data->$fridaytaka + $lunch_meal * $data->$fridaytaka + $dinner_meal * $data->$fridaytaka;
-                    
+              
                     $sum += $sum1;
                }
           } else {
@@ -311,6 +312,8 @@ class HallinfoController extends Controller
           }
 
       
+
+          \Log::info($sum);
 
           // if($data->feast_day==$daymeal){
 

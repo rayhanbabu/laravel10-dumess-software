@@ -3,9 +3,10 @@
 @section('mealsheet','active')
 @section('content')
 
-<div class="row mt-3 mb-0 mx-2 ">
+
+<div class="row mt-3 mb-0 mx-2">
     <div class="col-sm-3 my-2">
-        <h5 class="mt-0">Meal Info : {{$data->cur_year}} - {{$data->cur_month}} - {{$data->cur_section}} </h5>
+        <h5 class="mt-0"> Meal Info : {{$data->cur_year}} - {{$data->cur_month}} - {{$data->cur_section}} </h5>
         <a href="https://youtu.be/OsLo20KXg8o?t=775" target="_blank">  Tutorial</a>
     </div>
 
