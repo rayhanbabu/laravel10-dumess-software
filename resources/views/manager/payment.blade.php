@@ -80,13 +80,14 @@
           <th width="">Refund withdraw </th>
           <th width="">Refund withdraw Status </th>
           <th width="">View</th>
+          <th width="">Print</th>
 
           <th width="">First Payable By </th>
           <th width="">Second Payable By </th>
           <th width="">withdraw by </th>
 
            <th width="">Status</th>
-           <th width="">Print</th>
+         
        
       @elseif($invoice_status==5)      
           <th width="">Refund withdraw </th>

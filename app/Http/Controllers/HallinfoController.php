@@ -866,6 +866,21 @@ class HallinfoController extends Controller
 
 
 
+     public function invoiceprint(Request $request){
+
+          $hall_id = $request->header('hall_id');
+          $invoice_id = $request->invoice_id;
+          $hallinfo = Hallinfo::where('hall_id_info',$hall_id)->first();
+
+          $invoice=Invoice::leftjoin('members', 'members.id', '=', 'invoices.member_id')
+             ->where('invoices.hall_id',$hall_id)->where('invoices.id',$invoice_id)->select('invoices.*','name','registration','card','phone')->get();
+    
+           return view('pdf.invoiceprint',["invoice"=>$invoice,'hallinfo'=>$hallinfo]);
+   
+       }
+   
+
+
      
 
 }
