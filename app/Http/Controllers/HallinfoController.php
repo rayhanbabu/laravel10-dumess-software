@@ -277,8 +277,9 @@ class HallinfoController extends Controller
 
            $file = 'Bazar_' . $day1 . '.pdf';
 
-          $data=Invoice::where('invoice_month', $cur_month)->where('hall_id', $hall_id)
-           ->where('invoice_year', $cur_year)->where('invoice_section', $section)->where('invoice_status',1)->first();
+          $data=Hallinfo::where('hall_id_info',$hall_id)->first();
+          // $data=Invoice::where('invoice_month', $cur_month)->where('hall_id', $hall_id)
+          //  ->where('invoice_year', $cur_year)->where('invoice_section', $section)->where('invoice_status',1)->first();
 
          
            
@@ -301,7 +302,7 @@ class HallinfoController extends Controller
                     $dinner_meal = Invoice::where('friday' . $x, $d_meal)->where('invoice_month', $cur_month)->where('hall_id', $hall_id)
                          ->where('invoice_year', $cur_year)->where('invoice_section', $section)->where($d_meal, 1)->count('id');
 
-                    $fridaytaka = 'fridayt' . $x;
+                    $fridaytaka = 'friday' . $x.'t';
 
                     $sum1 = $breakfast_meal * $data->$fridaytaka + $lunch_meal * $data->$fridaytaka + $dinner_meal * $data->$fridaytaka;
               
