@@ -535,11 +535,11 @@
      
                  friday1='$friday1', friday2='$friday2', friday3='$friday3', friday4='$friday4', friday5='$friday5'
      
-                , fridayt1=$friday1t 
-                , fridayt2=$friday2t
-                , fridayt3=$friday3t
-                , fridayt4=$friday4t
-                , fridayt5=$friday5t
+                , fridayt1=(CASE WHEN $friday1=1  THEN 0 ELSE $friday1t END)
+                , fridayt2=(CASE WHEN $friday2=1  THEN 0 ELSE $friday2t END)
+                , fridayt3=(CASE WHEN $friday3=1  THEN 0 ELSE $friday3t END)
+                , fridayt4=(CASE WHEN $friday4=1  THEN 0 ELSE $friday4t END)
+                , fridayt5=(CASE WHEN $friday5=1  THEN 0 ELSE $friday5t END)
      
                 , refund_feast=(CASE WHEN $feast_day<=0 OR $feast_day>=9 THEN $feast ELSE 0 END)
                 , refund_friday=fridayt1+fridayt2+fridayt3+fridayt4+fridayt5
