@@ -96,7 +96,7 @@ function Footer()
 						 $pdf->Cell(15,7, 'Name ',0,0 , 'L' );
 						 $pdf->Cell(55,7, ': '.$row['name'],'0',0 , 'L' );
 						 $pdf->Cell(25,7, 'Invoice ',0,0, 'L' );
-						 $pdf->Cell(40,7, ': '.date('F-Y',strtotime($row['invoice_date'])),0,1, 'L' );
+						 $pdf->Cell(40,7, ': '.date('F-Y',strtotime($row['invoice_date'])). '-'.$row['invoice_section'],0,1, 'L' );
 				          
 						 $pdf->Cell(15,7, 'Card No',0,0 , 'L' );
 						 $pdf->Cell(55,7, ': '.$row['card'],'0',0 , 'L' );
