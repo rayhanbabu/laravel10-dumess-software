@@ -324,6 +324,7 @@ use App\Http\Controllers\ManagerlistController;
           Route::post('/pdf/range_wise_payment', [HallinfoController::class,'range_wise_payment']);
           Route::post('/pdf/last_payment_invoice', [HallinfoController::class,'last_payment_invoice']);
           Route::post('/pdf/managerlist', [HallinfoController::class,'managerlist']);
+          Route::get('/pdf/invoiceprint/{invoice_id}', [HallinfoController::class,'invoiceprint']);
           
           
           Route::middleware('BookingSeatToken')->group(function(){
