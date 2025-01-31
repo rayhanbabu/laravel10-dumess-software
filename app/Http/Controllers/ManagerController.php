@@ -1035,8 +1035,8 @@ class ManagerController extends Controller
 
 
     public function memberstatus(Request $request,$operator,$status,$id){
-        DB::beginTransaction();
-         try{ 
+        // DB::beginTransaction();
+          try{ 
          $hall_id = $request->header('hall_id');
          $hall=DB::table('halls')->where('hall_id',$hall_id)->where('role','admin')->first();
          $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->first();
@@ -1193,7 +1193,7 @@ class ManagerController extends Controller
         }
      }
 
-         DB::commit();  
+        //  DB::commit();  
           } catch (Exception $e) { 
             DB::rollback();
             return  view('errors.error', ['error' => $e]);  }
