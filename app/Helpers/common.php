@@ -409,8 +409,7 @@
                                $day = "l" . $y;
                                $invoiceupdate->$day = 0;
                            }
-                       } else {
-                       
+                       } else {                  
                            for ($y = $inactive_day; $y >= 1; $y--) {
                                $day = "l" . $y;
                                $invoiceupdate->$day = 9;
