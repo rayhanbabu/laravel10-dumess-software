@@ -1022,7 +1022,7 @@
                     <div class="row p-2">
                         <div class="col-sm-3"><input type="date" id="date13" class="form-control" value="" readonly /></div>
                         <div class="col-sm-3">
-                            <select class="form-control mb-2" id="b1" name="b13" aria-label="Default select example" required>
+                            <select class="form-control mb-2" id="b13" name="b13" aria-label="Default select example" required>
                                 <option value="1">On</option>
                                 <option value="0">Off</option>
                                 <option value="9">Inactive</option>
