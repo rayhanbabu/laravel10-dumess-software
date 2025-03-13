@@ -141,6 +141,7 @@ class HallController extends Controller
          $model->bank_account_name=$request->input('bank_account_name');
          $model->bank_account=$request->input('bank_account');
          $model->bank_route=$request->input('bank_route');
+         $model->two_factor=$request->input('two_factor');
 
          $model->update();   
           return response()->json([ 

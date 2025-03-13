@@ -131,12 +131,16 @@ $(document).ready(function(){
                   //console.log(response);
 			     $("#add_employee_btn").prop('disabled', false);
 				    if(response.status == 200){
+						if(response.twofactor=="No"){
+							location.href='/manager/dashboard';
+						}else{
 					    	$('#verify_email').val(response.email);
 						    $('#verify_phone').val(response.phone);
 						    $('.error_phone').text("");
 						    $('.error_password').text("");
 							$('.loginform').hide();
 							$('.verifyform').show();
+						}
 				    }else if(response.status == 300){
 					     $('.error_phone').text(response.message);
 				    }else if(response.status == 400){

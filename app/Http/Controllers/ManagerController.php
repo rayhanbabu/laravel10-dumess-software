@@ -190,6 +190,7 @@ class ManagerController extends Controller
             if ($username) {
                 if ($username->password == $request->password) {
                     if ($username->status == $status) {
+                        if($username->two_factor == "Yes"){
                         $rand = rand(11111, 99999);
                         DB::update("update halls set login_code ='$rand' where phone = '$username->phone'");
                         SendEmail($username->email, "Manager Otp code", "One Time OTP Code", $rand, "ANCOVA");
@@ -198,6 +199,9 @@ class ManagerController extends Controller
                             'phone' => $username->phone,
                             'email' => $username->email,
                         ]);
+                      }else{
+                        return $this->withoutTwoFactor($username);
+                      }
                     } else {
                         return response()->json([
                             'status' => 600,
@@ -218,6 +222,26 @@ class ManagerController extends Controller
             }
         }
     }
+
+
+
+    public function withoutTwoFactor($username){
+          $token_manager = ManagerJWTToken::CreateToken($username->id, $username->manager_username, $username->email, $username->hall_id, $username->role,$username->role2);
+          Cookie::queue('token_manager', $token_manager, 60 * 24*2); //96 hour
+        $manager_info = [
+            "hall_name" => $username->hall, "role" => $username->role, "manager_name" => $username->manager_name,
+            "email" => $username->email, "phone" => $username->phone, "hall_id" => $username->hall_id
+         ];
+        $manager_info_array = serialize($manager_info);
+        Cookie::queue('manager_info', $manager_info_array, 60 * 24*2);
+
+         return response()->json([
+           'status' => 200,
+           'twofactor' =>"No",
+           'message' => 'Login Success',
+         ]);
+
+  }
 
 
     public function login_verify(Request $request)
