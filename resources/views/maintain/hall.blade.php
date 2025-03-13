@@ -418,6 +418,16 @@
                   </select>
             </div>
 
+
+            
+            <div class="col-lg-6 my-2">
+                  <label class=""><b> Two Factor</b></label>
+                   <select class="form-select" name="two_factor" id="edit_two_factor" aria-label="Default select example">
+                      <option value="No">No</option>
+                      <option value="Yes">Yes</option>
+                  </select>
+            </div>
+
             <div class="col-lg-12 my-2">
                 <label for="roll"> Bank Name </label>
                 <input type="text" name="bank_name" id="edit_bank_name" class="form-control" placeholder="" >
@@ -601,6 +611,7 @@
               $("#edit_bank_account_name").val(response.data.bank_account_name);
               $("#edit_bank_account").val(response.data.bank_account);
               $("#edit_bank_route").val(response.data.bank_route);
+              $("#edit_two_factor").val(response.data.two_factor);
 
               
           }
