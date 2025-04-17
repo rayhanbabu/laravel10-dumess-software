@@ -878,6 +878,32 @@ class HallinfoController extends Controller
            return view('pdf.invoiceprint',["invoice"=>$invoice,'hallinfo'=>$hallinfo]);
    
        }
+
+
+
+       public function managermonth(Request $request)
+       {
+          $hall_id = $request->header('hall_id');
+        
+          $month=date('n',strtotime($_POST['month']));
+          $year=date('Y',strtotime($_POST['month']));
+          $section=$_POST['section'];
+          $category=$_POST['category'];
+
+     
+          $month1=date('F-Y',strtotime($_POST['month']));
+
+          $data=DB::table('managerlists')->where('invoice_year',$year)->where('invoice_month',$month)->where('invoice_section',$section)
+            ->where('hall_id',$hall_id)->orderBy('id','desc')->get();
+
+          if ($data->count()>0) {
+               return view('pdf.managermonth', [
+                    'month1' => $month1, 'data' => $data,  'section' => $section ,'category' => $category   
+               ]);
+          } else {
+               return back()->with('fail', 'Information Not found this date ');
+          }
+       }
    
 
 

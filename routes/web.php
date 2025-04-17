@@ -169,7 +169,7 @@ use App\Http\Controllers\ManagerlistController;
 
         //bazar
         Route::get('/manager/bazar/',[BazarController::class, 'index']);
-        Route::post('/manager/bazar',[BazarController::class, 'store']);
+       
         Route::get('/manager/bazar/fetch_data', [BazarController::class, 'fetch_data']);
 
         //withdraw View
@@ -269,6 +269,7 @@ use App\Http\Controllers\ManagerlistController;
              Route::delete('/manager/product_delete/{id}', [ProductController::class, 'destroy']);
 
              //Bazar
+             Route::post('/manager/bazar',[BazarController::class, 'store']);
              Route::get('/manager/bazar_fetch', [BazarController::class, 'fetch']);
              Route::get('/manager/bazar_edit/{id}', [BazarController::class, 'edit']);
              Route::post('/manager/bazar_update/{id}', [BazarController::class, 'update']);
@@ -325,6 +326,7 @@ use App\Http\Controllers\ManagerlistController;
           Route::post('/pdf/last_payment_invoice', [HallinfoController::class,'last_payment_invoice']);
           Route::post('/pdf/managerlist', [HallinfoController::class,'managerlist']);
           Route::get('/pdf/invoiceprint/{invoice_id}', [HallinfoController::class,'invoiceprint']);
+          Route::post('/pdf/managermonth', [HallinfoController::class,'managermonth']);
           
           
           Route::middleware('BookingSeatToken')->group(function(){
@@ -368,7 +370,7 @@ use App\Http\Controllers\ManagerlistController;
 
 
 
-         Route::get('/manager/managerlist', [ManagerlistController::class, 'index']);
+         Route::get('/manager/managerlist/{category}', [ManagerlistController::class, 'index']);
          Route::post('/manager/managerlist', [ManagerlistController::class, 'store']);
          Route::get('/manager/managerlist_edit/{id}', [ManagerlistController::class, 'edit']);
          Route::post('/manager/managerlist_update/{id}', [ManagerlistController::class, 'update']);
