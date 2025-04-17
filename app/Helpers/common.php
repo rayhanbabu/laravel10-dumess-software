@@ -354,23 +354,48 @@
      
                $lunch_off = $lunch_on = $dinner_off = $dinner_on = $breakfast_off = $breakfast_on = 0;
      
-               // Loop for lunch, dinner, and breakfast
-               for ($y = 1; $y <= $data->section_day; $y++) {
 
-                   $l_off = Invoice::where('id', $row->id)->where('l'.$y, 0)->count();
-                   $l_on = Invoice::where('id', $row->id)->where('l'.$y, 1)->count();
-                   $d_off = Invoice::where('id', $row->id)->where('d'.$y, 0)->count();
-                   $d_on = Invoice::where('id', $row->id)->where('d'.$y, 1)->count();
-                   $b_off = Invoice::where('id', $row->id)->where('b'.$y, 0)->count();
-                   $b_on = Invoice::where('id', $row->id)->where('b'.$y, 1)->count();
+            //    // Loop for lunch, dinner, and breakfast
+            //    for ($y = 1; $y <= $data->section_day; $y++) {
+
+            //        $l_off = Invoice::where('id', $row->id)->where('l'.$y, 0)->count();
+            //        $l_on = Invoice::where('id', $row->id)->where('l'.$y, 1)->count();
+            //        $d_off = Invoice::where('id', $row->id)->where('d'.$y, 0)->count();
+            //        $d_on = Invoice::where('id', $row->id)->where('d'.$y, 1)->count();
+            //        $b_off = Invoice::where('id', $row->id)->where('b'.$y, 0)->count();
+            //        $b_on = Invoice::where('id', $row->id)->where('b'.$y, 1)->count();
      
-                   $lunch_off += $l_off;
-                   $lunch_on += $l_on;
-                   $dinner_off += $d_off;
-                   $dinner_on += $d_on;
-                   $breakfast_off += $b_off;
-                   $breakfast_on += $b_on;
-               }
+            //        $lunch_off += $l_off;
+            //        $lunch_on += $l_on;
+            //        $dinner_off += $d_off;
+            //        $dinner_on += $d_on;
+            //        $breakfast_off += $b_off;
+            //        $breakfast_on += $b_on;
+            //    }
+
+
+                                // Fetch the invoice row once
+                    $invoice_single = Invoice::find($row->id);
+
+                    // Loop for each day
+                    for ($y = 1; $y <= $data->section_day; $y++) {
+                        // Access dynamic column names
+                        $l_val = $invoice_single->{'l' . $y};
+                        $d_val = $invoice_single->{'d' . $y};
+                        $b_val = $invoice_single->{'b' . $y};
+
+                        // Lunch
+                        if ($l_val == 0) $lunch_off++;
+                        elseif ($l_val == 1) $lunch_on++;
+
+                        // Dinner
+                        if ($d_val == 0) $dinner_off++;
+                        elseif ($d_val == 1) $dinner_on++;
+
+                        // Breakfast
+                        if ($b_val == 0) $breakfast_off++;
+                        elseif ($b_val == 1) $breakfast_on++;
+                    }
            
               
                $invoiceupdate = Invoice::find($row->id);
