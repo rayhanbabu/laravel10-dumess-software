@@ -15,8 +15,9 @@ class ManagerlistController extends Controller
     public function index(Request $request)
     {
         $hall_id = $request->header('hall_id');
+        $category=$request->category;
         if ($request->ajax()) {
-            $data = Managerlist::where('hall_id',$hall_id)->latest()->get();
+            $data = Managerlist::where('hall_id',$hall_id)->where('category',$category)->latest()->get();
              return Datatables::of($data)
                  ->addIndexColumn()
                  ->addColumn('status', function($row){
@@ -33,7 +34,7 @@ class ManagerlistController extends Controller
                ->rawColumns(['status','edit','delete'])
                ->make(true);
             }           
-           return view('manager.managerlist');  
+            return view('manager.managerlist',[ 'category' => $category]);  
 
       }
  
@@ -45,11 +46,11 @@ class ManagerlistController extends Controller
         $validator = \Validator::make(
             $request->all(),
             [ 
-                'phone' => 'required',
                 'name' => 'required',
                 'invoice_year' => 'required',
                 'invoice_month' => 'required',
                 'invoice_section' => 'required',
+                'category' => 'required',
             ],
            
         );
@@ -63,6 +64,7 @@ class ManagerlistController extends Controller
             $app = new Managerlist;
             $app->hall_id = $hall_id;
             $app->name = $request->input('name');
+            $app->category = $request->input('category');
             $app->role = $request->input('role');
             $app->phone = $request->input('phone');
             $app->invoice_year = $request->input('invoice_year');
@@ -70,6 +72,7 @@ class ManagerlistController extends Controller
             $app->invoice_section = $request->input('invoice_section');
             $app->department = $request->input('department');
             $app->registration = $request->input('registration');
+            $app->amount = $request->input('amount');
             $app->save();
                return response()->json([
                    'status' => 200,
@@ -100,11 +103,11 @@ class ManagerlistController extends Controller
     {
         $hall_id = $request->header('hall_id');
         $validator = \Validator::make($request->all(), [
-                 'phone' => 'required',
                  'name' => 'required',
                  'invoice_year' => 'required',
                  'invoice_month' => 'required',
                  'invoice_section' => 'required',
+
         ]);
 
         if ($validator->fails()) {
@@ -124,6 +127,7 @@ class ManagerlistController extends Controller
             $app->invoice_section = $request->input('invoice_section');
             $app->department = $request->input('department');
             $app->registration = $request->input('registration');
+            $app->amount = $request->input('amount');
             $app->save();
                 return response()->json([
                     'status' => 200,

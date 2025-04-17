@@ -229,9 +229,15 @@
           Extra Payment  
     </a>
 
-      <a class="nav-link @yield('managerlist')" href="{{url('manager/managerlist')}}">
+      <a class="nav-link @yield('managerlist_Manager')" href="{{url('manager/managerlist/Manager')}}">
            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
            Manager List
+         </a>
+
+
+         <a class="nav-link @yield('managerlist_Salary')" href="{{url('manager/managerlist/Salary')}}">
+           <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+           Salary List
          </a>
 
     @if(member_access())
