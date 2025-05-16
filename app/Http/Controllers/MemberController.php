@@ -694,7 +694,7 @@ class MemberController extends Controller
                       }else{
                         DB::update("update invoices set  $meal_name = $status  where  id= $data->id");
                         member_meal_update($data);
-                        SendEmail($email,$body,$name,$body,"ANCOVA");
+                       // SendEmail($email,$body,$name,$body,"ANCOVA");
                           return response()->json([
                               'status' => 200,
                               'message' => "Meal Status updated"
@@ -706,7 +706,7 @@ class MemberController extends Controller
                     }else{
                          DB::update("update invoices set  $meal_name = $status  where  id= $data->id");
                          member_meal_update($data);
-                         SendEmail($email,$body,$name,$body,"ANCOVA");
+                        // SendEmail($email,$body,$name,$body,"ANCOVA");
                           return response()->json([
                               'status' => 200,
                               'message' => "Meal Status updated"
@@ -717,7 +717,7 @@ class MemberController extends Controller
                          if($meal_no<=$data->first_pay_mealon){ //1st Payment Meal Number 
                             DB::update("update invoices set  $meal_name = $status  where  id= $data->id");
                             member_meal_update($data);
-                           SendEmail($email, $body, $name, $body, "ANCOVA");
+                          // SendEmail($email, $body, $name, $body, "ANCOVA");
                             return response()->json([
                                 'status' => 200,
                                 'message' => "Meal Status updated"
