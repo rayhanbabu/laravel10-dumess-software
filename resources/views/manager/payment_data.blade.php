@@ -41,6 +41,7 @@
           } ?>
 
         <td> <button type="button" value="{{$row->id}}" class="view_all btn btn-primary btn-sm">View </button> </td>
+        <td><a  class="btn btn-primary btn-sm" href="{{ url('/pdf/invoiceprint/'.$row->id)}}" target="_blank">Print</a></td>
 
 		<td><?php echo $row['payment_type1']; ?> , <?php echo $row['payment_time1']; ?>,  <?php echo $row['payment_method1']; ?></td>
         <td><?php echo $row['payment_type2']; ?> , <?php echo $row['payment_time2']; ?>,  <?php echo $row['payment_method2']; ?></td>
@@ -52,7 +53,7 @@
            ?> <td> <button type="button" value="{{ $row->id}}" data-status="1" class="memberblock btn btn-warning btn-sm">Unblock </button> </td> <?php
         } ?>
        
-        <td><a  class="btn btn-primary btn-sm" href="{{ url('/manager/invoicepdf/'.$row->id)}}">Print</a></td>
+       
            
         @elseif($invoice_status==5)
                <td><?php echo $row['withdraw']; ?>TK</td>

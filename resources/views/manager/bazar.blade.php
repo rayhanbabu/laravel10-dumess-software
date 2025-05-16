@@ -59,8 +59,8 @@
   <form method="post" id="add_form" enctype="multipart/form-data">
     <div class="row">
       <div class="col-sm-4">
-        <label>Date</label>
-        <input type="date" name="date" id="date" class="form-control form-control-sm" required>
+        <label> Date </label>
+        <input type="date" name="date"  value="{{ $date }}" class="form-control form-control-sm" required>
       </div>
       <div class="col-sm-4">
         <label>Product name</label><br>
@@ -115,17 +115,27 @@
 
 <div class="row mt-4 mb-0 mx-2">
 
-  <div class="col-sm-4 my-2">
+  <div class="col-sm-5 my-2">
     <form action="{{url('pdf/bazarday')}}" method="POST" enctype="multipart/form-data">
       <div class="d-grid gap-2 d-flex justify-content-end">
-           {!! csrf_field() !!}
+         {!! csrf_field() !!}
+        <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
+                 @if($data->cur_section=="A")
+                   <option value="A" selected >A</option>
+                   <option value="B">B</option>
+                 @else
+                    <option value="A">A</option>
+                    <option value="B" selected>B</option>
+                 @endif
+    </select>
+    <input type="month" name="month" class="form-control" value="{{ date('Y-n',strtotime($data->cur_date)) }}" required>
            <input type="date" name="bazardate" class="form-control form-control-sm"  required>
            <button type="submit" name="search" class="btn btn-primary btn-sm">Daily_bazar </button>
      </form>
   </div>
 </div>
 
-<div class="col-sm-5 my-2 ">
+<div class="col-sm-4 my-2 ">
 <form action="{{url('pdf/product_wise')}}" method="POST" enctype="multipart/form-data">
      {!! csrf_field() !!}
   <div class="d-grid gap-3 d-flex justify-content-start">

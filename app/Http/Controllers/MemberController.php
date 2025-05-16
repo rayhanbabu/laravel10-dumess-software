@@ -619,6 +619,8 @@ class MemberController extends Controller
            $name = $request->header('name');
            $hallinfo=Hallinfo::where('hall_id_info',$hall_id)->select('cur_month','cur_year','cur_section','add_minute'
            ,'mealon_without_payment','max_meal_off','last_meal_off','section_day')->first();
+
+
            $data = Invoice::where('member_id',$member_id)->where('hall_id',$hall_id)->where('invoice_year', $hallinfo->cur_year)
            ->where('invoice_month',$hallinfo->cur_month)->where('invoice_section',$hallinfo->cur_section)->first();
 
@@ -638,20 +640,10 @@ class MemberController extends Controller
                     $body="Your Meal Will ON on ". date('d-F-Y',strtotime($data->$date));
                 }
 
-             $sum1=0;
-             $max_meal=$hallinfo->max_meal_off;
-             $section_day=$hallinfo->section_day;
-             for($x=1; $x<=$section_day; $x++){
-                 $sum = Invoice::where('member_id',$member_id)->where('hall_id',$hall_id)->where('invoice_year',$hallinfo->cur_year)
-                ->where('invoice_month',$hallinfo->cur_month)->where('invoice_section',$hallinfo->cur_section)->sum('l'.$x);
-                   if($sum==9){
-                       $sum2=1;
-                   }else{
-                       $sum2=$sum;
-                    }
-                    $sum1+=$sum2;
-                }
-            $meal_total_on= $sum1;  
+               $sum1=0;
+               $max_meal=$hallinfo->max_meal_off;
+               $section_day=$hallinfo->section_day;
+               $meal_total_on= $data->lunch_onmeal;  
 
     
            if($meal_status==9){
@@ -675,7 +667,7 @@ class MemberController extends Controller
                     }else{
                         DB::update("update invoices set  $meal_name = $status where id=$data->id");
                         member_meal_update($data);
-                        SendEmail($email, $body, $name, $body, "ANCOVA");
+                       // SendEmail($email, $body, $name, $body, "ANCOVA");
                          return response()->json([
                            'status' => 200,
                            'message' => " Meal Status updated"
@@ -702,7 +694,7 @@ class MemberController extends Controller
                       }else{
                         DB::update("update invoices set  $meal_name = $status  where  id= $data->id");
                         member_meal_update($data);
-                        SendEmail($email,$body,$name,$body,"ANCOVA");
+                       // SendEmail($email,$body,$name,$body,"ANCOVA");
                           return response()->json([
                               'status' => 200,
                               'message' => "Meal Status updated"
@@ -714,7 +706,7 @@ class MemberController extends Controller
                     }else{
                          DB::update("update invoices set  $meal_name = $status  where  id= $data->id");
                          member_meal_update($data);
-                         SendEmail($email,$body,$name,$body,"ANCOVA");
+                        // SendEmail($email,$body,$name,$body,"ANCOVA");
                           return response()->json([
                               'status' => 200,
                               'message' => "Meal Status updated"
@@ -725,7 +717,7 @@ class MemberController extends Controller
                          if($meal_no<=$data->first_pay_mealon){ //1st Payment Meal Number 
                             DB::update("update invoices set  $meal_name = $status  where  id= $data->id");
                             member_meal_update($data);
-                            SendEmail($email, $body, $name, $body, "ANCOVA");
+                          // SendEmail($email, $body, $name, $body, "ANCOVA");
                             return response()->json([
                                 'status' => 200,
                                 'message' => "Meal Status updated"

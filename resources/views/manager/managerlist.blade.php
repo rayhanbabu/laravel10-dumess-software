@@ -1,17 +1,30 @@
 @extends('manager.layout')
 @section('page_title','Manager Panel')
-@section('managerlist','active')
+@section('managerlist_'.$category,'active')
 @section('content')
 
 <div class="card mt-2 mb-2 shadow-sm">
      <div class="card-header">
        <div class="row ">
-               <div class="col-8"> <h5 class="mt-0"> Manager List  </h5></div>
-                     <div class="col-2">
-                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                             
+               <div class="col-sm-4"> <h5 class="mt-0"> {{$category}} List  </h5></div>
+                     <div class="col-sm-6">
+                    
+           <form action="{{url('pdf/managermonth')}}" method="POST" enctype="multipart/form-data">
+      {!! csrf_field() !!}
+      <div class="d-grid gap-3 d-flex justify-content-end">
+        <select class="form-control form-control-sm" name="section" id="section" aria-label="Default select example" required>
+          <option value="">Select Section </option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+        </select>
+           <input type="month" name="month" class="form-control form-control-sm" value="" required>
+           <input type="hidden" name="category" value="{{$category}}">
+           <button type="submit" class="btn btn-primary btn-sm">Generate_PDF</button>
+
+         </form>
+      </div>
                                      
-                         </div>
+                      
                      </div>
 
                     
@@ -42,10 +55,15 @@
                      <tr>
                          <td>  Module </td>
                          <td>  Name </td>
-                         <td>  Role </td>
-                         <td>  Department </td>
+                       
+                         <td>  Department/Designattion </td>
                          <td>  Phone </td>
-                         <td>  Registration </td>
+                         @if($category == 'Manager')
+                           <td>  Registration </td>
+                           <td>  Role </td>
+                          @else
+                            <td>  Salary Amount </td>
+                          @endif
                          <td> Edit </td>
                          <td> Delete </td>
                       </tr>
@@ -67,6 +85,9 @@
 <script>
   $(document).ready(function() {
 
+    var category = @json($category);
+    
+
      $.ajaxSetup({ headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }});
 
       fetchAll();
@@ -81,7 +102,7 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: "/manager/managerlist",
+                url: "/manager/managerlist/"+category,
                 error: function(xhr, error, code) {
                    // console.log(xhr.response);
                 }
@@ -89,10 +110,15 @@
             columns: [
                { data: 'status', name: 'status' },
                 { data: 'name', name: 'name' },
-                { data: 'role', name: 'role' },
+              
                 { data: 'department', name: 'department' },
                 { data: 'phone', name: 'phone' },
-                { data: 'registration', name: 'registration' },
+                @if($category == 'Manager')
+                  { data: 'role', name: 'role' },
+                  { data: 'registration', name: 'registration' },
+                @else 
+                  { data: 'amount', name: 'amount' },
+                @endif
                 { data: 'edit', name: 'edit', orderable: false, searchable: false },
                 { data: 'delete', name: 'delete', orderable: false, searchable: false },
             ]
@@ -189,6 +215,7 @@
              $('#edit_role').val(response.edit_value.role);
              $('#edit_registration').val(response.edit_value.registration);
              $('#edit_department').val(response.edit_value.department);
+             $('#edit_amount').val(response.edit_value.amount);
              $('#edit_id').val(edit_id);
           }
         }
@@ -258,42 +285,49 @@
           <ul class="alert alert-warning d-none"  id="edit_form_errlist"></ul>
 
       
-          <label><b> Module Year </b></label><br>
+          <label><b> Module Year <span style="color:red;"> * </span> </b></label><br>
             <input name="invoice_year" id="edit_invoice_year" type="number" class="form-control" required />
             <p class="text-danger err_product"></p>
 
-            <label><b> Module Month </b></label><br>
+            <label><b> Module Month <span style="color:red;"> * </span> </b></label><br>
             <input name="invoice_month" id="edit_invoice_month" type="number" class="form-control" required />
             <p class="text-danger err_product"></p>
 
-            <label><b> Module Section </b></label><br>
+            <label><b> Module Section <span style="color:red;"> * </span> </b></label><br>
             <input name="invoice_section" id="edit_invoice_section" type="text" class="form-control" required />
             <p class="text-danger err_product"></p>
 
 
-            <label><b> Name </b></label><br>
+            <label><b> Name  <span style="color:red;"> * </span> </b></label><br>
             <input name="name" id="edit_name" type="text" class="form-control" required />
             <p class="text-danger err_product"></p>
 
-            <label><b> Role Type </b></label><br>
-            <input name="role" id="edit_role" type="text" class="form-control" required />
-            <p class="text-danger err_product"></p>
-
+         
             <label><b>Phone Number </b></label><br>
             <input name="phone" id="edit_phone"   pattern="[0][1][3 4 7 6 5 8 9][0-9]{8}" title="
-				      Please select Valid mobile number" type="text" class="form-control" required /><br>
+				      Please select Valid mobile number" type="text" class="form-control"  /><br>
             <p class="text-danger err_product"></p>
 
 
-            <label><b> Du Registration </b></label><br>
-            <input name="registration" id="edit_registration" type="text" class="form-control" />
-            <p class="text-danger err_product"></p>
-
-
-            <label><b> Department </b></label><br>
+            <label><b> Department/Designation </b></label><br>
             <input name="department" id="edit_department" type="text" class="form-control" />
             <p class="text-danger err_product"></p>
 
+
+
+          @if($category == 'Manager')
+              <label><b> Role Type </b></label><br>
+              <input name="role" id="edit_role" type="text" class="form-control" required />
+              <p class="text-danger err_product"></p>
+
+              <label><b> Du Registration </b></label><br>
+              <input name="registration" id="edit_registration" type="text" class="form-control" />
+              <p class="text-danger err_product"></p>
+          @else
+              <label><b>  Salary Amount  <span style="color:red;"> * </span>  </b></label><br>
+              <input name="amount" id="edit_amount" type="number" class="form-control" required />
+              <p class="text-danger err_product"></p>
+          @endif
         
         
 
@@ -332,41 +366,51 @@
         <div class="modal-body p-4 bg-light">
            <ul class="alert alert-warning d-none" id="add_form_errlist"></ul>
 
-            <label><b> Module Year </b></label><br>
+            
+            <input type="hidden" name="category"  id="category" value="{{$category}}" >
+
+            <label><b> Module Year <span style="color:red;"> * </span> </b></label><br>
             <input name="invoice_year" id="invoice_year" type="number" class="form-control" required />
             <p class="text-danger err_product"></p>
 
-            <label><b> Module Month </b></label><br>
+            <label><b> Module Month <span style="color:red;"> * </span> </b></label><br>
             <input name="invoice_month" id="invoice_month" type="number" class="form-control" required />
             <p class="text-danger err_product"></p>
 
-            <label><b> Module Section </b></label><br>
+            <label><b> Module Section  <span style="color:red;"> * </span> </b></label><br>
             <input name="invoice_section" id="invoice_section" type="text" class="form-control" required />
             <p class="text-danger err_product"></p>
 
 
-            <label><b> Name </b></label><br>
+            <label><b> Name  <span style="color:red;"> * </span> </b></label><br>
             <input name="name" id="name" type="text" class="form-control" required />
             <p class="text-danger err_product"></p>
 
-            <label><b> Role Type </b></label><br>
-            <input name="role" id="role" type="text" class="form-control" required />
-            <p class="text-danger err_product"></p>
-
+         
             <label><b>Phone Number </b></label><br>
-            <input name="phone" id="phone"   pattern="[0][1][3 4 7 6 5 8 9][0-9]{8}" title="
-				      Please select Valid mobile number" type="text" class="form-control" required /><br>
+            <input name="phone" id="phone"  pattern="[0][1][3 4 7 6 5 8 9][0-9]{8}" title="
+				      Please select Valid mobile number" type="text" class="form-control"  /><br>
             <p class="text-danger err_product"></p>
 
 
-            <label><b> Du Registration </b></label><br>
-            <input name="registration" id="registration" type="text" class="form-control" />
-            <p class="text-danger err_product"></p>
-
-
-            <label><b> Department </b></label><br>
+            <label><b> Department/Designation </b></label><br>
             <input name="department" id="department" type="text" class="form-control" />
             <p class="text-danger err_product"></p>
+
+            @if($category == 'Manager')
+                 <label><b> Role Type </b></label><br>
+                 <input name="role" id="role" type="text" class="form-control"  />
+                 <p class="text-danger err_product"></p>
+
+                  <label><b> Du Registration </b></label><br>
+                  <input name="registration" id="registration" type="text" class="form-control" />
+                  <p class="text-danger err_product"></p>
+            @else
+
+                  <label><b>  Salary Amount  <span style="color:red;"> * </span>  </b></label><br>
+                  <input name="amount" id="amount" type="number" class="form-control"  required />
+                  <p class="text-danger err_product"></p>
+            @endif
 
 
            <div class="loader">

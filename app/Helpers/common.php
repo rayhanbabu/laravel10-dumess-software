@@ -240,57 +240,6 @@
 
 
 
-
-   function member_meal_update($data){
-    
-            $lunch_off=0;
-            $dinner_off=0;
-            $breakfast_off=0;
-            $lunch_on=0;
-            $dinner_on=0;
-            $breakfast_on=0;
-
-         for($y = 1; $y <= $data->section_day; $y++) {
-              $l_off=Invoice::where('id',$data->id)->where('l'.$y,0)->count(); 
-              $lunch_off+=$l_off;
-
-              $l_on=Invoice::where('id',$data->id)->where('l'.$y,1)->count(); 
-              $lunch_on+=$l_on;
-          }
-
-         for($y = 1; $y <= $data->section_day; $y++) {
-              $d=Invoice::where('id',$data->id)->where('d'.$y,0)->count(); 
-              $dinner_off+=$d;
-
-              $d_on=Invoice::where('id',$data->id)->where('d'.$y,1)->count(); 
-              $dinner_on+=$d_on;
-          }
-
-          for($y = 1; $y <= $data->section_day; $y++) {
-               $b=Invoice::where('id',$data->id)->where('b'.$y,0)->count(); 
-               $breakfast_off+=$b;
-
-               $b_on=Invoice::where('id',$data->id)->where('b'.$y,1)->count(); 
-               $breakfast_on+=$b_on;
-           }
-
-
-           $invoiceupdate = Invoice::find($data->id);
-           $invoiceupdate->lunch_offmeal = $lunch_off;
-           $invoiceupdate->lunch_onmeal = $lunch_on;
-           $invoiceupdate->lunch_inmeal = $data->section_day-($lunch_off+$lunch_on);
-           $invoiceupdate->dinner_offmeal = $dinner_off;
-           $invoiceupdate->dinner_onmeal = $dinner_on;
-           $invoiceupdate->dinner_inmeal = $data->section_day-($dinner_off+$dinner_on);
-           $invoiceupdate->breakfast_offmeal = $breakfast_off;
-           $invoiceupdate->breakfast_onmeal = $breakfast_on;
-           $invoiceupdate->breakfast_inmeal = $data->section_day-($breakfast_off+$breakfast_on);
-           $invoiceupdate->onmeal_amount = ($data->lunch_rate*$lunch_on+$data->breakfast_rate*$breakfast_on+$data->lunch_rate*$dinner_on);
-           $invoiceupdate->save();
-
-          }
-
-
           function resign_amount($hall_id,$year,$month,$section){
               $resign_amount=DB::table('invoices')->where('invoice_month',$month)->where('hall_id', $hall_id)
               ->where('invoice_year',$year)->where('invoice_section',$section)->where('invoice_status',5)
@@ -309,6 +258,58 @@
             ->where('cur_year',$year)->where('cur_section',$section)->sum('amount');
             return $extra_payment;
          }
+
+
+
+
+                function member_meal_update($data) {
+                    $invoice = Invoice::find($data->id);
+                    if (!$invoice) return;
+
+                    $lunch_off = $lunch_on = 0;
+                    $dinner_off = $dinner_on = 0;
+                    $breakfast_off = $breakfast_on = 0;
+
+                    for ($y = 1; $y <= $data->section_day; $y++) {
+                        // Get field names
+                        $lunch_key = 'l' . $y;
+                        $dinner_key = 'd' . $y;
+                        $breakfast_key = 'b' . $y;
+
+                        // Check and count values if fields exist
+                        if (isset($invoice->$lunch_key)) {
+                            $invoice->$lunch_key == 1 ? $lunch_on++ : ($invoice->$lunch_key == 0 ? $lunch_off++ : null);
+                        }
+
+                        if (isset($invoice->$dinner_key)) {
+                            $invoice->$dinner_key == 1 ? $dinner_on++ : ($invoice->$dinner_key == 0 ? $dinner_off++ : null);
+                        }
+
+                        if (isset($invoice->$breakfast_key)) {
+                            $invoice->$breakfast_key == 1 ? $breakfast_on++ : ($invoice->$breakfast_key == 0 ? $breakfast_off++ : null);
+                        }
+                    }
+
+                    $invoice->lunch_offmeal = $lunch_off;
+                    $invoice->lunch_onmeal = $lunch_on;
+                    $invoice->lunch_inmeal = $data->section_day - ($lunch_off + $lunch_on);
+
+                    $invoice->dinner_offmeal = $dinner_off;
+                    $invoice->dinner_onmeal = $dinner_on;
+                    $invoice->dinner_inmeal = $data->section_day - ($dinner_off + $dinner_on);
+
+                    $invoice->breakfast_offmeal = $breakfast_off;
+                    $invoice->breakfast_onmeal = $breakfast_on;
+                    $invoice->breakfast_inmeal = $data->section_day - ($breakfast_off + $breakfast_on);
+
+                    $invoice->onmeal_amount = (
+                        $data->lunch_rate * $lunch_on +
+                        $data->breakfast_rate * $breakfast_on +
+                        $data->lunch_rate * $dinner_on // assuming dinner uses lunch_rate
+                    );
+
+                    $invoice->save();
+                }
 
 
 
@@ -353,23 +354,48 @@
      
                $lunch_off = $lunch_on = $dinner_off = $dinner_on = $breakfast_off = $breakfast_on = 0;
      
-               // Loop for lunch, dinner, and breakfast
-               for ($y = 1; $y <= $data->section_day; $y++) {
 
-                   $l_off = Invoice::where('id', $row->id)->where('l'.$y, 0)->count();
-                   $l_on = Invoice::where('id', $row->id)->where('l'.$y, 1)->count();
-                   $d_off = Invoice::where('id', $row->id)->where('d'.$y, 0)->count();
-                   $d_on = Invoice::where('id', $row->id)->where('d'.$y, 1)->count();
-                   $b_off = Invoice::where('id', $row->id)->where('b'.$y, 0)->count();
-                   $b_on = Invoice::where('id', $row->id)->where('b'.$y, 1)->count();
+            //    // Loop for lunch, dinner, and breakfast
+            //    for ($y = 1; $y <= $data->section_day; $y++) {
+
+            //        $l_off = Invoice::where('id', $row->id)->where('l'.$y, 0)->count();
+            //        $l_on = Invoice::where('id', $row->id)->where('l'.$y, 1)->count();
+            //        $d_off = Invoice::where('id', $row->id)->where('d'.$y, 0)->count();
+            //        $d_on = Invoice::where('id', $row->id)->where('d'.$y, 1)->count();
+            //        $b_off = Invoice::where('id', $row->id)->where('b'.$y, 0)->count();
+            //        $b_on = Invoice::where('id', $row->id)->where('b'.$y, 1)->count();
      
-                   $lunch_off += $l_off;
-                   $lunch_on += $l_on;
-                   $dinner_off += $d_off;
-                   $dinner_on += $d_on;
-                   $breakfast_off += $b_off;
-                   $breakfast_on += $b_on;
-               }
+            //        $lunch_off += $l_off;
+            //        $lunch_on += $l_on;
+            //        $dinner_off += $d_off;
+            //        $dinner_on += $d_on;
+            //        $breakfast_off += $b_off;
+            //        $breakfast_on += $b_on;
+            //    }
+
+
+                                // Fetch the invoice row once
+                    $invoice_single = Invoice::find($row->id);
+
+                    // Loop for each day
+                    for ($y = 1; $y <= $data->section_day; $y++) {
+                        // Access dynamic column names
+                        $l_val = $invoice_single->{'l' . $y};
+                        $d_val = $invoice_single->{'d' . $y};
+                        $b_val = $invoice_single->{'b' . $y};
+
+                        // Lunch
+                        if ($l_val == 0) $lunch_off++;
+                        elseif ($l_val == 1) $lunch_on++;
+
+                        // Dinner
+                        if ($d_val == 0) $dinner_off++;
+                        elseif ($d_val == 1) $dinner_on++;
+
+                        // Breakfast
+                        if ($b_val == 0) $breakfast_off++;
+                        elseif ($b_val == 1) $breakfast_on++;
+                    }
            
               
                $invoiceupdate = Invoice::find($row->id);
@@ -409,8 +435,7 @@
                                $day = "l" . $y;
                                $invoiceupdate->$day = 0;
                            }
-                       } else {
-                       
+                       } else {                  
                            for ($y = $inactive_day; $y >= 1; $y--) {
                                $day = "l" . $y;
                                $invoiceupdate->$day = 9;
@@ -482,6 +507,7 @@
                 cur_meal_amount='$cur_meal_amount',
                 meal_start_date='$data->meal_start_date',
                 meeting_amount='$data->meeting_amount',
+                feast_day='$feast_day',
                 cur_others_amount=friday+employee+feast+welfare+others+water+electricity
                 +tissue+dirt+gass+wifi+card_fee+service_charge+security+hostel_fee+meeting_penalty,
      
