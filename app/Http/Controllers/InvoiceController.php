@@ -549,7 +549,7 @@ class InvoiceController extends Controller
                   'payment_method' =>$payment_method,
                   'name' => 'ANCOVA',
                 ];
-              Mail::to($member->email)->send(new \App\Mail\paymentMail($details));   
+            //  Mail::to($member->email)->send(new \App\Mail\paymentMail($details));   
            $mess = "Invoice No: " . $id . "Card No: " . $member->card . ".  First Payable Amount  " . $data->payble_amount1 . "TK " . $payment_status;
            
            DB::commit();  
@@ -687,7 +687,7 @@ class InvoiceController extends Controller
                     'payment_method' =>$payment_method,
                     'name' => 'ANCOVA',
                   ];
-                 Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
+                // Mail::to($member->email)->send(new \App\Mail\paymentMail($details));  
                 // member_meal_update(Invoice::find($id));
             $mess = " Invoice No : " . $id ." Card No: " . $member->card . ".  Second Payable Amount  " . $data->payble_amount2 . "TK " . $payment_status;
              
